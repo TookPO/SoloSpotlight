@@ -1,4 +1,3 @@
-
 # Created by https://www.toptal.com/developers/gitignore/api/eclipse,java,gradle
 # Edit at https://www.toptal.com/developers/gitignore?templates=eclipse,java,gradle
 
@@ -95,6 +94,8 @@ hs_err_pid*
 replay_pid*
 
 ### Gradle ###
+/bin
+/build
 .gradle
 build/
 
