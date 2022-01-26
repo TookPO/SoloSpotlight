@@ -18,6 +18,10 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	
+	// ojdbc
+	implementation 'com.oracle.database.jdbc:ojdbc8:21.4.0.0.1'
+	
 }
 
 tasks.named('test') {
