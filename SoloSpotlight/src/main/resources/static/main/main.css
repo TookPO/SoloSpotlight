@@ -1,0 +1,12 @@
+@charset "UTF-8";
+
+#section_bg{
+	/* background: url(mainBg2.jpg) fixed; */
+	background-color: #F8E2CF; 
+	height: 1000px;
+	opacity: 1.0;
+}
+
+img{
+	border-radius: 5%;
+}

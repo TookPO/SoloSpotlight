@@ -1,6 +1,33 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<header th:fragment="publicHeaderFragment">
-	<h1>퍼블릭</h1>
+
+<header th:fragment="publicHeaderFragment"
+	class="header-area header-sticky" >
+	<div class="container">
+		<div class="row">
+			<div class="col-12">
+				<nav class="main-nav" style="background-color: EA99D5;">
+					<!-- ***** Logo Start ***** -->
+					<a href="index.html" class="logo"> <img
+						src="header/publicLogo.png" height="70" alt="로고 이미지">
+					</a>
+					<!-- ***** Logo End ***** -->
+					<!-- ***** Menu Start ***** -->
+					<ul class="nav">
+						<li class="scroll-to-section"><a href="#top" >블로그 홈</a></li>
+						<li class="scroll-to-section"><a href="#top" >내 수익</a></li>
+						<li class="scroll-to-section"><a href="#top" >내 스폿</a></li>
+						<li class="scroll-to-section"><a href="#top" >강의(준비중)</a></li>
+						<li class="scroll-to-section"><a href="#kids">고객 지원</a></li>
+					    
+					</ul>
+					<a class="menu-trigger">
+                       <span>Menu</span>
+                    </a>
+					<!-- ***** Menu End ***** -->
+				</nav>
+			</div>
+		</div>
+	</div>
 </header>
 </html>
