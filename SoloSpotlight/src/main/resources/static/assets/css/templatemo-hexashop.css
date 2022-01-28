@@ -542,6 +542,18 @@ header
   color: #aaa;
 }
 
+#a_notify-more{
+    background-color: #F5C6AA;
+	font-weight: bold; 
+}
+
+#img_profile{
+	width: 36px;
+	height: 36px;
+    aspect-ratio: auto 36 / 36;
+	border-radius: 70%;
+}
+
 @media (max-width: 1200px) {
   .header-area .main-nav .nav li {
     padding-left: 12px;
@@ -649,6 +661,9 @@ header
   .header-area .main-nav .nav li.submenu:hover ul, .header-area .main-nav .nav li.submenu:focus ul {
     height: 0px;
   }
+  .div_header-notify{
+  	display: none;
+  }
 }
 
 @media (min-width: 767px) {
@@ -665,7 +680,7 @@ banner
 */
 
 .main-banner {
-  border-bottom: 3px dotted #eee;
+  border-bottom: 3px solid #eee;
   padding-top: 30px; /* 160px; */
   padding-bottom: 30px;
   animation: banner_start 1.9s ease-out;

@@ -1,12 +1,23 @@
 @charset "UTF-8";
 
-#section_bg{
-	/* background: url(mainBg2.jpg) fixed; */
+body{
 	background-color: #F8E2CF; 
+}
+
+/* 랜덤 View 블로그 */
+/* #section_blog-random{
+	background: url(mainBg2.jpg) fixed;
 	height: 1000px;
 	opacity: 1.0;
-}
+} */
 
 img{
 	border-radius: 5%;
+}
+
+/* 관리자 블로그 */
+#section_blog-manager{
+	padding-top: 90px;
+    padding-bottom: 90px;
+    border-bottom: 3px solid #eee;
 }

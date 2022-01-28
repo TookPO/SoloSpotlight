@@ -1,33 +1,53 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-
-<header th:fragment="publicHeaderFragment"
-	class="header-area header-sticky" >
-	<div class="container">
-		<div class="row">
-			<div class="col-12">
-				<nav class="main-nav" style="background-color: EA99D5;">
-					<!-- ***** Logo Start ***** -->
-					<a href="index.html" class="logo"> <img
-						src="header/publicLogo.png" height="70" alt="로고 이미지">
-					</a>
-					<!-- ***** Logo End ***** -->
-					<!-- ***** Menu Start ***** -->
-					<ul class="nav">
-						<li class="scroll-to-section"><a href="#top" >블로그 홈</a></li>
-						<li class="scroll-to-section"><a href="#top" >내 수익</a></li>
-						<li class="scroll-to-section"><a href="#top" >내 스폿</a></li>
-						<li class="scroll-to-section"><a href="#top" >강의(준비중)</a></li>
-						<li class="scroll-to-section"><a href="#kids">고객 지원</a></li>
-					    
-					</ul>
-					<a class="menu-trigger">
-                       <span>Menu</span>
-                    </a>
-					<!-- ***** Menu End ***** -->
-				</nav>
-			</div>
-		</div>
-	</div>
-</header>
+  <header th:fragment="publicHeaderFragment" class="header-area header-sticky">
+    <div class="container">
+      <div class="row">
+        <div class="col-12">
+          <nav class="main-nav" style="background-color: EA99D5;">
+            <!-- ***** Logo Start ***** -->
+            <a href="index.html" class="logo">
+              <img src="header/publicLogo.png" height="70" alt="로고 이미지">
+            </a>
+            <!-- ***** Logo End ***** -->
+            <!-- ***** Menu Start ***** -->
+            <ul class="nav">
+              <li class="scroll-to-section">
+                <a href="">블로그 홈</a>
+              </li>
+              <li class="scroll-to-section">
+                <a href="">내 수익</a>
+              </li>
+              <li class="scroll-to-section">
+                <a href="">내 스폿</a>
+              </li>
+              <li class="scroll-to-section">
+                <a href="">고객 지원</a>
+              </li>
+              <li class="scroll-to-section">
+                <a href="">
+                  <img id="img_profile" src="example/profileEX.jpg" />
+                </a>
+              </li>
+              <li class="scroll-to-section div_header-notify">
+                <div class="dropdown">
+                  <button type="button" class="btn btn-outline-secondary dropdown-toggle" data-toggle="dropdown"> 알림 </button>
+                  <div class="dropdown-menu">
+                    <a class="dropdown-item" href="#">Link 1</a>
+                    <a class="dropdown-item" href="#">Link 2</a>
+                    <a class="dropdown-item" href="#">Link 3</a>
+                    <a class="dropdown-item" href="#">더보기</a>
+                  </div>
+                </div>
+              </li>
+            </ul>
+            <a class="menu-trigger">
+              <span>Menu</span>
+            </a>
+            <!-- ***** Menu End ***** -->
+          </nav>
+        </div>
+      </div>
+    </div>
+  </header>
 </html>
