@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8">
+    <title>Spotlight</title>
+    <th:block th:replace="fragment/css :: cssFragment"></th:block>
+  </head>
+  <body>
+  	<!-- [header] -->
+    <header th:replace="fragment/publicHeader :: publicHeaderFragment"></header>
+    <!-- [관리자 블로그] = 시작 -->
+    <section class="section">
+      <div class="main-banner" id="top">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-lg-6">
+              <div class="left-content">
+                <div class="thumb">
+                  <div class="inner-content">
+                    <h4>제목 입니다.</h4>
+                    <span>내용은 이러쿵 저러쿵</span>
+                    <div class="main-border-button">
+                      <a href="#">바로가기!</a>
+                    </div>
+                  </div>
+                  <img src="assets/images/left-banner-image.jpg" alt="배너 이미지">
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="right-content">
+                <div class="row">
+                  <div class="col-lg-6">
+                    <div class="right-first-image">
+                      <div class="thumb">
+                        <div class="inner-content">
+                          <h4>제목입니다.</h4>
+                          <span>내용은 이러쿵 저러쿵2</span>
+                        </div>
+                        <div class="hover-content">
+                          <div class="inner">
+                            <h4>제목..</h4>
+                            <p>내용은 이러쿵 저러쿵</p>
+                            <div class="main-border-button">
+                              <a href="#">바로가기!</a>
+                            </div>
+                          </div>
+                        </div>
+                        <img src="assets/images/baner-right-image-01.jpg">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-6">
+                    <div class="right-first-image">
+                      <div class="thumb">
+                        <div class="inner-content">
+                          <h4>Men</h4>
+                          <span>Best Clothes For Men</span>
+                        </div>
+                        <div class="hover-content">
+                          <div class="inner">
+                            <h4>Men</h4>
+                            <p>Lorem ipsum dolor sit amet, conservisii ctetur adipiscing elit incid.</p>
+                            <div class="main-border-button">
+                              <a href="#">Discover More</a>
+                            </div>
+                          </div>
+                        </div>
+                        <img src="assets/images/baner-right-image-02.jpg">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-6">
+                    <div class="right-first-image">
+                      <div class="thumb">
+                        <div class="inner-content">
+                          <h4>Kids</h4>
+                          <span>Best Clothes For Kids</span>
+                        </div>
+                        <div class="hover-content">
+                          <div class="inner">
+                            <h4>Kids</h4>
+                            <p>Lorem ipsum dolor sit amet, conservisii ctetur adipiscing elit incid.</p>
+                            <div class="main-border-button">
+                              <a href="#">Discover More</a>
+                            </div>
+                          </div>
+                        </div>
+                        <img src="assets/images/baner-right-image-03.jpg">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-6">
+                    <div class="right-first-image">
+                      <div class="thumb">
+                        <div class="inner-content">
+                          <h4>Accessories</h4>
+                          <span>Best Trend Accessories</span>
+                        </div>
+                        <div class="hover-content">
+                          <div class="inner">
+                            <h4>Accessories</h4>
+                            <p>Lorem ipsum dolor sit amet, conservisii ctetur adipiscing elit incid.</p>
+                            <div class="main-border-button">
+                              <a href="#">Discover More</a>
+                            </div>
+                          </div>
+                        </div>
+                        <img src="assets/images/baner-right-image-04.jpg">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+	<!-- [관리자 블로그] = 끝 -->
+	
+	<!-- [High Spot] = 시작 -->
+	<section class="section" id="social">
+		<div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="section-heading">
+                        <h2>High Spot</h2>
+                        <span>이번주 가장 인기 있는 Spot을 소개합니다. 그들의 블로그를 확인 해보세요!</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row images">
+                <div class="col-2">
+                    <div class="thumb">
+                        <div class="icon">
+                            <a href="http://instagram.com">
+                                <h6>김지수</h6>
+                                <i class="fa fa-instagram"></i>
+                            </a>
+                        </div>
+                        <img src="example/profileEX.jpg" alt="김지수의 프로필" width="100" height="100">
+                    </div>
+                </div>
+                <div class="col-2">
+                    <div class="thumb">
+                        <div class="icon">
+                            <a href="http://instagram.com">
+                                <h6>공유</h6>
+                                <i class="fa fa-instagram"></i>
+                            </a>
+                        </div>
+                        <img src="assets/images/instagram-02.jpg" alt="">
+                    </div>
+                </div>
+                <div class="col-2">
+                    <div class="thumb">
+                        <div class="icon">
+                            <a href="http://instagram.com">
+                                <h6>조나단</h6>
+                                <i class="fa fa-instagram"></i>
+                            </a>
+                        </div>
+                        <img src="assets/images/instagram-03.jpg" alt="">
+                    </div>
+                </div>
+                <div class="col-2">
+                    <div class="thumb">
+                        <div class="icon">
+                            <a href="http://instagram.com">
+                                <h6>Makeup</h6>
+                                <i class="fa fa-instagram"></i>
+                            </a>
+                        </div>
+                        <img src="assets/images/instagram-04.jpg" alt="">
+                    </div>
+                </div>
+                <div class="col-2">
+                    <div class="thumb">
+                        <div class="icon">
+                            <a href="http://instagram.com">
+                                <h6>Leather</h6>
+                                <i class="fa fa-instagram"></i>
+                            </a>
+                        </div>
+                        <img src="assets/images/instagram-05.jpg" alt="">
+                    </div>
+                </div>
+                <div class="col-2">
+                    <div class="thumb">
+                        <div class="icon">
+                            <a href="http://instagram.com">
+                                <h6>Bag</h6>
+                                <i class="fa fa-instagram"></i>
+                            </a>
+                        </div>
+                        <img src="assets/images/instagram-06.jpg" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>		
+	</section>
+	<!-- [High Spot] = 끝-->
+	
+	<!-- [고객의 목소리] 시작 -->
+	<section class="section" id="explore">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="left-content">
+                        <h2>어떠한 의견도 듣고 싶습니다.</h2>
+                        <span>디자인/성능/서비스/불만족 사항 모두 좋습니다.</span>
+                        <div class="quote">
+                            <i class="fa fa-quote-left"></i><p>위험은 자신이 무엇을 하는지 모르는 데서 온다. <br>- 워렌 버핏</p>
+                        </div>
+						<textarea class="form-control" rows="5" id="qnaText" name="qnaText" placeholder="보내실 의견을 입력해주세요."></textarea><br>
+                        <label for="qnaEmail" class="form-label">답변 받을 이메일:</label>
+    					<input type="email" class="form-control" id="qnaEmail" name="qnaEmail" placeholder="123@roby.com(공백 입력으로 생략 가능합니다.)">
+                        <div class="main-border-button">
+                            <a href="products.html">의견 보내기</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="right-content">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="leather">
+                                    <h4>Welcome</h4>
+                                    <span>저희는 Spotlight 입니다.</span>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="first-image">
+                                    <img src="main/questions-image-1.jpg" alt="스포 라이트 소개 이미지">
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="second-image">
+                                    <img src="main/questions-image-2.jpg" alt="'다르게 생각하자'라는 사이트의 철학을 표현한 플라밍고 이미지">
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="types">
+                                    <h4>THINK DIFFERENT</h4>
+                                    <span>생각의 변화로부터 시작합니다.</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+	<!-- [고객의 목소리] 끝 -->
+	
+	<!-- [Footer] -->
+	<footer th:replace="fragment/allFooter :: allFooterFragment"></footer>
+    <th:block th:replace="fragment/script :: scriptFragment"></th:block>
+  </body>
+</html>

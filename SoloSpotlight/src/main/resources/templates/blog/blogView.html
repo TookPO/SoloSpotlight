@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8">
+    <title>Spot Blog ::
+      <th:block th:text="${blogName}" />
+    </title>
+    <th:block th:replace="fragment/css :: cssFragment"></th:block>
+    <link rel="stylesheet" href="/header/blogHeader.css">
+    <link rel="stylesheet" href="/blogs/blogView.css">
+    <link href="form-validation.css" rel="stylesheet">
+  </head>
+  <body>
+    <!-- [header] -->
+    <header th:replace="fragment/blogHeader :: blogHeaderFragment"></header>
+    <!-- [게시글 컨텐츠] 시작 -->
+    <section class="section_blog-content">
+      <div class="contact-us">
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-10">
+              <div class="section-heading">
+                <h1 style="margin-bottom: 40px;">블로그 제목 쓰는법</h1>
+                <img id="img_profile" src="/example/profileEX.jpg" />수야 <span style="margin-left: 10px;">2022. 1. 25. 20:00</span>
+              </div>
+              <div class="div_article-text"> 이곳은 게시글을 작성하는 곳입니다. </div>
+              <!-- [댓글 & 버튼] start -->
+              <div class="container" style="margin-bottom: 100px;">
+                <div class="row">
+                  <div class="col-12">
+                    <button type="button" class="btn btn-outline-secondary active" style="margin-right: 10px;">댓글 0개</button>
+                    <button type="button" class="btn btn-outline-secondary">
+                     <img src="/blogs/good.png" width="25" />&nbsp;12
+                    </button>
+                    <!-- [좋아요 active] -->
+                    <button style="display: none" type="button" class="btn btn-outline-secondary active">
+                      <img src="/blogs/good_active.png" width="25" />&nbsp;12
+                    </button>
+                    <!-- [좋아요 active] -->
+                  </div>
+                  <!-- [댓글 리스트] start -->
+                  <div class="col-12 mt-4">
+                    <table class="table">
+                      <tbody>
+                        <tr class="table-secondary">
+                          <td colspan="3">
+                            <div style="margin-left: 15px;">
+                              <p class="p_reply-user">
+                                <img class="img_profile-reply" style="margin-right: 10px;" src="/example/profileEX.jpg" />수야
+                                <span style="margin-left: 10px;">2022. 1. 25. 20:00</span><a class="a_report-link">신고</a> 
+                              </p>
+                              <p>댓글을 남깁니다!</p>
+                              <button type="button" class="btn btn-outline-secondary" style="margin-right: 10px;">답글</button>
+                              <button type="button" class="btn btn-outline-secondary active">
+                      			<img src="/blogs/good_active.png" width="20" />&nbsp;12
+                    		  </button>
+                            </div>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <!-- [댓글 리스트] end -->
+				
+				  <!-- [게시글 리스트 하단] start -->
+				              <div class="col-12 mt-2">
+              <table class="table">
+                <thead class="table-dark">
+                  <tr>
+                    <th>현재 카테고리 목록</th>
+                    <th></th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>John</td>
+                    <td>Doe</td>
+                    <td>john@example.com</td>
+                  </tr>
+                  <tr>
+                    <td>Mary</td>
+                    <td>Moe</td>
+                    <td>mary@example.com</td>
+                  </tr>
+                  <tr>
+                    <td>July</td>
+                    <td>Dooley</td>
+                    <td>july@example.com</td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <ul class="pagination">
+                        <li class="page-item">
+                          <a class="page-link" href="#">Previous</a>
+                        </li>
+                        <li class="page-item">
+                          <a class="page-link" href="#">1</a>
+                        </li>
+                        <li class="page-item">
+                          <a class="page-link" href="#">2</a>
+                        </li>
+                        <li class="page-item">
+                          <a class="page-link" href="#">3</a>
+                        </li>
+                        <li class="page-item">
+                          <a class="page-link" href="#">Next</a>
+                        </li>
+                      </ul>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+				  <!-- [게시글 리스트 하단] end -->
+                </div>
+              </div>
+              <!-- [댓글 & 버튼] end -->
+            </div>
+            <div class="col-lg-2">
+              <!-- [pop] start -->
+              <div class="div_right-pop">
+                <h2 style="margin-bottom: 15px;">추천 강의</h2>
+                <img class="card-img-right flex-auto d-none d-md-block img_right-pop" data-src="holder.js/200x250?theme=thumb" alt="사진" style="" src="/example/articleEx.png" data-holder-rendered="true">
+                <p class="p_right-pop-title">123456</p>
+                <p class="p_right-pop-text">조회수 10K</p>
+              </div>
+              <div class="div_right-pop">
+                <img class="card-img-right flex-auto d-none d-md-block img_right-pop" data-src="holder.js/200x250?theme=thumb" alt="사진" style="" src="/example/articleEx.png" data-holder-rendered="true">
+                <p class="p_right-pop-title">123456</p>
+                <p class="p_right-pop-text">조회수 10K</p>
+              </div>
+              <div style="margin-bottom: 30px;">
+                <img class="card-img-right flex-auto d-none d-md-block img_right-pop" data-src="holder.js/200x250?theme=thumb" alt="사진" style="" src="/example/articleEx.png" data-holder-rendered="true">
+                <p class="p_right-pop-title">123456</p>
+                <p class="p_right-pop-text">조회수 10K</p>
+              </div>
+              <!-- [pop] end -->
+              <!-- [spot] start -->
+              <div class="div_right-spot">
+                <h2 style="margin-bottom: 15px;">스폿</h2>
+                <img id="img_profile" class="img_right-spot" src="/example/profileEX.jpg" />수야
+              </div>
+              <div class="div_right-spot">
+                <img id="img_profile" class="img_right-spot" src="/example/profileEX.jpg" />수야
+              </div>
+              <div class="div_right-spot" style="border-bottom: unset;">
+                <img id="img_profile" class="img_right-spot" src="/example/profileEX.jpg" />수야
+              </div>
+              <div class="div_right-spot" style="border-bottom: unset;">
+                <button type="button" class="btn btn-outline-dark">스폿 하기</button>
+              </div>
+              <!-- [pop] end -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- [게시글 컨텐츠] 종료 -->
+    
+    <!-- [공유 버튼] 시작 -->
+    <div class="a_share-hover">
+    	<img src="/blogs/share_kakao.png" title="카카오톡 공유하기" style="width: 35px;" alt="카카오톡 공유 버튼">
+    	<img src="/blogs/share_instargram.png" title="인스타 공유하기" style="width: 35px;" alt="인스타 공유 버튼">
+    	<img src="/blogs/share_facebook.png" title="페이스북 공유하기" style="width: 35px;" alt="페이스북 공유 버튼">
+    	<img src="/blogs/share_naver-blog.png" title="네이버 공유하기" style="width: 35px;" alt="네이버 공유 버튼">
+    </div>
+    <!-- [공유 버튼] 종료 -->
+    
+    <!-- footer -->
+    <footer th:replace="fragment/allFooter :: allFooterFragment"></footer>
+    <th:block th:replace="fragment/script :: scriptFragment"></th:block>
+    <script src="/blogs/blogView.js"></script>
+  </body>
+</html>

@@ -1,17 +1,18 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-  <header th:fragment="publicHeaderFragment" class="header-area header-sticky">
+  <header th:fragment="blogHeaderFragment"  id="header_blogHeader" class="header-area header-sticky">
     <div class="container">
       <div class="row">
         <div class="col-12">
           <nav class="main-nav" style="background-color: EA99D5;">
             <!-- ***** Logo Start ***** -->
-            <a href="index.html" class="logo">
-              <img src="/header/publicLogo.png" height="70" alt="스포 라이트 로고">
+            <a href="index.html" class="logo a_blog-home-link">
+              <img src="/header/blog-home-link.png" width="20" height="20" alt="홈 이미지"/>
+              <th:block th:text="${blogName}"/>
             </a>
             <!-- ***** Logo End ***** -->
             <!-- ***** Menu Start ***** -->
-            <ul class="nav">
+            <ul id="ul_blog-nav" class="nav">
               <li class="scroll-to-section">
                 <a href="">블로그 홈</a>
               </li>

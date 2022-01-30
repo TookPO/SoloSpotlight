@@ -1,0 +1,44 @@
+@charset "UTF-8";
+
+#header_blogHeader{
+	background-color: #FFF9B0;
+	height: 10%;
+}
+
+#header_blogHeader nav div ul li img{
+	margin-left: 1px;
+	margin-bottom: 5px;
+}
+
+#button_notify{
+	font-size: 10px;
+}
+
+#ul_blog-nav{
+	margin-top: 20px;
+}
+
+.a_blog-home-link{
+	color: #022E57;
+	font-size: 15px;
+	margin-top: 28px;
+	font-family: cursive;
+}
+
+/* +[unset] */
+
+.header-area .main-nav .logo {
+	line-height: unset;
+	color: unset;
+	font-size: unset;
+		
+}
+
+.header-area .main-nav .nav{
+    margin-top: unset;
+	
+}
+
+
+
+	

@@ -554,6 +554,13 @@ header
 	border-radius: 70%;
 }
 
+.img_profile-reply{
+	width: 30px;
+	height: 30px;
+    aspect-ratio: auto 36 / 36;
+	border-radius: 70%;
+}
+
 @media (max-width: 1200px) {
   .header-area .main-nav .nav li {
     padding-left: 12px;
@@ -1290,8 +1297,7 @@ Explore
 
 #explore {
   padding-top: 90px;
-  padding-bottom: 90px;
-  border-bottom: 3px dotted #eee;
+  padding-bottom: 50px;
 }
 
 #explore .left-content {
@@ -1395,7 +1401,7 @@ Social
 #social {
   margin-top: 90px;
   padding-bottom: 90px;
-  border-bottom: 3px dotted #eee;
+  border-bottom: 3px solid #eee;
 }
 
 #social .col-2 {
@@ -1450,8 +1456,30 @@ Social
 #social .thumb img {
   width: 100%;
   overflow: hidden;
+  width: 180px;
+  height: 180px;
 }
 
+@media (max-width: 1200px) {
+  	#social .thumb img {
+  		width: 155px;
+  		height: 155px;
+	}
+}
+
+@media (max-width: 991px) {
+  	#social .thumb img {
+  		width: 115px;
+  		height: 115px;
+	}
+}
+
+@media (max-width: 767px) {
+  	#social .thumb img {
+  		width: 85px;
+  		height: 85px;
+	}
+}	
 
 /* 
 ---------------------------------------------
@@ -2180,7 +2208,7 @@ contact Us Page
 
 .contact-us {
   margin-top: 90px;
-  border-bottom: 3px dotted #eee;
+  border-bottom: 1px solid #eee;
   padding-bottom: 90px;
 }
 

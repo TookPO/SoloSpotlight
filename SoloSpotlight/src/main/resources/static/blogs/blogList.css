@@ -1,0 +1,31 @@
+@charset "UTF-8";
+
+th{
+	font-size: 15px;
+}
+
+td{
+	font-size: 10px;
+}
+
+#btn_textList-min{
+	display: none;
+}
+
+#textList{
+	display: none;
+}
+
+.div_category-select{
+	margin-top: 80px;
+    padding-bottom: 10px;
+}
+
+@media (max-width: 1200px) {
+	#btn_textList-max{
+		display: none;
+	}
+	#btn_textList-min{
+		display: block;
+	}
+}
