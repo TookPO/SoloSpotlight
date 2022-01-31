@@ -1,5 +1,12 @@
 @charset "UTF-8";
 
+span{
+	font-size: 10px;
+    color: #a1a1a1;
+    font-style: italic;
+    font-weight: 400;
+}
+
 .div_col-box{
 	margin: 10px;
 	background: #fff;
@@ -24,4 +31,9 @@
 
 .div_layout-content h4{
 	margin-left: 3px;
+}
+
+.div_online-log{
+	max-height: 194px;
+	overflow: auto;
 }

@@ -1,4 +1,4 @@
-package com.legacy;
+package com.legacy.manager.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,7 +11,7 @@ public class ManagerController {
 	// [관리자 비지니스 화면]
 	@GetMapping("/home")
 	public String managerHome() {
-		System.out.println("hello batis");
+
 		return "manager/managerHome";
 	}
 }
