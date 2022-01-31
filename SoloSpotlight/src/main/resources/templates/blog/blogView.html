@@ -8,7 +8,6 @@
     <th:block th:replace="fragment/css :: cssFragment"></th:block>
     <link rel="stylesheet" href="/header/blogHeader.css">
     <link rel="stylesheet" href="/blogs/blogView.css">
-    <link href="form-validation.css" rel="stylesheet">
   </head>
   <body>
     <!-- [header] -->
@@ -30,12 +29,10 @@
                   <div class="col-12">
                     <button type="button" class="btn btn-outline-secondary active" style="margin-right: 10px;">댓글 0개</button>
                     <button type="button" class="btn btn-outline-secondary">
-                     <img src="/blogs/good.png" width="25" />&nbsp;12
-                    </button>
+                      <img src="/blogs/good.png" width="25" />&nbsp;12 </button>
                     <!-- [좋아요 active] -->
                     <button style="display: none" type="button" class="btn btn-outline-secondary active">
-                      <img src="/blogs/good_active.png" width="25" />&nbsp;12
-                    </button>
+                      <img src="/blogs/good_active.png" width="25" />&nbsp;12 </button>
                     <!-- [좋아요 active] -->
                   </div>
                   <!-- [댓글 리스트] start -->
@@ -46,14 +43,13 @@
                           <td colspan="3">
                             <div style="margin-left: 15px;">
                               <p class="p_reply-user">
-                                <img class="img_profile-reply" style="margin-right: 10px;" src="/example/profileEX.jpg" />수야
-                                <span style="margin-left: 10px;">2022. 1. 25. 20:00</span><a class="a_report-link">신고</a> 
+                                <img class="img_profile-reply" style="margin-right: 10px;" src="/example/profileEX.jpg" />수야 <span style="margin-left: 10px;">2022. 1. 25. 20:00</span>
+                                <a class="a_report-link">신고</a>
                               </p>
                               <p>댓글을 남깁니다!</p>
                               <button type="button" class="btn btn-outline-secondary" style="margin-right: 10px;">답글</button>
                               <button type="button" class="btn btn-outline-secondary active">
-                      			<img src="/blogs/good_active.png" width="20" />&nbsp;12
-                    		  </button>
+                                <img src="/blogs/good_active.png" width="20" />&nbsp;12 </button>
                             </div>
                           </td>
                         </tr>
@@ -61,58 +57,57 @@
                     </table>
                   </div>
                   <!-- [댓글 리스트] end -->
-				
-				  <!-- [게시글 리스트 하단] start -->
-				              <div class="col-12 mt-2">
-              <table class="table">
-                <thead class="table-dark">
-                  <tr>
-                    <th>현재 카테고리 목록</th>
-                    <th></th>
-                    <th></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>John</td>
-                    <td>Doe</td>
-                    <td>john@example.com</td>
-                  </tr>
-                  <tr>
-                    <td>Mary</td>
-                    <td>Moe</td>
-                    <td>mary@example.com</td>
-                  </tr>
-                  <tr>
-                    <td>July</td>
-                    <td>Dooley</td>
-                    <td>july@example.com</td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <ul class="pagination">
-                        <li class="page-item">
-                          <a class="page-link" href="#">Previous</a>
-                        </li>
-                        <li class="page-item">
-                          <a class="page-link" href="#">1</a>
-                        </li>
-                        <li class="page-item">
-                          <a class="page-link" href="#">2</a>
-                        </li>
-                        <li class="page-item">
-                          <a class="page-link" href="#">3</a>
-                        </li>
-                        <li class="page-item">
-                          <a class="page-link" href="#">Next</a>
-                        </li>
-                      </ul>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-				  <!-- [게시글 리스트 하단] end -->
+                  <!-- [게시글 리스트 하단] start -->
+                  <div class="col-12 mt-2">
+                    <table class="table">
+                      <thead class="table-dark">
+                        <tr>
+                          <th>현재 카테고리 목록</th>
+                          <th></th>
+                          <th></th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>John</td>
+                          <td>Doe</td>
+                          <td>john@example.com</td>
+                        </tr>
+                        <tr>
+                          <td>Mary</td>
+                          <td>Moe</td>
+                          <td>mary@example.com</td>
+                        </tr>
+                        <tr>
+                          <td>July</td>
+                          <td>Dooley</td>
+                          <td>july@example.com</td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <ul class="pagination">
+                              <li class="page-item">
+                                <a class="page-link" href="#">Previous</a>
+                              </li>
+                              <li class="page-item">
+                                <a class="page-link" href="#">1</a>
+                              </li>
+                              <li class="page-item">
+                                <a class="page-link" href="#">2</a>
+                              </li>
+                              <li class="page-item">
+                                <a class="page-link" href="#">3</a>
+                              </li>
+                              <li class="page-item">
+                                <a class="page-link" href="#">Next</a>
+                              </li>
+                            </ul>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <!-- [게시글 리스트 하단] end -->
                 </div>
               </div>
               <!-- [댓글 & 버튼] end -->
@@ -157,16 +152,14 @@
       </div>
     </section>
     <!-- [게시글 컨텐츠] 종료 -->
-    
     <!-- [공유 버튼] 시작 -->
     <div class="a_share-hover">
-    	<img src="/blogs/share_kakao.png" title="카카오톡 공유하기" style="width: 35px;" alt="카카오톡 공유 버튼">
-    	<img src="/blogs/share_instargram.png" title="인스타 공유하기" style="width: 35px;" alt="인스타 공유 버튼">
-    	<img src="/blogs/share_facebook.png" title="페이스북 공유하기" style="width: 35px;" alt="페이스북 공유 버튼">
-    	<img src="/blogs/share_naver-blog.png" title="네이버 공유하기" style="width: 35px;" alt="네이버 공유 버튼">
+      <img src="/blogs/share_kakao.png" title="카카오톡 공유하기" style="width: 35px;" alt="카카오톡 공유 버튼">
+      <img src="/blogs/share_instargram.png" title="인스타 공유하기" style="width: 35px;" alt="인스타 공유 버튼">
+      <img src="/blogs/share_facebook.png" title="페이스북 공유하기" style="width: 35px;" alt="페이스북 공유 버튼">
+      <img src="/blogs/share_naver-blog.png" title="네이버 공유하기" style="width: 35px;" alt="네이버 공유 버튼">
     </div>
     <!-- [공유 버튼] 종료 -->
-    
     <!-- footer -->
     <footer th:replace="fragment/allFooter :: allFooterFragment"></footer>
     <th:block th:replace="fragment/script :: scriptFragment"></th:block>
