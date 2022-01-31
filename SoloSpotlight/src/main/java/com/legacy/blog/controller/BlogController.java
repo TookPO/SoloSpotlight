@@ -49,4 +49,11 @@ public class BlogController {
 		return "blog/blogView";
 	}
 	
+	// [스폿 리스트]
+	@GetMapping("/spot/list")
+	public String spotList() {
+		
+		return "blog/spotList";
+	}
+	
 }

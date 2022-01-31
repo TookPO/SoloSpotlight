@@ -1,0 +1,27 @@
+@charset "UTF-8";
+
+.div_col-box{
+	margin: 10px;
+	background: #fff;
+}
+
+.h2_title-content{
+	text-align: center;
+	margin: 10px;
+	margin-bottom: 5px;
+	font-weight: 700;
+
+}
+
+.div_layout-content{
+		margin-top: 10px;
+		border-bottom: 2px solid #eee;
+}
+
+.div_layout-content p{
+	margin-left: 20px;
+}
+
+.div_layout-content h4{
+	margin-left: 3px;
+}

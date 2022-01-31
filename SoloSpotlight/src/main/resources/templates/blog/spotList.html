@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8">
+    <title>스포 라이트</title>
+    <title> Spot Blog ::
+      <th:block th:text="${blogName}" />
+    </title>
+    <th:block th:replace="fragment/css :: cssFragment"></th:block>
+    <link rel="stylesheet" href="/header/blogHeader.css">
+    <link rel="stylesheet" href="/blogs/blogView.css">
+    <link rel="stylesheet" href="/blogs/spotList.css">
+  </head>
+  <body>
+    <!-- [header] -->
+    <header th:replace="fragment/blogHeader :: blogHeaderFragment"></header>
+    <section class="section_blog-content">
+      <div class="contact-us">
+        <div class="container">
+          <div class="row div_article-row mb-4">
+            <div class="col-lg-8 mt-4 ml-4">
+              <div class="section-heading mb-4 mt-4">
+                <h1 class="mb-4 mt-4">블로그 제목 쓰는법</h1>
+				<h5><img id="img_profile" class="mr-2" src="/example/profileEX.jpg" />수야</h5>
+              </div>
+              <div class="div_article-text"> 
+              이곳은 게시글을 작성하는 곳입니다. 
+              <span>더보기...</span>
+              </div>
+              <!-- [댓글 & 버튼] start -->
+              <div class="container" style="margin-bottom: 100px;">
+                <div class="row">
+                  <div class="col-12">
+                    <button type="button" class="btn btn-outline-secondary" style="margin-right: 10px;">공유</button>
+                    <button type="button" class="btn btn-outline-secondary">
+                      <img src="/blogs/good.png" width="25">&nbsp;12 </button>
+                    <!-- [좋아요 active] -->
+                    <button style="display: none" type="button" class="btn btn-outline-secondary active">
+                      <img src="/blogs/good_active.png" width="25">&nbsp;12 </button>
+                    <!-- [좋아요 active] -->
+                  </div>
+                </div>
+              </div>
+              <!-- [댓글 & 버튼] end -->
+            </div>
+            <div class="col-lg-2 mt-4">
+              <!-- [pop] start -->
+              <h2 class="mb-4 mt-4">답글</h2>
+              <div style="margin-bottom: 30px;">
+                <div class="div_right-spot mt-2" style="border-bottom: unset;">
+                	<h5><img class="img_right-spot img_profile-reply" src="/example/profileEX.jpg" />수야</h5>
+              	</div>
+                <p>123456</p>
+                <span class="mr-2" style="font-weight: 300;">21-01-03</span><span style="font-weight: 1000;">답글 달기</span>
+              </div>
+              <div style="margin-bottom: 30px;">
+                <div class="div_right-spot" style="border-bottom: unset;">
+                	<h5><img class="img_right-spot img_profile-reply" src="/example/profileEX.jpg" />수야</h5>
+              	</div>
+                <p>123456</p>
+                <span class="mr-2" style="font-weight: 300;">21-01-03</span><span style="font-weight: 1000;">답글 달기</span>
+              </div>
+              <div style="margin-bottom: 30px;">
+                <div class="div_right-spot" style="border-bottom: unset;">
+                	<h5><img class="img_right-spot img_profile-reply" src="/example/profileEX.jpg" />수야</h5>
+              	</div>
+                <p>123456</p>
+                <span class="mr-2" style="font-weight: 300;">21-01-03</span><span style="font-weight: 1000;">답글 달기</span>
+              </div>
+              <!-- [pop] end -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- [게시글 컨텐츠] 종료 -->
+    <!-- [footer] -->
+    <footer th:replace="fragment/allFooter :: allFooterFragment"></footer>
+    <th:block th:replace="fragment/script :: scriptFragment"></th:block>
+    <script src="/blogs/blogView.js"></script>
+  </body>
+</html>

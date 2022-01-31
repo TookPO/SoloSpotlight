@@ -1,0 +1,29 @@
+@charset "UTF-8";
+
+body{
+	background: #efefef;
+}
+
+.section_blog-content{
+	margin-top: unset;
+}
+
+.contact-us{
+	margin-top: 80px;
+}
+
+.div_article-text {
+	min-height: 250px;	
+}
+.div_right-spot h5{
+	font-weight: 700;
+	font-size: 15px;
+}
+
+.div_article-row{
+	margin: 5px;
+	background: #fff;
+}	
+
+/* [unset] */
+
