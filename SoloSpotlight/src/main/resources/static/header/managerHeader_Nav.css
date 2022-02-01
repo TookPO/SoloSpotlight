@@ -1,6 +1,7 @@
 @charset "UTF-8";
 
 body {
+  padding: 0px;
   font-size: .875rem;
   background: #dee2e6;
 }

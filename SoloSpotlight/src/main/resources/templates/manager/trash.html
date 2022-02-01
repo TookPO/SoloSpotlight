@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>관리자 페이지</title>
+    <th:block th:replace="fragment/css :: cssFragment"></th:block>
+    <!-- [header 관련 css] 시작 -->
+    <link rel="stylesheet" href="/header/managerHeader_Nav.css">
+    <link rel="canonical" href="https://getbootstrap.com/docs/4.0/examples/dashboard/">
+    <!-- [header 관련 css] 끝 -->
+    <link rel="stylesheet" href="/managers/managerHome.css">
+    <link rel="stylesheet" href="/managers/trash.css">
+  </head>
+  <body>
+    <!-- header -->
+    <header th:replace="fragment/managerHeader :: managerHeaderFragment"></header>
+    <div class="container-fluid">
+      <div class="row">
+        <!-- [manager nav] start -->
+        <div class="col-2">
+          <nav th:replace="fragment/managerNav :: managerNavFragment"></nav>
+        </div>
+        <!-- [manager nav] end -->
+		<!-- [삭제된 게시글] start -->
+        <div class="col-8 ml-2 div_col-box">
+          <div class="row mt-4">
+            <div class="col-4 mt-2 mb-2">
+              <h4>삭제된 게시글</h4>
+            </div>
+            <div class="col-6"></div>
+            <div class="col-2 mb-1 mt-1">
+              <button type="button" style="font-size: 14px;" class="btn btn-secondary ml-4">검색 하기</button>
+            </div>
+          </div>
+          <div class="row">
+          	<div class="col-6 div_trash-article">
+              <div class="mt-2 mb-4">
+                <p class="p_trash-article-title mr-4">
+                	<img class="img_trash-article ml-1" alt="사진" src="/example/articleEx.png">
+                	게시글 제목입니다.
+                </p>
+                <p class="ml-4">사유: 유저가 삭제</p>
+              </div>
+            </div>  
+          	<div class="col-6 div_trash-article">
+              <div class="mt-2 mb-4">
+                <p class="p_trash-article-title mr-4">
+                	<img class="img_trash-article ml-1" alt="사진" src="/example/articleEx.png">
+                	게시글 제목입니다.
+                </p>
+                <p class="ml-4">사유: 유저가 삭제</p>
+              </div>
+            </div>           
+          </div>	
+		<!-- [삭제된 게시글] end -->
+	  </div>
+	</div>
+	</div>
+</body>
+</html>

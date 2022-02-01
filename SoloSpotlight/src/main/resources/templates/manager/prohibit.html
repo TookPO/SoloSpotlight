@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>관리자 페이지</title>
+    <th:block th:replace="fragment/css :: cssFragment"></th:block>
+    <!-- [header 관련 css] 시작 -->
+    <link rel="stylesheet" href="/header/managerHeader_Nav.css">
+    <link rel="canonical" href="https://getbootstrap.com/docs/4.0/examples/dashboard/">
+    <!-- [header 관련 css] 끝 -->
+    <link rel="stylesheet" href="/managers/managerHome.css">
+  </head>
+  <body>
+    <!-- header -->
+    <header th:replace="fragment/managerHeader :: managerHeaderFragment"></header>
+    <div class="container-fluid">
+      <div class="row">
+        <!-- [manager nav] start -->
+        <div class="col-2">
+          <nav th:replace="fragment/managerNav :: managerNavFragment"></nav>
+        </div>
+        <!-- [manager nav] end -->
+        <!-- [제재 관리] start -->
+        <div class="col-8 ml-2 div_col-box">
+          <div class="row mt-4">
+            <div class="col-2 mt-2 mb-2">
+              <h4>모든 유저</h4>
+            </div>
+            <div class="col-8"></div>
+            <div class="col-2 mb-1 mt-1">
+              <button type="button" style="font-size: 14px;" class="btn btn-secondary ml-4">검색 하기</button>
+            </div>
+          </div>
+          <div class="row mt-2">
+            <div class="col-12">
+              <table class="table text-center">
+                <thead>
+                  <tr>
+                    <th>단계</th>
+                    <th>닉네임</th>
+                    <th>사유(제재일 경우)</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>John</td>
+                    <td>Doe</td>
+                    <td>john@example.com</td>
+                    <td>상세 정보</td>
+                  </tr>
+                  <tr>
+                    <td>Mary</td>
+                    <td>Moe</td>
+                    <td>mary@example.com</td>
+                  	<td>상세 정보</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <!-- [제재 관리] start -->
+      </div>
+    </div>
+  </body>
+</html>

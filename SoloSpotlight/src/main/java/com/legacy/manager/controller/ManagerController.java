@@ -14,4 +14,18 @@ public class ManagerController {
 
 		return "manager/managerHome";
 	}
+	
+	// [유저 관리]
+	@GetMapping("/prohibit")
+	public String prohibit() {
+		
+		return "manager/prohibit";
+	}
+	
+	// [삭제된 게시글]
+	@GetMapping("/trash")
+	public String recycleBin() {
+		
+		return "manager/trash";
+	}
 }
