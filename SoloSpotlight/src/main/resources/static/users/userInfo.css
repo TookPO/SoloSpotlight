@@ -30,6 +30,9 @@ section{
 .p_info-history-log{
 	font-size: 13px;
 }
+.div_user-box{
+	border-right: 2px solid #eee;
+}
 
 .div_info-history-box{
 	border-bottom: 2px solid #eee; 
@@ -47,8 +50,21 @@ section{
 	font-size: 10px;
 }
 @media (max-width: 768px){
-	.h3_info-history-title{
+	.h4_info-history-title{
 		font-size: 10px;
 	}
+	.img_profile-info{
+		width: 85px;
+		height: 85px;
+	}
+	.div_user-box{
+		margin-right: 30px;
+		border-right: unset;
+	}
+	
+	.col-3{
+		all: unset;
+	}
+	
 }
 

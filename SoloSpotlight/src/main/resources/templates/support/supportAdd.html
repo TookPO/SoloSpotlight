@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Spotlight</title>
+<th:block th:replace="fragment/css :: cssFragment"></th:block>
+<link rel="stylesheet" href="/supports/supportHome.css">
+<link rel="stylesheet"
+	href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
+	integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ"
+	crossorigin="anonymous">
+</head>
+<body>
+	<!-- [header] -->
+	<header th:replace="fragment/publicHeader :: publicHeaderFragment"
+		class="background-header"></header>
+	<section class="section">
+		<div class="container">
+			<div class="row div_layout-border">
+				<div class="col-10 ml-2 mb-4 text-left">
+					<div class="mt-4">
+						<h2>글쓰기</h2>
+					</div>
+				</div>
+			</div>
+				<div class="col-8 ml-4 mt-4">
+					<div class="mb-4">
+						<div>
+							<input type="text" class="form-control form-control-lg"
+								value="">
+							<div class="form-group">
+								<textarea class="form-control mt-4" rows="20"></textarea>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- [정보] end -->
+		</div>
+	</section>
+	<!-- [Footer] -->
+	<footer th:replace="fragment/allFooter :: allFooterFragment"></footer>
+</body>
+</html>

@@ -13,4 +13,12 @@ public class UserController {
 	public String userInfo() {
 		return "user/userInfo";
 	}
+	
+	// [유저 알림]
+	@GetMapping("/notify")
+	public String userNotify() {
+		
+		return "user/userNotify";
+	}
+	
 }

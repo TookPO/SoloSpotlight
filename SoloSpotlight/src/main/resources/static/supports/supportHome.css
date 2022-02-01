@@ -1,0 +1,10 @@
+@charset "UTF-8";
+
+section{
+	margin-top: 50px;
+}
+
+.div_layout-border{
+	border-bottom: 2px solid #eee;
+}
+

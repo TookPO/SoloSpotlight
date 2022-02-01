@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Spotlight</title>
+    <th:block th:replace="fragment/css :: cssFragment"></th:block>
+    <link rel="stylesheet" href="/users/userNofity.css">
+  </head>
+  <body>
+    <!-- [header] -->
+    <header th:replace="fragment/publicHeader :: publicHeaderFragment" class="background-header"></header>
+	
+	<section class="section">
+      <div class="contact-us">
+        <div class="container">
+        	<div class="row div_layout-border">
+        		<div class="col-2 mb-4 div_title">
+        			<h2>알림</h2>
+        		</div>
+        		<div class="col-8">
+        		</div>
+        		<div class="col-2 div_filter">
+        			<button type="button" class="btn btn-secondary">필터</button>
+        		</div>
+        	</div>
+        	<div class="row ml-4 mr-4 mt-4">
+        		<div class="col-5 mr-4 mt-4 div_layout-border-box">
+        			<div style="padding: 10px;">
+        				<img class="img_notify-icon mb-2 mr-2" src="/users/notify_reply.png">
+        				<h5>권나라 최고다님이 댓글을 달았습니다.</h5>
+        				<p>게시글 제목:타이타닉2</p>
+        			</div>
+        		</div>
+        		<div class="col-5 mr-4 mt-4 div_layout-border-box">
+        			<div style="padding: 8px;">
+        				<img class="img_notify-icon mb-2 mr-2" src="/users/notify_reply.png">
+        				<h5>권나라 최고다님이 댓글을 달았습니다.</h5>
+        				<p>게시글 제목:타이타닉2</p>
+        			</div>
+        		</div>
+        		<div class="col-5 mr-4 mt-4 div_layout-border-box">
+        			<div style="padding: 10px;">
+        				<img class="img_notify-icon mb-2 mr-2" src="/users/notify_reply.png">
+        				<h5>권나라 최고다님이 댓글을 달았습니다.</h5>
+        				<p>게시글 제목:타이타닉2</p>
+        			</div>
+        		</div>        		        		
+        	</div>
+        </div>
+      </div> 		
+		
+	</section>
+	
+    <!-- [Footer] -->
+    <footer th:replace="fragment/allFooter :: allFooterFragment"></footer>
+    <th:block th:replace="fragment/script :: scriptFragment"></th:block>
+    <script src="/users/userNotify.js"></script>
+  </body>
+</html>

@@ -3,6 +3,7 @@
   <head>
     <meta charset="UTF-8">
     <title>Spotlight</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <th:block th:replace="fragment/css :: cssFragment"></th:block>
     <link rel="stylesheet" href="/users/userInfo.css">
   </head>
@@ -28,7 +29,7 @@
        	
         <!-- [정보 및 선택 아이콘] start -->
         <div class="row mb-4">
-        	<div class="col-12 mt-2 text-center">
+        	<div class="col-12 mt-2 text-right">
         		<div class="">
         			<p class="p_info-active"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-users"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>정보 및 활동</p>
         		</div>        		
@@ -39,7 +40,7 @@
         <!-- [정보] start -->
         <div class="row mt-4 div_info-user">
         	<!-- [상세 정보] start -->
-        	<div class="col-3" style="border-right: 2px solid #eee;">
+        	<div class="col-3 div_user-box">
         		<div class="mb-4">
 					<h4>나이:</h4>
         			<input type="number" class="form-control" id="usr">
@@ -52,26 +53,26 @@
 					<h4>직업:</h4>
         			<input type="text" class="form-control" id="usr">
 				</div>
-				<div class="mb-4 text-center">
-					<button type="button" class="btn btn-secondary">수정하기</button>
+				<div class="mb-4 text-center div_fix-btn">
+					<button type="button" class="btn btn-secondary btn_info-fix">수정하기</button>
 				</div>
         	</div>
         	<!-- [상세 정보] end -->
-        	<div class="col-8 ml-4">
+        	<div class="col-8 ml-4 div_history-box">
         		<div class="mb-4 div_info-history-box">
         			<p class="p_info-history-log">>답글을 남겼습니다.</p>
-        			<h3 class="p_info-history-title">
+        			<h4 class="h4_info-history-title">
         				<img class="img_info-history mr-2" alt="사진" src="/example/articleEx.png">
         				풍경이 좋아 123[0개]
-        			</h3>
+        			</h4>
         			<span>작성자:&nbsp;수야 123</span>
         		</div>
         		<div class="mb-4 div_info-history-box">
         			<p class="p_info-history-log">>답글을 남겼습니다.</p>
-        			<h3 class="h3_info-history-title">
+        			<h4 class="h4_info-history-title">
         				<img class="img_info-history mr-2" alt="사진" src="/example/articleEx.png">
         				풍경이 좋아 123[0개]
-        			</h3>
+        			</h4>
         			<span>작성자:&nbsp;수야 123</span>
         		</div>        		
         	</div>        	
@@ -82,5 +83,6 @@
     <!-- [Footer] -->
     <footer th:replace="fragment/allFooter :: allFooterFragment"></footer>
     <th:block th:replace="fragment/script :: scriptFragment"></th:block>
+    <script src="/users/userInfo.js"></script>
   </body>
 </html>
