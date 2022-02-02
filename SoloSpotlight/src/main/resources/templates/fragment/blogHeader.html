@@ -8,7 +8,8 @@
             <!-- ***** Logo Start ***** -->
             <a href="index.html" class="logo a_blog-home-link">
               <img src="/header/blog-home-link.png" width="20" height="20" alt="홈 이미지"/>
-              <th:block th:text="${blogName}"/>
+              <th:block th:if="${blogName == null}" th:text="|${name}님의 화면|"/>
+              <th:block th:unless="${blogName == null}" th:text="${blogName}"/>
             </a>
             <!-- ***** Logo End ***** -->
             <!-- ***** Menu Start ***** -->

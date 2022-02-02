@@ -8,3 +8,14 @@ section{
 	border-bottom: 2px solid #eee;
 }
 
+/* 변경*/
+.form-control{
+	font-size: 18px;
+}
+
+@media (max-width: 545px){
+	.form-control{
+		font-size: 15px;
+	}	
+}
+

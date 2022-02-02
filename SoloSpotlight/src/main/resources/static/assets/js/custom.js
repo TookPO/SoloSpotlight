@@ -58,19 +58,6 @@
 		 }
 	 })
 
-	$(window).scroll(function() {
-	  var scroll = $(window).scrollTop();
-	  var box = $('#top').height();
-	  var header = $('header').height();
-
-	  if (scroll >= box - header) {
-	    $("header").addClass("background-header");
-	  } else {
-	    $("header").removeClass("background-header");
-	  }
-	});
-	
-
 	// Window Resize Mobile Menu Fix
 	mobileNav();
 
@@ -108,7 +95,6 @@
 	});
 
 	$(document).ready(function () {
-	    $(document).on("scroll", onScroll);
 	    
 	    //smoothscroll
 	    $('.scroll-to-section a[href^="#"]').on('click', function (e) {
@@ -131,22 +117,6 @@
 	        });
 	    });
 	});
-
-	function onScroll(event){
-	    var scrollPos = $(document).scrollTop();
-	    $('.nav a').each(function () {
-	        var currLink = $(this);
-	        var refElement = $(currLink.attr("href"));
-	        if (refElement.position().top <= scrollPos && refElement.position().top + refElement.height() > scrollPos) {
-	            $('.nav ul li a').removeClass("active");
-	            currLink.addClass("active");
-	        }
-	        else{
-	            currLink.removeClass("active");
-	        }
-	    });
-	}
-
 
 	// Page loading animation
 	$(window).on('load', function() {

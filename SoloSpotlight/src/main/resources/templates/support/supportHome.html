@@ -19,12 +19,12 @@
 	<section class="section">
 		<div class="container">
 			<div class="row div_layout-border">
-				<div class="col-9 ml-2 mb-4 text-left">
+				<div class="col-9 ml-2 mb-4 text-left div_title">
 					<div class="mt-4">
 						<h2>고객 센터</h2>
 					</div>
 				</div>
-				<div class="col-2">
+				<div class="col-2 ml-4 div_menu-btn">
 					<button type="button" class="btn btn-secondary mt-4">목록</button>
 				</div>
 			</div>
@@ -36,7 +36,7 @@
 							<input type="text" class="form-control form-control-lg"
 								value="Q. 스포 라이트는 무엇을 위한 곳인가요?" disabled>
 							<div class="form-group">
-								<textarea class="form-control mt-4" rows="20" disabled></textarea>
+								<textarea class="form-control mt-4" rows="20" disabled>네 저희는 가치를 추구하는 상장형 사이트입니다.</textarea>
 							</div>
 						</div>
 					</div>
@@ -47,5 +47,7 @@
 	</section>
 	<!-- [Footer] -->
 	<footer th:replace="fragment/allFooter :: allFooterFragment"></footer>
+	<th:block th:replace="fragment/script :: scriptFragment"></th:block>
+    <script src="/supports/supportHome.js"></script> 
 </body>
 </html>

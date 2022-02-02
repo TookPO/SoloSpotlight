@@ -207,6 +207,10 @@ header
 --------------------------------------------- 
 */
 
+header{
+	position: sticky;
+}
+
 .background-header {
   border-bottom: none !important;
   background-color: #fff;

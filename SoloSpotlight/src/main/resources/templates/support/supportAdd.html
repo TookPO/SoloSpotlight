@@ -23,24 +23,42 @@
 					<div class="mt-4">
 						<h2>글쓰기</h2>
 					</div>
-				</div>
+				</div>				
 			</div>
-				<div class="col-8 ml-4 mt-4">
-					<div class="mb-4">
-						<div>
-							<input type="text" class="form-control form-control-lg"
-								value="">
-							<div class="form-group">
-								<textarea class="form-control mt-4" rows="20"></textarea>
-							</div>
+			<div class="row">
+			  <div class="col-6 mt-4 ml-4">
+				<div>
+				  <select class="custom-select col-6">
+  					<option>카테고리</option>
+  					<option>2</option>
+  					<option>3</option>
+  					<option>4</option>
+				  </select>
+				</div>
+			  </div>
+			  <div class="col-11 mr-4 ml-4 mt-4">
+				<div class="mb-4">
+					<div>
+						<input type="text" class="form-control form-control-lg" value="Q.">
+						<div class="form-group">
+							<textarea class="form-control mt-4" rows="20"></textarea>
 						</div>
 					</div>
 				</div>
+			  </div>
 			</div>
-			<!-- [정보] end -->
+			<div class="row">
+				<div class="col-12 text-center">
+					<div class="mt-2">
+						<button type="button" class="btn btn-secondary">작성하기</button>
+					</div>
+				</div>
+			</div>
 		</div>
+		<!-- [정보] end -->
 	</section>
 	<!-- [Footer] -->
+	<th:block th:replace="fragment/script :: scriptFragment"></th:block>
 	<footer th:replace="fragment/allFooter :: allFooterFragment"></footer>
 </body>
 </html>
