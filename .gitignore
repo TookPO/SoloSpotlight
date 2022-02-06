@@ -114,4 +114,7 @@ gradle-app.setting
 ### Gradle Patch ###
 **/build/
 
+# oauth2
+application-oauth.properties
+
 # End of https://www.toptal.com/developers/gitignore/api/eclipse,java,gradle
