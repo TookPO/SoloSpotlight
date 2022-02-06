@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Spot Blog :: <th:block th:text="${blogName}" />
+</title>
+<th:block th:replace="fragment/css :: cssFragment"></th:block>
+<link rel="canonical"
+	href="https://getbootstrap.com/docs/4.0/examples/dashboard/">
+<link rel="stylesheet" href="/header/blogHeader.css">
+<link rel="stylesheet" href="/blogs/blogAdmin.css">
+</head>
+<body>
+	<!-- [header] -->
+	<header
+		th:replace="fragment/blogAdminHeader :: blogAdminHeaderFragment"></header>
+
+	<!-- [차트 및 인기글] start -->
+	<section class="section mt-4 mb-4">
+		<div class="container">
+			<div class="row">
+				<div class="col-12 border-bottom">
+					<h2>블로그 관리하기</h2>
+				</div>
+			</div>
+			<div class="row mb-4 mt-4">
+				<div class="col-6">
+					<button type="button" class="btn btn-secondary">오늘 방문자 수</button>
+				</div>
+				<div class="col-6">
+					<h3>인기 게시글</h3>
+				</div>
+			</div>
+			<div class="row mt-4">
+				<div class="col-6">
+					<canvas id="myChart" style="width: 100%; max-width: 950px"></canvas>
+				</div>
+				<div class="col-6">
+					<div class="container-fluid">
+						<div class="row">
+							<div class="col-12 mt-4 border-bottom">
+								<h2>제목 입니다.</h2>
+								<p class="mb-2">내용입니다.</p>
+							</div>
+							<div class="col-12 mt-4 border-bottom">
+								<h2>제목 입니다.</h2>
+								<p class="mb-2">내용입니다.</p>
+							</div>
+							<div class="col-12 mt-4">
+								<h2>제목 입니다.</h2>
+								<p class="mb-2">내용입니다.</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- [차트 및 인기글] end -->
+
+	<!-- [수익 관리] start -->
+	<section class="section mt-4 mb-4">
+		<div class="container">
+			<div class="row">
+				<div class="col-12 border-bottom">
+					<h2>총 수익</h2>
+				</div>
+			</div>
+			<div class="row mt-4">
+				<div class="col-6 mb-4">
+					<h4 class="col-8 mr-4 float-left"
+						style="background-color: gray; padding: 10px;">3000원</h4>
+					<button type="button" class="btn btn-light btn_refund">환급
+						하기</button>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- [수익 관리] end -->
+	<th:block th:replace="fragment/script :: scriptFragment"></th:block>
+	<!-- chart js -->
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+	<script>
+      var xValues = [50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150];
+      var yValues = [7, 8, 8, 9, 9, 9, 10, 11, 14, 14, 15];
+      new Chart("myChart", {
+        type: "line",
+        data: {
+          labels: xValues,
+          datasets: [{
+            fill: false,
+            lineTension: 0,
+            backgroundColor: "rgba(0,0,255,1.0)",
+            borderColor: "rgba(0,0,255,0.1)",
+            data: yValues
+          }]
+        },
+        options: {
+          legend: {
+            display: false
+          },
+          scales: {
+            yAxes: [{
+              ticks: {
+                min: 6,
+                max: 16
+              }
+            }],
+          }
+        }
+      });
+    </script>
+</body>
+</html>

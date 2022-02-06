@@ -49,6 +49,14 @@ public class BlogController {
 		return "blog/blogView";
 	}
 	
+	// [블로그 관리]
+	@GetMapping("/admin")
+	public String blogAdmin(Model model) {
+		
+		model.addAttribute("blogName", "지수의 일상 이야기");
+		return "blog/blogAdmin";
+	}
+	
 	// [스폿 리스트]
 	@GetMapping("/spot/list")
 	public String spotList() {
