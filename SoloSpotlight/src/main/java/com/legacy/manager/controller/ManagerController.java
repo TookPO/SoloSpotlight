@@ -11,7 +11,7 @@ public class ManagerController {
 	// [관리자 비지니스 화면]
 	@GetMapping("/home")
 	public String managerHome() {
-
+		
 		return "manager/managerHome";
 	}
 	

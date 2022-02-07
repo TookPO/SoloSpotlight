@@ -257,6 +257,9 @@
     </section>
 	<!-- [고객의 목소리] 끝 -->
 	
+	<!-- [modal] -->
+	<th:div th:if="${user == null}" th:replace="fragment/loginModal :: loginModalFragment"></th:div>
+	
 	<!-- [Footer] -->
 	<footer th:replace="fragment/allFooter :: allFooterFragment"></footer>
     <th:block th:replace="fragment/script :: scriptFragment"></th:block>

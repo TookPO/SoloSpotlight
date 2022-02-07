@@ -6,40 +6,55 @@
         <div class="col-12">
           <nav class="main-nav" style="background-color: EA99D5;">
             <!-- ***** Logo Start ***** -->
-            <a href="index.html" class="logo">
+            <a href="/" class="logo">
               <img src="/header/publicLogo.png" height="70" alt="스포 라이트 로고">
             </a>
             <!-- ***** Logo End ***** -->
             <!-- ***** Menu Start ***** -->
             <ul class="nav">
               <li class="scroll-to-section">
-                <a href="">블로그 홈</a>
+                <a href="/">블로그 홈</a>
               </li>
               <li class="scroll-to-section">
                 <a href="">내 수익</a>
               </li>
               <li class="scroll-to-section">
-                <a href="">내 스폿</a>
+                <a href="/blog/spot/list">내 스폿</a>
               </li>
               <li class="scroll-to-section">
-                <a href="">고객 지원</a>
+                <a href="/support/home">고객 지원</a>
               </li>
-              <li class="scroll-to-section">
-                <a href="">
-                  <img id="img_profile" src="/example/profileEX.jpg" />
-                </a>
-              </li>
-              <li class="scroll-to-section div_header-notify">
-                <div class="dropdown">
-                  <button type="button" class="btn btn-outline-secondary dropdown-toggle" data-toggle="dropdown"> 알림 </button>
-                  <div class="dropdown-menu">
-                    <a class="dropdown-item" href="#">Link 1</a>
-                    <a class="dropdown-item" href="#">Link 2</a>
-                    <a class="dropdown-item" href="#">Link 3</a>
-                    <a class="dropdown-item" href="#">더보기</a>
+              <!-- [비 로그인] start -->
+              <th:block th:if="${user == null}">
+              	<li class="scroll-to-section">
+                	<button type="button" class="btn btn-outline-dark" data-toggle="modal" data-target="#login_modal">회원가입/로그인</button>
+              	</li>
+              </th:block>
+              <!-- [비 로그인] end -->
+              <!-- [로그인] start -->
+              <th:block th:unless="${user == null}">
+                <li class="scroll-to-section">
+                  <a data-toggle="dropdown">
+                    <img id="img_profile" th:src="${user.picture}" />
+                  </a>
+                    <div class="dropdown-menu">
+    					<a class="dropdown-item" href="/user/info">내 정보</a>
+    					<a class="dropdown-item" href="/logout">로그아웃</a>
+  					</div>
+                </li>
+                <li class="scroll-to-section div_header-notify">
+                  <div class="dropdown">
+                    <button type="button" class="btn btn-outline-secondary dropdown-toggle" data-toggle="dropdown"> 알림 </button>
+                    <div class="dropdown-menu">
+                      <a class="dropdown-item" href="#">Link 1</a>
+                      <a class="dropdown-item" href="#">Link 2</a>
+                      <a class="dropdown-item" href="#">Link 3</a>
+                      <a class="dropdown-item" href="#">더보기</a>
+                    </div>
                   </div>
-                </div>
-              </li>
+                </li>                
+              </th:block>
+              <!-- [로그인] end -->              
             </ul>
             <a class="menu-trigger">
               <span>Menu</span>
