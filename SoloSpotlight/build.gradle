@@ -31,9 +31,6 @@ dependencies {
 	// mysql
 	implementation 'mysql:mysql-connector-java:8.0.28'
 	
-	// thymeleaf
-	implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect:3.0.0'
-	
 	// oauth2
 	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client:2.6.3'
 	

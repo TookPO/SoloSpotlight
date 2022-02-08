@@ -25,17 +25,17 @@
                 <a href="/support/home">고객 지원</a>
               </li>
               <!-- [비 로그인] start -->
-              <th:block th:if="${user == null}">
+              <th:block th:if="${session.user == null}">
               	<li class="scroll-to-section">
                 	<button type="button" class="btn btn-outline-dark" data-toggle="modal" data-target="#login_modal">회원가입/로그인</button>
               	</li>
               </th:block>
               <!-- [비 로그인] end -->
               <!-- [로그인] start -->
-              <th:block th:unless="${user == null}">
+              <th:block th:unless="${session.user == null}">
                 <li class="scroll-to-section">
                   <a data-toggle="dropdown">
-                    <img id="img_profile" th:src="${user.picture}" />
+                    <img id="img_profile" th:src="${session.user.picture}" />
                   </a>
                     <div class="dropdown-menu">
     					<a class="dropdown-item" href="/user/info">내 정보</a>
@@ -46,9 +46,9 @@
                   <div class="dropdown">
                     <button type="button" class="btn btn-outline-secondary dropdown-toggle" data-toggle="dropdown"> 알림 </button>
                     <div class="dropdown-menu">
-                      <a class="dropdown-item" href="#">Link 1</a>
-                      <a class="dropdown-item" href="#">Link 2</a>
-                      <a class="dropdown-item" href="#">Link 3</a>
+                     <th:block th:each="notify : ${notifyList}"> 
+                      <a th:text="${notify.ID}" class="dropdown-item" href="#">정보가 없습니다!</a>
+                     </th:block>
                       <a class="dropdown-item" href="#">더보기</a>
                     </div>
                   </div>

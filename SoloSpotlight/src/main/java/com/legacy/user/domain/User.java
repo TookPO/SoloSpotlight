@@ -1,5 +1,10 @@
 package com.legacy.user.domain;
 
+import java.util.ArrayList;
+
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -7,9 +12,10 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.OneToMany;
 
 import com.legacy.domain.BaseTimeEntity;
+import com.legacy.notify.domain.Notify;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -18,29 +24,28 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @Entity
-public class User extends BaseTimeEntity {
-	
+public class User extends BaseTimeEntity {	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@Column(nullable = false, length=30)
+	@Column(nullable = false)
 	private String name;
 	
-	@Column(nullable = false, length=320)
+	@Column(nullable = false)
 	private String email;
 	
-	@Column(length=2400)
+	@Column
 	private String picture;
 	
 	@Enumerated(EnumType.STRING) // 기본은 int
-	@Column(nullable = false, length=12)
+	@Column(nullable = false)
 	private Role role;
 	
 	@Column
 	private int age;
 	
-	@Column(length=100)
+	@Column
 	private String location;
 	
 	@Column
@@ -48,10 +53,13 @@ public class User extends BaseTimeEntity {
 	
 	@Column
 	private int prohibit;
+	
+	@OneToMany(mappedBy = "user", cascade = {CascadeType.REMOVE}) // 소유자... / 삭제 시킬때 연관관계 모두 삭제 시켜라...
+	private List<Notify> notifyList = new ArrayList<Notify>();
 
 	@Builder
 	public User(Long id, String name, String email, String picture, Role role, int age, String location, String job,
-			int prohibit) {
+			int prohibit, List<Notify> notifyList) {
 		this.id = id;
 		this.name = name;
 		this.email = email;
@@ -61,6 +69,7 @@ public class User extends BaseTimeEntity {
 		this.location = location;
 		this.job = job;
 		this.prohibit = prohibit;
+		this.notifyList = notifyList;
 	}
 	
 	public User update(String name, String picture) {
