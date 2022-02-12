@@ -2,7 +2,7 @@ package com.legacy.config;
 
 import java.util.List;
 
-
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -27,7 +27,13 @@ public class WebConfig implements WebMvcConfigurer {
 	//인터셉터 주소 세팅
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
-		registry.addInterceptor(new LoginInterceptor());
+		registry.addInterceptor(loginInterceptor()).addPathPatterns("/**");
+	}
+	
+	// 인터셉터 Bean 등록
+	@Bean
+	public LoginInterceptor loginInterceptor() {
+		return new LoginInterceptor();
 	}
 	
 }

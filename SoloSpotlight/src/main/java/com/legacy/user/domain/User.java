@@ -2,6 +2,7 @@ package com.legacy.user.domain;
 
 import java.util.ArrayList;
 
+
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -9,11 +10,14 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
+import com.legacy.blog.info.domain.BlogInfo;
 import com.legacy.domain.BaseTimeEntity;
 import com.legacy.notify.domain.Notify;
 
@@ -54,9 +58,14 @@ public class User extends BaseTimeEntity {
 	@Column
 	private int prohibit;
 	
+	// [notify]
 	@OneToMany(mappedBy = "user", cascade = {CascadeType.REMOVE}) // 소유자... / 삭제 시킬때 연관관계 모두 삭제 시켜라...
 	private List<Notify> notifyList = new ArrayList<Notify>();
-
+	
+	// [blogInfo]
+	@OneToOne(mappedBy="user", fetch = FetchType.LAZY)
+	private BlogInfo blogInfo;
+	
 	@Builder
 	public User(Long id, String name, String email, String picture, Role role, int age, String location, String job,
 			int prohibit, List<Notify> notifyList) {

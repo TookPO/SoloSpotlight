@@ -2,72 +2,68 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
   <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">   
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>스포 라이트</title>
     <th:block th:replace="fragment/css :: cssFragment"></th:block>
-  	<link rel="stylesheet" href="/blogs/blogAdd.css">
+    <link rel="stylesheet" href="/blogs/blogAdd.css">
   </head>
   <body>
-  	<!-- [header] -->
+    <!-- [header] -->
     <header th:replace="fragment/publicHeader :: publicHeaderFragment"></header>
     <!-- [입력 양식] 시작 -->
     <section id="section_form-example">
       <div class="container">
         <div class="row">
           <div class="col-md-8 order-md-1">
-            <form class="needs-validation" novalidate="">
-              <div class="row">
-                <div class="col-md-6 mb-3">
-                  <label for="blogName"><h3>블로그 이름</h3></label>
-                  <input type="text" class="form-control" id="blogName" placeholder="최대 10글자" value="" required>
-                  <div class="invalid-feedback"> 블로그 이름을 입력하세요. </div>
-                </div>
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label for="name">
+                  <h3>블로그 이름</h3>
+                </label>
+                <input type="text" id="name" class="form-control" name="name" placeholder="최대 10글자" maxlength="10" value="" required>
+                <div class="invalid-feedback"> 블로그 이름을 입력하세요. </div>
               </div>
-              <div class="mb-3">
-                <label for="username">블로그 소개</label>
-                <div class="input-group">
-                  <input type="text" class="form-control" id="blogIntro" placeholder="최대 20글자" required>
-                  <div class="invalid-feedback" style="width: 100%;"> 블로그 소개를 입력하세요 </div>
-                </div>
+            </div>
+            <div class="mb-3">
+              <label for="intro">블로그 소개</label>
+              <div class="input-group">
+                <input type="text" id="intro" class="form-control" name="intro" placeholder="최대 20글자" maxlength="20" required>
+                <div class="invalid-feedback" style="width: 100%;"> 블로그 소개를 입력하세요 </div>
               </div>
-              <div class="row">
-                <div class="col-md-3 mb-3">
-                  <label>카테고리</label>
-                  <input type="text" class="form-control" id="firtCategory" size="8" placeholder="" required="">
-                  <div class="invalid-feedback"> 카테고리는 1개 이상입니다. </div>
-                </div>              
-                <div class="col-md-3 mb-3">
-                  <input type="text" class="form-control div_plus-category-input" id="zip" placeholder="" required="">
-                  <div class="invalid-feedback"> 카테고리를 입력하세요. </div>
-                </div>
-                <div id="div_plus-category-btn" class="col-md-3 mb-3">
-              		<button type="button" class="btn btn-secondary">+</button>
-              	</div>
+            </div>
+            <div id="category-list" class="row">
+              <div class="col-md-3 mb-3">
+                <label>카테고리</label>
+                <input type="text" id="firstCategory" class="form-control category" name="category" size="8" maxlength="10" placeholder="" required>
+                <div class="invalid-feedback"> 카테고리는 1개 이상입니다. </div>
               </div>
-              <h4 class="mb-3">메뉴 색상 선택</h4>
-              <div class="d-block my-3">
-                <div class="custom-control custom-radio">
-                  <input id="credit" name="paymentMethod" type="radio" class="custom-control-input" checked="" required="">
-                  <label class="custom-control-label" for="credit">노랑(기본)</label>
-                </div>
-                <div class="custom-control custom-radio">
-                  <input id="debit" name="paymentMethod" type="radio" class="custom-control-input" required="">
-                  <label class="custom-control-label" for="debit">블랙</label>
-                </div>
-                <div class="custom-control custom-radio">
-                  <input id="paypal" name="paymentMethod" type="radio" class="custom-control-input" required="">
-                  <label class="custom-control-label" for="paypal">스카이</label>
-                </div>
+              <div id="div_plus-category-btn" class="col-md-3 mb-3">
+                <button id="btn_category-plus" type="button" class="btn btn-secondary">+</button>
+                <button id="btn_category-minus" type="button" class="btn btn-secondary">-</button>
               </div>
-              
-              <div class="mt-3 custom-control custom-checkbox">
-                <input type="checkbox" class="custom-control-input" id="same-address">
-                <label class="custom-control-label" for="same-address">비난, 욕설과 같이 나쁜 언행을 하지 않겠습니다.</label>
+            </div>
+            <h4 class="mb-3">메뉴 색상 선택</h4>
+            <div class="d-block my-3">
+              <div class="custom-control custom-radio">
+                <input id="credit" name="headerColor" type="radio" class="custom-control-input" value="yellow" checked="" required="">
+                <label class="custom-control-label" for="credit">노랑(기본)</label>
               </div>
-              <h1>로봇이 아닙니다...</h1>
-              <hr class="mb-4">
-              <button class="btn btn-dark btn-lg btn-block" type="submit">블로그 개설</button>
-            </form>
+              <div class="custom-control custom-radio">
+                <input id="debit" name="headerColor" type="radio" class="custom-control-input" value="black" required="">
+                <label class="custom-control-label" for="debit">블랙</label>
+              </div>
+              <div class="custom-control custom-radio">
+                <input id="paypal" name="headerColor" type="radio" class="custom-control-input" value="sky" required="">
+                <label class="custom-control-label" for="paypal">스카이</label>
+              </div>
+            </div>
+            <div class="mt-3 custom-control custom-checkbox mb-2">
+              <input type="checkbox" class="custom-control-input" id="same-address" required>
+              <label class="custom-control-label" for="same-address">비난, 욕설과 같이 나쁜 언행을 하지 않겠습니다.</label>
+            </div>
+            <h1>로봇이 아닙니다...(나중에)</h1>
+            <hr class="mb-4">
+            <button id="btn_add" class="btn btn-dark btn-lg btn-block">블로그 개설</button>
           </div>
         </div>
       </div>
@@ -76,5 +72,6 @@
     <!-- [footer] -->
     <footer th:replace="fragment/allFooter :: allFooterFragment"></footer>
     <th:block th:replace="fragment/script :: scriptFragment"></th:block>
+    <script src="/blogs/blogAdd.js"></script>
   </body>
 </html>

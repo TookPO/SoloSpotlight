@@ -7,19 +7,20 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.legacy.notify.service.NotifyService;
+import com.legacy.user.service.UserService;
 import com.legacy.user.vo.SessionUser;
 
-import ch.qos.logback.classic.Logger;
-
 public class LoginInterceptor implements HandlerInterceptor {
+	private static Logger logger = LoggerFactory.getLogger(LoginInterceptor.class);
 	
-	private static Logger logger = (Logger) LoggerFactory.getLogger(LoginInterceptor.class);
+	@Autowired
+	UserService userService;
 	
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
@@ -40,7 +41,12 @@ public class LoginInterceptor implements HandlerInterceptor {
 		if(user == null) { 
 			return; 
 		}
-		modelAndView.addObject("user", user);
+		
+		// 있으면 알림까지 조회
+		List<Map<String, Object>> notifyList = userService.recentThree(user.getId());
+		logger.debug("[알림 목록]"+notifyList);
+		request.setAttribute("notifyList", notifyList);
+		request.setAttribute("user", user);
 		
 		HandlerInterceptor.super.postHandle(request, response, handler, modelAndView);
 	}

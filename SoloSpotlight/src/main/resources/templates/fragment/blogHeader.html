@@ -35,10 +35,15 @@
                 <div class="dropdown">
                   <button type="button" class="btn btn-outline-secondary dropdown-toggle" data-toggle="dropdown"> 알림 </button>
                   <div class="dropdown-menu">
-                    <a class="dropdown-item" href="#">Link 1</a>
-                    <a class="dropdown-item" href="#">Link 2</a>
-                    <a class="dropdown-item" href="#">Link 3</a>
-                    <a class="dropdown-item" href="#">더보기</a>
+                     <th:block th:if="${notifyList == null}">
+                     	<a class="dropdown-item" href="#">정보가 없습니다!</a>
+                     </th:block>
+                     <th:block th:unless="${notifyList == null}" th:each="map : ${notifyList}">
+                       <th:block th:each="notify : ${map}" >
+                      	<a th:text="${notify.value}" class="dropdown-item" href="#"></a>
+                       </th:block>
+                     </th:block>                     
+                        <a class="dropdown-item" href="#">더보기</a>
                   </div>
                 </div>
               </li>

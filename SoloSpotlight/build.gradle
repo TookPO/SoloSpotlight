@@ -34,7 +34,12 @@ dependencies {
 	// oauth2
 	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client:2.6.3'
 	
+	// jackson-databind
+	implementation 'com.fasterxml.jackson.core:jackson-databind:2.13.1'
 	
+	// jackson-core
+	implementation 'com.fasterxml.jackson.core:jackson-core:2.13.1'
+
 }
 
 tasks.named('test') {
