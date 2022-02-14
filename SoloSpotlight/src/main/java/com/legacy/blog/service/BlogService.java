@@ -1,6 +1,8 @@
 package com.legacy.blog.service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -44,6 +46,7 @@ public class BlogService {
 				.build();
 		
 		blogInfoRepository.save(blogInfo); // 블로그 등록
+		logger.debug("[blogInfo]->"+blogInfo.getName());
 		List<BlogCategory> saveList = new ArrayList<>();
 		categoryList.forEach(category -> saveList.add(new BlogCategory().builder()
 				.title(category)

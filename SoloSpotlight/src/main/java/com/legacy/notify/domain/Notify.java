@@ -38,21 +38,16 @@ public class Notify extends BaseTimeEntity {
 	@Column(nullable = false)
 	private String information;
 	
-	@Column(nullable = false, name="OCCUR_DATE")
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date occurDate;
-	
 	@ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY) // 기본값이 EAGER
 	@JoinColumn(name="USER_ID")
 	private User user;
 	
 	@Builder
-	public Notify(Long id, String division, String message, String information, Date occurDate, User user) {
+	public Notify(Long id, String division, String message, String information, User user) {
 		this.id = id;
 		this.division = division;
 		this.message = message;
 		this.information = information;
-		this.occurDate = occurDate;
 		this.user = user;
 	}
 }
