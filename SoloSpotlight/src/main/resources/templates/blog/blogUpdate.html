@@ -5,11 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>스포 라이트</title>
     <th:block th:replace="fragment/css :: cssFragment"></th:block>
+    <link rel="stylesheet" href="/header/blogHeader.css">    
     <link rel="stylesheet" href="/blogs/blogAdd.css">
   </head>
   <body>
     <!-- [header] -->
-    <header th:replace="fragment/publicHeader :: publicHeaderFragment"></header>
+    <header th:replace="fragment/blogHeader :: blogHeaderFragment"></header>
     <!-- [입력 양식] 시작 -->
     <section id="section_form-example">
       <div class="container">
@@ -20,14 +21,14 @@
                 <label for="name">
                   <h3>블로그 이름</h3>
                 </label>
-                <input type="text" id="name" class="form-control" name="name" placeholder="최대 10글자" maxlength="10" value="" required>
+                <input th:value="${blogInfoDto.name}" type="text" id="name" class="form-control" name="name" placeholder="최대 10글자" maxlength="10" value="" required>
                 <div class="invalid-feedback"> 블로그 이름을 입력하세요. </div>
               </div>
             </div>
             <div class="mb-3">
               <label for="intro">블로그 소개</label>
               <div class="input-group">
-                <input type="text" id="intro" class="form-control" name="intro" placeholder="최대 20글자" maxlength="20" required>
+                <input th:value="${blogInfoDto.intro}" type="text" id="intro" class="form-control" name="intro" placeholder="최대 20글자" maxlength="20" required>
                 <div class="invalid-feedback" style="width: 100%;"> 블로그 소개를 입력하세요 </div>
               </div>
             </div>
@@ -44,26 +45,26 @@
             </div>
             <h4 class="mb-3">메뉴 색상 선택</h4>
             <div class="d-block my-3">
+
               <div class="custom-control custom-radio">
-                <input id="credit" name="headerColor" type="radio" class="custom-control-input" value="#FFF9B0" checked="" required="">
+                <input id="credit" name="headerColor" type="radio" class="custom-control-input" th:value="${blogInfoDto.headerColor}" checked="" required=""  checked>
+                <label class="custom-control-label" for="credit" >기존 색상</label>
+              </div>            
+              <div class="custom-control custom-radio">
+                <input id="credit" name="headerColor" type="radio" class="custom-control-input" value="#FFF9B0" checked="" required="" >
                 <label class="custom-control-label" for="credit">노랑(기본)</label>
               </div>
               <div class="custom-control custom-radio">
-                <input id="debit" name="headerColor" type="radio" class="custom-control-input" value="#FFC0D3" required="">
+              	<input id="debit" name="headerColor" type="radio" class="custom-control-input" value="#FFC0D3" required="" >
                 <label class="custom-control-label" for="debit">핑크</label>
               </div>
               <div class="custom-control custom-radio">
-                <input id="paypal" name="headerColor" type="radio" class="custom-control-input" value="#86C6F4" required="">
+                <input id="paypal" name="headerColor" type="radio" class="custom-control-input" value="#86C6F4" required="" >
                 <label class="custom-control-label" for="paypal">스카이</label>
               </div>
             </div>
-            <div class="mt-3 custom-control custom-checkbox mb-2">
-              <input type="checkbox" class="custom-control-input" id="same-address" required>
-              <label class="custom-control-label" for="same-address">비난, 욕설과 같이 나쁜 언행을 하지 않겠습니다.</label>
-            </div>
-            <h1>로봇이 아닙니다...(나중에)</h1>
             <hr class="mb-4">
-            <button id="btn_add" class="btn btn-dark btn-lg btn-block">블로그 개설</button>
+            <button id="btn_add" class="btn btn-dark btn-lg btn-block">블로그 수정</button>
           </div>
         </div>
       </div>
@@ -72,6 +73,6 @@
     <!-- [footer] -->
     <footer th:replace="fragment/allFooter :: allFooterFragment"></footer>
     <th:block th:replace="fragment/script :: scriptFragment"></th:block>
-    <script src="/blogs/blogAdd.js"></script>
+    <script src="/blogs/blogUpdate.js"></script>
   </body>
 </html>

@@ -1,8 +1,7 @@
 package com.legacy.blog.service;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -17,6 +16,7 @@ import com.legacy.blog.category.dao.BlogCategoryRepository;
 import com.legacy.blog.category.domain.BlogCategory;
 import com.legacy.blog.info.dao.BlogInfoRepository;
 import com.legacy.blog.info.domain.BlogInfo;
+import com.legacy.blog.info.vo.BlogInfoDto;
 import com.legacy.user.dao.UserRepository;
 import com.legacy.user.domain.User;
 
@@ -54,6 +54,28 @@ public class BlogService {
 				.build()));
 		
 		blogCategoryRepository.saveAll(saveList); // 카테고리 등록
+	}
+	
+	// BLOG_INFO 찾기
+	public BlogInfoDto selectHome(Long userId) {	
+		BlogInfo blogInfo = blogInfoRepository.findByUserId(userId)
+				 .orElseThrow(() -> new IllegalArgumentException("블로그가 없습니다."));
+		
+		return new BlogInfoDto(blogInfo);
+	}
+
+	public Map<String, Object> selectInfoUpdate(Long userId) {
+		Map<String, Object> map = new HashMap<>();
+		BlogInfo blogInfo = blogInfoRepository.findById(userId)
+				.orElseThrow(() -> new IllegalArgumentException("블로그가 없습니다."));
+		List<String> categoryList = blogCategoryRepository.findByBlogInfoId(blogInfo.getId());		
+		map.put("blogInfo", blogInfo);
+		if(categoryList.isEmpty()) { 
+			return map; 
+		} 
+		map.put("categoryList", categoryList);
+		
+		return map;
 	}
 
 }

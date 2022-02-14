@@ -1,37 +1,48 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-  <header th:fragment="blogHeaderFragment"  id="header_blogHeader" class="header-area header-sticky">
+  <header th:fragment="blogHeaderFragment" th:style="|background-color: ${blogInfoDto.headerColor}|" id="header_blogHeader" class="header-area header-sticky">
     <div class="container">
       <div class="row">
         <div class="col-12">
-          <nav class="main-nav" style="background-color: EA99D5;">
+          <nav class="main-nav">
             <!-- ***** Logo Start ***** -->
-            <a href="index.html" class="logo a_blog-home-link">
+            <a th:href="@{|/blog/${userId}|}" class="logo a_blog-home-link">
               <img src="/header/blog-home-link.png" width="20" height="20" alt="홈 이미지"/>
-              <th:block th:if="${blogName == null}" th:text="|${name}님의 화면|"/>
-              <th:block th:unless="${blogName == null}" th:text="${blogName}"/>
+              <th:block th:if="${blogInfoDto == null}" th:text="|${user.name}님의 화면|"/>
+              <th:block th:unless="${blogInfoDto == null}" th:text="${blogInfoDto.name}"/>
             </a>
             <!-- ***** Logo End ***** -->
             <!-- ***** Menu Start ***** -->
             <ul id="ul_blog-nav" class="nav">
               <li class="scroll-to-section">
-                <a href="">블로그 홈</a>
+                <a th:href="@{|/blog/${userId}|}">블로그 홈</a>
               </li>
               <li class="scroll-to-section">
                 <a href="">내 수익</a>
               </li>
               <li class="scroll-to-section">
-                <a href="">내 스폿</a>
+                <a href="/spot/list">내 스폿</a>
               </li>
               <li class="scroll-to-section">
-                <a href="">고객 지원</a>
+                <a href="/">공식 페이지</a>
               </li>
-              <li class="scroll-to-section">
-                <a href="">
-                  <img id="img_profile" src="/example/profileEX.jpg" />
+              <th:block th:if="${user == null}">
+              	<li class="scroll-to-section">
+                	<button type="button" class="btn btn-outline-dark" data-toggle="modal" data-target="#login_modal">회원가입/로그인</button>
+              	</li>              
+              </th:block>
+              <!-- [로그인] start -->
+              <th:block th:unless="${user == null}">
+               <li class="scroll-to-section">
+                <a data-toggle="dropdown" href="">
+                  <img id="img_profile" th:src="|${user.picture}|" />                
                 </a>
-              </li>
-              <li class="scroll-to-section div_header-notify">
+                <div class="dropdown-menu">
+    				<a class="dropdown-item" href="/user/info">내 정보</a>
+    				<a class="dropdown-item" href="/logout">로그아웃</a>
+  				</div>                
+               </li>
+               <li class="scroll-to-section div_header-notify">
                 <div class="dropdown">
                   <button type="button" class="btn btn-outline-secondary dropdown-toggle" data-toggle="dropdown"> 알림 </button>
                   <div class="dropdown-menu">
@@ -46,7 +57,9 @@
                         <a class="dropdown-item" href="#">더보기</a>
                   </div>
                 </div>
-              </li>
+               </li>
+              </th:block>
+              <!-- [로그인] end -->
             </ul>
             <a class="menu-trigger">
               <span>Menu</span>

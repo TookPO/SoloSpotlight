@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Spot Blog ::
-      <th:block th:text="${blogName}" />
+      <th:block th:text="${blogInfoDto.name}" />
     </title>
     <th:block th:replace="fragment/css :: cssFragment"></th:block>
     <link rel="stylesheet" href="/header/blogHeader.css">
@@ -19,8 +19,8 @@
         <div class="row">
           <div class="col-lg-12">
             <div class="section-heading">
-              <h2>블로그 이름</h2>
-              <span>블로그 소개</span>
+              <h2 th:text="${blogInfoDto.name}">블로그 이름</h2>
+              <span th:text="${blogInfoDto.intro}">블로그 소개</span>
             </div>
           </div>
         </div>

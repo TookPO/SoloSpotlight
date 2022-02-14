@@ -26,7 +26,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Entity(name="BLOG_INFO")
+@Entity
 @Getter
 @NoArgsConstructor
 public class BlogInfo extends BaseTimeEntity {

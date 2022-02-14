@@ -14,7 +14,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Entity(name="BLOG_CATEGORY")
+@Entity
 @Getter
 @NoArgsConstructor
 public class BlogCategory {

@@ -1,7 +1,6 @@
 package com.legacy.blog.controller;
 
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -16,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.legacy.blog.info.vo.BlogInfoDto;
 import com.legacy.blog.service.BlogService;
 import com.legacy.user.config.LoginUser;
 import com.legacy.user.vo.SessionUser;
@@ -31,10 +31,14 @@ public class BlogController {
 	private final BlogService blogService;
 	
 	// [블로그 홈]
-	@GetMapping("/{id}")
-	public String blogHome(@PathVariable Long id, Model model) {
+	@GetMapping("/{userId}")
+	public String blogHome(@PathVariable Long userId, Model model) {
+		logger.debug("[{userId}]->"+userId);
+		BlogInfoDto blogInfoDto = blogService.selectHome(userId);
+		logger.debug("[결과] ->"+blogInfoDto);
+		model.addAttribute("userId", userId);
+		model.addAttribute("blogInfoDto", blogInfoDto);
 		
-		model.addAttribute("blogName", "지수의 일상 이야기");
 		return "blog/blogHome";
 	}
 	
@@ -48,7 +52,7 @@ public class BlogController {
 	// [블로그 생성 완료]
 	@PostMapping("/add")
 	@ResponseBody
-	public void blogAddDone(@RequestBody Map<String, Object> data,
+	public String blogAddDone(@RequestBody Map<String, Object> data,
 			@LoginUser SessionUser user) {
 		logger.debug("[ADD에서 받은 값]"+data);
 		String[] array = data.get("category")
@@ -58,11 +62,23 @@ public class BlogController {
 		List<String> categoryList = Arrays.asList(array);
 		// 등록하기
 		blogService.insertInfo(data, user.getId(), categoryList);
+		
+		return (String) Long.toString(user.getId());
+	}
+	
+	// [블로그 업데이트]
+	@GetMapping("/update")
+	public String blogUpdate(@LoginUser SessionUser user, Model model) {
+		Map<String, Object> map = blogService.selectInfoUpdate(user.getId());
+		model.addAttribute("userId", user.getId());
+		model.addAttribute("blogInfoDto", map.get("blogInfo"));
+		
+		return "blog/blogUpdate";
 	}
 	
 	// [블로그 리스트]
-	@GetMapping("/{id}/list")
-	public String blogList(@PathVariable Long id, Model model) {
+	@GetMapping("/{userId}/list")
+	public String blogList(@PathVariable Long userId, Model model) {
 		
 		model.addAttribute("blogName", "지수의 일상 이야기");
 		return "blog/blogList";

@@ -12,12 +12,10 @@ import org.springframework.stereotype.Repository;
 import com.legacy.notify.domain.Notify;
 
 public interface NotifyRepository extends JpaRepository<Notify, Long> {
-	
-	  @Query("SELECT "
+	 @Query("SELECT "
 	  		  + "new Map(n.message AS message) " 
 			  + "FROM Notify n INNER JOIN n.user u " 
 			  + "WHERE u.id = :user_id " 
-			  + "ORDER BY n.occurDate DESC") 
-	  List<Map<String, Object>> findByUserId(@Param("user_id") Long id, Pageable paging);
-	 
+			  + "ORDER BY n.createdDate DESC") 
+	  List<Map<String, Object>> findByUserId(@Param("user_id") Long id, Pageable paging); 
 }

@@ -40,11 +40,12 @@ $(document).ready(function() {
 		    $.ajax({
 				type: 'POST',
 				url: '/blog/add',
+				dataType: 'text',
 				contentType:'application/json; charset=utf-8',
 				data: JSON.stringify(data)
-			}).done(function(){
+			}).done(function(data){
 				alert('블로그가 생성되었습니다!!');
-				location.href = '/blog/'+data.userId;
+				location.href = '/blog/'+data;
 			}).fail(function(error){
 				console.log(JSON.stringify(error));
 			});

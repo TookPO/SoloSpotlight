@@ -2,7 +2,9 @@ package com.legacy.blog.controller;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.util.HashMap;
@@ -15,21 +17,23 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpSession;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.legacy.blog.category.dao.BlogCategoryRepository;
 import com.legacy.blog.category.domain.BlogCategory;
 import com.legacy.blog.info.dao.BlogInfoRepository;
 import com.legacy.blog.info.domain.BlogInfo;
+import com.legacy.blog.info.vo.BlogInfoDto;
 import com.legacy.user.dao.UserRepository;
 import com.legacy.user.domain.Role;
 import com.legacy.user.domain.User;
@@ -89,7 +93,7 @@ public class BlogControllerTest {
 	
 	@Test
 	@WithMockUser(roles="USER")
-	public void UserInfo_그리고_BlogCategory_등록된다() throws Exception {
+	public void BlogInfo_그리고_BlogCategory_등록된다() throws Exception {
 		// given
 		String name = "name";
 		String intro = "intro";
@@ -119,5 +123,40 @@ public class BlogControllerTest {
 		for(String title: category) {
 			assertThat(allCategory.get(i++).getTitle()).isEqualTo(title);
 		}
+	}
+	
+	@Test
+	@WithMockUser(roles="USER")
+	public void BlogInfo_하나만_조회() throws Exception {
+		// given
+		String name = "name";
+		String intro = "intro";
+		String headerColor = "hdColor";		
+		User user = userRepository.findById(userId).get();
+		System.out.println("[조회할 아이디]->"+userId);
+		Long infoId = blogInfoRepository.save(BlogInfo.builder()
+				.name(name)
+				.intro(intro)
+				.headerColor(headerColor)
+				.revenue(0L)
+				.user(user)
+				.build()).getId();
+		System.out.println("[만들어진 info] ="+infoId);
+		String url ="http://localhost:"+port+"/blog/"+userId;
+		
+		// when
+		MvcResult mvcResult = mvc.perform(get(url)
+				.session(session)
+				.contentType(MediaType.APPLICATION_JSON))
+				.andExpect(status().isOk())
+				.andDo(print())
+				.andReturn();
+		
+		// then
+		ModelAndView mav = mvcResult.getModelAndView();
+		BlogInfoDto blogInfoDto = (BlogInfoDto) mav.getModelMap().get("blogInfoDto");
+		System.out.println("[INFO-DTO]->"+blogInfoDto);
+		assertThat(blogInfoDto.getName()).isEqualTo(name);
+		assertThat(blogInfoDto.getIntro()).isEqualTo(intro);
 	}
 }
