@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import com.legacy.blog.category.dao.BlogCategoryRepository;
 import com.legacy.blog.category.domain.BlogCategory;
+import com.legacy.blog.category.vo.BlogCategoryDto;
 import com.legacy.blog.info.dao.BlogInfoRepository;
 import com.legacy.blog.info.domain.BlogInfo;
 import com.legacy.blog.info.vo.BlogInfoDto;
@@ -66,10 +67,10 @@ public class BlogService {
 
 	public Map<String, Object> selectInfoUpdate(Long userId) {
 		Map<String, Object> map = new HashMap<>();
-		BlogInfo blogInfo = blogInfoRepository.findById(userId)
+		BlogInfo blogInfo = blogInfoRepository.findByUserId(userId)
 				.orElseThrow(() -> new IllegalArgumentException("블로그가 없습니다."));
 		List<String> categoryList = blogCategoryRepository.findByBlogInfoIdString(blogInfo.getId());		
-		map.put("blogInfo", blogInfo);
+		map.put("blogInfoDto", new BlogInfoDto(blogInfo));
 		if(categoryList.isEmpty()) { 
 			return map; 
 		} 
@@ -112,5 +113,19 @@ public class BlogService {
 				logger.debug("[업데이트 된 카테고리] ->"+category);
 			}
 		}
+	}
+
+	public Map<String, Object> selectPostAdd(Long userId) {
+		Map<String, Object> map = new HashMap<>();
+		// dto
+		BlogInfoDto blogInfoDto = blogInfoRepository.findByUserIdDto(userId)
+				.orElseThrow(() -> new IllegalArgumentException("블로그가 없습니다."));
+		// category
+		List<BlogCategoryDto> categoryList = blogCategoryRepository.findByBlogInfoIdDto(blogInfoDto.getId());
+		logger.debug("[결과 카테고리] ->"+categoryList.toString());
+		map.put("blogInfoDto", blogInfoDto);
+		map.put("categoryList", categoryList);
+		
+		return map;
 	}
 }

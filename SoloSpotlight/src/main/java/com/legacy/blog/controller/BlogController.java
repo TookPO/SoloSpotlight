@@ -73,7 +73,7 @@ public class BlogController {
 	public String blogUpdate(@LoginUser SessionUser user, Model model) {
 		Map<String, Object> map = blogService.selectInfoUpdate(user.getId());
 		model.addAttribute("userId", user.getId());
-		model.addAttribute("blogInfoDto", map.get("blogInfo"));
+		model.addAttribute("blogInfoDto", map.get("blogInfoDto"));
 		
 		return "blog/blogUpdate";
 	}
@@ -100,21 +100,23 @@ public class BlogController {
 	@GetMapping("/{userId}/list")
 	public String blogList(@PathVariable Long userId, Model model) {
 		
-		model.addAttribute("blogName", "지수의 일상 이야기");
 		return "blog/blogList";
 	}
 	
 	// [블로그 글 쓰기]
-	@GetMapping("/{id}/add")
-	public String blogWrite(@PathVariable Long id, Model model) {
-		
-		model.addAttribute("blogName", "지수의 일상 이야기");
+	@GetMapping("/{userId}/add")
+	public String blogWrite(@PathVariable Long userId, Model model) {
+		logger.debug("[블로그 글쓰기]");
+		Map<String, Object> map = blogService.selectPostAdd(userId);		
+		model.addAttribute("userId", userId);
+		model.addAttribute("blogInfoDto", map.get("blogInfoDto"));
+		model.addAttribute("categoryList", map.get("categoryList"));
 		return "blog/blogWrite";
 	}
 	
 	// [블로그 글 보기]
-	@GetMapping("/{id}/view")
-	public String blogView(@PathVariable Long id, Model model) {
+	@GetMapping("/{userId}/view")
+	public String blogView(@PathVariable Long userId, Model model) {
 		
 		model.addAttribute("blogName", "지수의 일상 이야기");
 		return "blog/blogView";

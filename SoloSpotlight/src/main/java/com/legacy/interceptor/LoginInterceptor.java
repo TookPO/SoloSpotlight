@@ -47,6 +47,7 @@ public class LoginInterceptor implements HandlerInterceptor {
 		logger.debug("[알림 목록]"+notifyList);
 		request.setAttribute("notifyList", notifyList);
 		request.setAttribute("user", user);
+		request.setAttribute("userId", user.getId());
 		
 		HandlerInterceptor.super.postHandle(request, response, handler, modelAndView);
 	}

@@ -36,21 +36,22 @@
           <div class="row">
             <div class="col-lg-10 div_write-col">
               <div class="div_category mb-4 mt-4">
-                <select class="custom-select col-3" id="inputGroupSelect03">
-                  <option selected>카테고리 선택</option>
-                  <option value="1">카테고리 1</option>
-                  <option value="1">카테고리 2</option>
-                  <option value="1">카테고리 3</option>
+                <select id="inputGroupSelect03" class="custom-select col-3" name="category">
+                  <option selected disabled>카테고리 선택</option>
+                   <option th:each="category : ${categoryList}" th:text="${category.title}" value="${category.id}">카테고리 1</option>
                 </select>
               </div>
-              <div class="section-heading">
-                <input type="text" class="form-control form-control-lg" placeholder="제목">
+              <div class="">
+                <input type="text" class="form-control form-control-lg" name="title" placeholder="제목">
+              </div>          
+              <div class="mt-4">
+              	<input type="text" class="form-control col-4" name="thumbnail" placeholder="썸네일 이미지 URL">
               </div>
               <div class="div_article-write">
                 <!--  -->
                 <div style="width: 920px; margin: 0 auto;">
 					<p style="font-size: 10px;">*이미지를 주소로 변경하고 싶다면 <a href="#" onClick="window.open('https://ifh.cc/', 'url 변경', 'width=800, height=700, toolbar=no, menubar=no, scrollbars=no, resizable=yes' );">이곳</a>을 클릭하여 주세요.</p>
-					<textarea class="wysiwyg-editor wysiwygEditor-733509" style="display: none;"></textarea>
+					<textarea class="wysiwyg-editor wysiwygEditor-733509" name="content" style="display: none;"></textarea>
                 </div>
                 <!--  -->
               </div>
