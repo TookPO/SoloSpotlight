@@ -67,4 +67,9 @@ public class BlogInfo extends BaseTimeEntity {
 		this.user = user;
 		this.blogCategoryList = blogCategoryList;
 	}
+	public void update(String name, String intro, String headerColor) {
+		this.name = name;
+		this.intro = intro;
+		this.headerColor = headerColor;
+	}
 }

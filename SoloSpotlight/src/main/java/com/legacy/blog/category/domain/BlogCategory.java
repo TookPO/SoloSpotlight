@@ -9,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
 import com.legacy.blog.info.domain.BlogInfo;
+import com.legacy.domain.BaseTimeEntity;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -17,7 +18,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor
-public class BlogCategory {
+public class BlogCategory extends BaseTimeEntity {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,6 +35,10 @@ public class BlogCategory {
 		this.id = id;
 		this.title = title;
 		this.blogInfo = blogInfo;
+	}
+
+	public void update(String title) {
+		this.title = title;
 	}
 	
 }

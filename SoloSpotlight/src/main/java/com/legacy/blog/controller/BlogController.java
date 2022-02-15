@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -59,11 +60,12 @@ public class BlogController {
 				.toString().replaceAll("\\]|\\[| ", "")
 				.split(",");
 		logger.debug("[Array] ->"+Arrays.toString(array));
+		
 		List<String> categoryList = Arrays.asList(array);
 		// 등록하기
 		blogService.insertInfo(data, user.getId(), categoryList);
 		
-		return (String) Long.toString(user.getId());
+		return Long.toString(user.getId());
 	}
 	
 	// [블로그 업데이트]
@@ -74,6 +76,24 @@ public class BlogController {
 		model.addAttribute("blogInfoDto", map.get("blogInfo"));
 		
 		return "blog/blogUpdate";
+	}
+	
+	// [블로그 업데이트 완료]
+	@PutMapping("/update")
+	@ResponseBody
+	private String blogUpdateDone(@RequestBody Map<String, Object> data,
+			@LoginUser SessionUser user) {
+		logger.debug("[UPDATE에서 받은 값]"+data);
+		String[] array = data.get("category")
+				.toString().replaceAll("\\]|\\[| ", "")
+				.split(",");
+		logger.debug("[Array] ->"+Arrays.toString(array));
+		
+		List<String> categoryList = Arrays.asList(array);
+		// 등록 후 성공 결과로 아이디를 받아옴
+		blogService.updateInfo(data, user.getId(), categoryList);
+		
+		return Long.toString(user.getId());
 	}
 	
 	// [블로그 리스트]
