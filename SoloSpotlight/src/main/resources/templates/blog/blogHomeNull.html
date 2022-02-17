@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>Spot Blog ::</title>
+    <th:block th:replace="fragment/css :: cssFragment"></th:block>
+</head>
+<body>
+    <script>
+    	var ask = confirm('블로그가 없습니다. 블로그를 생성 하시겠습니까?');
+    	if(ask){
+    		location.href="/blog/add";
+    	}else{
+    		window.history.back();
+    	}
+    </script>
+</body>
+</html>

@@ -6,9 +6,12 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 import com.legacy.blog.info.domain.BlogInfo;
+import com.legacy.blog.post.domain.BlogPost;
 import com.legacy.domain.BaseTimeEntity;
 
 import lombok.Builder;
@@ -27,8 +30,14 @@ public class BlogCategory extends BaseTimeEntity {
 	@Column(nullable = false)
 	private String title;
 	
+	// [blogInfo] 참조
 	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "BLOG_INFO_ID")
 	private BlogInfo blogInfo;
+	
+	// [blogPost]
+	@OneToOne(mappedBy="blogCategory", fetch = FetchType.LAZY)
+	private BlogPost blogPost;	
 	
 	@Builder
 	public BlogCategory(Long id, String title, BlogInfo blogInfo) {

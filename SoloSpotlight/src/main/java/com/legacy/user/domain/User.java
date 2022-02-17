@@ -68,7 +68,7 @@ public class User{
 	
 	@Builder
 	public User(Long id, String name, String email, String picture, Role role, int age, String location, String job,
-			int prohibit, List<Notify> notifyList) {
+			int prohibit, List<Notify> notifyList, BlogInfo blogInfo) {
 		this.id = id;
 		this.name = name;
 		this.email = email;
@@ -79,6 +79,7 @@ public class User{
 		this.job = job;
 		this.prohibit = prohibit;
 		this.notifyList = notifyList;
+		this.blogInfo = blogInfo;
 	}
 	
 	public User update(String name, String picture) {
@@ -91,5 +92,4 @@ public class User{
 	public String getRoleKey() {
 		return this.role.getKey();
 	}
-	
 }

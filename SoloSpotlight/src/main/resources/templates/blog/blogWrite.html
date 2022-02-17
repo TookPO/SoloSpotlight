@@ -14,18 +14,25 @@
   </head>
   <body>
     <!-- [작성 nav] 시작-->
+    <input type="hidden" id="userId" th:value="${userId}">
     <nav class="navbar navbar-expand navbar-dark bg-dark">
       <a class="navbar-brand">블로그 글쓰기</a>
       <div class="collapse navbar-collapse" id="navbarsExample02">
         <ul class="navbar-nav mr-auto">
           <li class="nav-item active">
-            <select class="custom-select" id="inputGroupSelect03">
-              <option selected>공개</option>
-              <option value="1">비공개</option>
+            <select id="isPublic" class="custom-select" name="isPublic">
+              <option value="true" selected>공개</option>
+              <option value="false">비공개</option>
             </select>
+            
           </li>
+          <li class="nav-item active">
+            <select id="isRecommend" class="custom-select" name="isRecommend">
+              <option value="false" selected>추천 게시물 안함</option>
+              <option value="true">추천 게시물로 설정</option>
+            </select> 
         </ul>
-        <button type="button" class="btn btn-secondary">작성</button>
+        <button type="button" id="btn_add" class="btn btn-secondary">작성</button>
       </div>
     </nav>
     <!-- [작성 nav] 종료 -->
@@ -36,22 +43,22 @@
           <div class="row">
             <div class="col-lg-10 div_write-col">
               <div class="div_category mb-4 mt-4">
-                <select id="inputGroupSelect03" class="custom-select col-3" name="category">
+                <select id="category" class="custom-select col-3" name="category">
                   <option selected disabled>카테고리 선택</option>
-                   <option th:each="category : ${categoryList}" th:text="${category.title}" value="${category.id}">카테고리 1</option>
+                  <option th:each="category : ${categoryList}" th:text="${category.title}" th:value="${category.id}">카테고리 1</option>
                 </select>
               </div>
               <div class="">
-                <input type="text" class="form-control form-control-lg" name="title" placeholder="제목">
+                <input type="text" id="title" class="form-control form-control-lg" name="title" placeholder="제목">
               </div>          
               <div class="mt-4">
-              	<input type="text" class="form-control col-4" name="thumbnail" placeholder="썸네일 이미지 URL">
+              	<input type="text" id="thumbnail" class="form-control col-4" name="thumbnail" placeholder="썸네일 이미지 URL">
               </div>
               <div class="div_article-write">
                 <!--  -->
                 <div style="width: 920px; margin: 0 auto;">
 					<p style="font-size: 10px;">*이미지를 주소로 변경하고 싶다면 <a href="#" onClick="window.open('https://ifh.cc/', 'url 변경', 'width=800, height=700, toolbar=no, menubar=no, scrollbars=no, resizable=yes' );">이곳</a>을 클릭하여 주세요.</p>
-					<textarea class="wysiwyg-editor wysiwygEditor-733509" name="content" style="display: none;"></textarea>
+					<textarea id="content" class="wysiwyg-editor wysiwygEditor-733509" name="content" style="display: none;"></textarea>
                 </div>
                 <!--  -->
               </div>

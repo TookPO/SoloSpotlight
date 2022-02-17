@@ -2,6 +2,7 @@ package com.legacy.domain;
 
 import java.time.LocalDateTime;
 
+
 import javax.persistence.EntityListeners;
 import javax.persistence.MappedSuperclass;
 
@@ -20,6 +21,5 @@ public abstract class BaseTimeEntity { // 유지 보수를 위해서 시간 기�
     private LocalDateTime createdDate;
 
     @LastModifiedDate
-    private LocalDateTime modifiedDate;
-
+    private LocalDateTime modifiedDate;    
 }

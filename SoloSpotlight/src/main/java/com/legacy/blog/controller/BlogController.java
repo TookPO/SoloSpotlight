@@ -35,11 +35,18 @@ public class BlogController {
 	@GetMapping("/{userId}")
 	public String blogHome(@PathVariable Long userId, Model model) {
 		logger.debug("[{userId}]->"+userId);
-		BlogInfoDto blogInfoDto = blogService.selectHome(userId);
-		logger.debug("[결과] ->"+blogInfoDto);
-		model.addAttribute("userId", userId);
-		model.addAttribute("blogInfoDto", blogInfoDto);
-		
+		try {
+			Map<String, Object> map = blogService.selectHome(userId);
+			logger.debug("[결과] ->"+map.toString());
+			model.addAttribute("userId", userId);
+			model.addAttribute("blogInfoDto", map.get("blogInfoDto"));
+			model.addAttribute("recommendList", map.get("recommendList"));
+			model.addAttribute("postDtoList", map.get("postDtoList"));
+		}catch (Exception e) {
+			e.printStackTrace();
+			return "blog/blogHomeNull";
+		}
+	
 		return "blog/blogHome";
 	}
 	
@@ -99,11 +106,11 @@ public class BlogController {
 	// [블로그 리스트]
 	@GetMapping("/{userId}/list")
 	public String blogList(@PathVariable Long userId, Model model) {
-		
+	
 		return "blog/blogList";
 	}
 	
-	// [블로그 글 쓰기]
+	// [블로그 글쓰기]
 	@GetMapping("/{userId}/add")
 	public String blogWrite(@PathVariable Long userId, Model model) {
 		logger.debug("[블로그 글쓰기]");
@@ -114,7 +121,18 @@ public class BlogController {
 		return "blog/blogWrite";
 	}
 	
-	// [블로그 글 보기]
+	// [글쓰기 완료]
+	@PostMapping("/{userId}/add")
+	@ResponseBody
+	public String blogWriteDone(@PathVariable("userId")Long userId, 
+			@RequestBody Map<String, Object> data) {
+		logger.debug("[게시글 작성]->"+data.toString());
+		Long blogPostId = blogService.insertPost(userId, data);
+		logger.debug("[받은 아이디]->"+blogPostId);
+		return Long.toString(blogPostId);
+	}
+	
+	// [블로그 글보기]
 	@GetMapping("/{userId}/view")
 	public String blogView(@PathVariable Long userId, Model model) {
 		

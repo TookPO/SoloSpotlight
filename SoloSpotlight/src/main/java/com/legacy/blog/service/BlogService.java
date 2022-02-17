@@ -10,6 +10,9 @@ import javax.transaction.Transactional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.legacy.blog.category.dao.BlogCategoryRepository;
@@ -18,6 +21,10 @@ import com.legacy.blog.category.vo.BlogCategoryDto;
 import com.legacy.blog.info.dao.BlogInfoRepository;
 import com.legacy.blog.info.domain.BlogInfo;
 import com.legacy.blog.info.vo.BlogInfoDto;
+import com.legacy.blog.post.dao.BlogPostRepository;
+import com.legacy.blog.post.domain.BlogPost;
+import com.legacy.blog.post.vo.BlogPostDto;
+import com.legacy.blog.post.vo.BlogPostDtoImpl;
 import com.legacy.user.dao.UserRepository;
 import com.legacy.user.domain.User;
 
@@ -31,6 +38,7 @@ public class BlogService {
 	private final BlogInfoRepository blogInfoRepository;
 	private final UserRepository userRepository;
 	private final BlogCategoryRepository blogCategoryRepository;
+	private final BlogPostRepository blogPostRepository;
 	
 	// BLOG_INFO 추가
 	@Transactional
@@ -58,11 +66,25 @@ public class BlogService {
 	}
 	
 	// BLOG_INFO 찾기
-	public BlogInfoDto selectHome(Long userId) {	
+	public Map<String, Object> selectHome(Long userId) {
+		Map<String, Object> map = new HashMap<>();
 		BlogInfo blogInfo = blogInfoRepository.findByUserId(userId)
 				 .orElseThrow(() -> new IllegalArgumentException("블로그가 없습니다."));
+		List<BlogPostDtoImpl> recommendList = blogPostRepository.findByIsRecommendTrueImpl(blogInfo.getId());
+		Pageable paging = PageRequest.of(0, 7, Sort.Direction.DESC, "createdDate");
+		List<Map<String, Object>> postDtoList = blogPostRepository.findAllRecent(blogInfo.getId(), paging);
 		
-		return new BlogInfoDto(blogInfo);
+		
+		map.put("blogInfoDto", new BlogInfoDto(blogInfo));		
+		if(!recommendList.isEmpty()) {
+			logger.debug("[리스트 결과]->"+recommendList.get(0).getCreatedDate());
+			map.put("recommendList", recommendList);		
+		}
+		if(!postDtoList.isEmpty()) {
+			logger.debug("[최근 게시글 8개]->"+postDtoList.get(0).get("title"));
+			map.put("postDtoList", postDtoList);
+		}
+		return map; 
 	}
 
 	public Map<String, Object> selectInfoUpdate(Long userId) {
@@ -127,5 +149,24 @@ public class BlogService {
 		map.put("categoryList", categoryList);
 		
 		return map;
+	}
+
+	public Long insertPost(Long userId, Map<String, Object> data) {
+		BlogInfo blogInfo = blogInfoRepository.findByUserId(userId)
+				.orElseThrow(() -> new IllegalArgumentException("블로그가 없습니다."));
+		BlogCategory blogCategory = blogCategoryRepository.findById(Long.valueOf(String.valueOf(data.get("blogCategoryId"))))
+				.orElseThrow(() -> new IllegalArgumentException("카테고리가 없습니다."));
+		
+		 return blogPostRepository.save(BlogPost.builder()
+					.title(String.valueOf(data.get("title")))
+					.content(String.valueOf(data.get("content")))
+					.thumbnail(String.valueOf(data.get("thumbnail")))
+					.viewCount(0L)
+					.good(0)
+					.isPublic(Boolean.parseBoolean(String.valueOf(data.get("isPublic"))))
+					.isRecommend(Boolean.parseBoolean(String.valueOf(data.get("isRecommend"))))
+					.blogInfo(blogInfo)
+					.blogCategory(blogCategory)
+					.build()).getId();
 	}
 }

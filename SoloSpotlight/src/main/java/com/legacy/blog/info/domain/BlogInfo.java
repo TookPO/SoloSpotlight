@@ -1,12 +1,10 @@
 package com.legacy.blog.info.domain;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -15,10 +13,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
 import com.legacy.blog.category.domain.BlogCategory;
+import com.legacy.blog.post.domain.BlogPost;
 import com.legacy.domain.BaseTimeEntity;
 import com.legacy.user.domain.User;
 
@@ -56,9 +52,13 @@ public class BlogInfo extends BaseTimeEntity {
 	@OneToMany(mappedBy="blogInfo", fetch = FetchType.LAZY)
 	List<BlogCategory> blogCategoryList = new ArrayList<>();
 	
+	// [blogPost]
+	@OneToMany(mappedBy="blogInfo", fetch = FetchType.LAZY)
+	private List<BlogPost> blogPostList;
+	
 	@Builder
-	public BlogInfo(Long id, String name, String intro, String headerColor, Long revenue,User user,
-			List<BlogCategory> blogCategoryList) {
+	public BlogInfo(Long id, String name, String intro, String headerColor, Long revenue, User user,
+			List<BlogCategory> blogCategoryList, List<BlogPost> blogPostList) {
 		this.id = id;
 		this.name = name;
 		this.intro = intro;
@@ -66,7 +66,9 @@ public class BlogInfo extends BaseTimeEntity {
 		this.revenue = revenue;
 		this.user = user;
 		this.blogCategoryList = blogCategoryList;
+		this.blogPostList = blogPostList;
 	}
+	
 	public void update(String name, String intro, String headerColor) {
 		this.name = name;
 		this.intro = intro;
