@@ -15,12 +15,18 @@ public interface BlogInfoRepository extends JpaRepository<BlogInfo, Long> {
 	@Query("SELECT "
 			+ "i "
 			+ "FROM BlogInfo i INNER JOIN i.user u "
-			+ "WHERE u.id = :user_id")
-	Optional<BlogInfo> findByUserId(@Param("user_id") Long userId);
+			+ "WHERE u.id = :userId")
+	Optional<BlogInfo> findByUserId(@Param("userId") Long userId);
 	
 	@Query("SELECT "
 			+ "new com.legacy.blog.info.vo.BlogInfoDto(i.id AS id, i.name AS name, i.intro AS intro, i.headerColor AS headerColor, i.revenue AS revenue) "
 			+ "FROM BlogInfo i INNER JOIN i.user u "
-			+ "WHERE u.id = :user_id")	
-	Optional<BlogInfoDto> findByUserIdDto(@Param("user_id") Long userId);
+			+ "WHERE u.id = :userId")	
+	Optional<BlogInfoDto> findByUserIdDto(@Param("userId") Long userId);
+	
+	@Query("SELECT "
+			+ "new Map(i.id AS id, i.name AS name, i.intro AS intro, i.headerColor AS headerColor, i.revenue AS revenue, u.id AS writerId, u.name AS writerName, u.picture AS writerPicture) "
+			+ "FROM BlogInfo i INNER JOIN i.user u "
+			+ "WHERE u.id = :userId")
+	Optional<Map<String, Object>> findByUserIdJoinUser(@Param("userId")Long userId);
 }

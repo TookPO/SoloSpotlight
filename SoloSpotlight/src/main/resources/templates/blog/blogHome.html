@@ -38,7 +38,7 @@
             </div>
           </div>
           <div class="col-4">          
-            <div class="thumb text-center">
+            <div class="thumb text-center" th:onclick="|location.href='/blog/${user.id}/add'|">
               <img src="/assets/images/instagram-04.jpg" alt="">
               <div class="div_intro-font">
                 <h3>추천 게시글</h3>
@@ -60,7 +60,7 @@
       <!-- [recommendList] not null -->
       <div th:unless="${recommendList == null}" class="container">
         <div class="row images">
-          <div th:if="${#lists.size(recommendList) == 1}" th:each="recommend : ${recommendList}" class="col-12">          
+          <div th:if="${#lists.size(recommendList) == 1}" th:each="recommend : ${recommendList}" th:onclick="|location.href='/blog/${userId}/view?id=${recommend.id}'|" class="col-12">          
             <div class="thumb text-center">
             	<img th:if="${recommend.thumbnail == null OR #strings.equals(recommend.thumbnail, '')}" src="/blogs/nullThumbnail.jpg" th:alt="${recommend.title }">
                 <img th:unless="${recommend.thumbnail == null OR #strings.equals(recommend.thumbnail, '')}" th:src="|${recommend.thumbnail }|" th:alt="${recommend.title }">
@@ -70,7 +70,7 @@
               </div>
             </div>
           </div>
-          <div th:unless="${#lists.size(recommendList) == 1}" th:each="recommend : ${recommendList}" class="col-2">          
+          <div th:unless="${#lists.size(recommendList) == 1}" th:each="recommend : ${recommendList}" th:onclick="|location.href='/blog/${userId}/view?id=${recommend.id}'|" class="col-2">          
             <div class="thumb text-center">
               <img src="/assets/images/instagram-03.jpg" alt="">
               <div class="div_intro-font">
@@ -95,7 +95,7 @@
                   <a class="text-dark" href="#">게시글을 작성해보세요!</a>
                 </h3>
                 <p class="card-text mb-auto">자신의 이야기를 소개하세요!</p>
-                <a href="#">Continue reading</a>
+                <a href="#">더보기</a>
               </div>
               <img class="card-img-right flex-auto d-none d-md-block" data-src="holder.js/200x250?theme=thumb" alt="사진" style="width: 200px; height: 250px;" src="/example/articleEx.png" data-holder-rendered="true">
             </div>
@@ -105,12 +105,12 @@
               <div class="card-body d-flex flex-column align-items-start">
                 <strong th:text="${postDto.categoryTitle}" class="d-inline-block mb-2 text-primary">카테고리1</strong>
                 <h3 class="mb-0">
-                  <a th:text="${postDto.title}" class="text-dark" href="#">제목 입니다.</a>
+                  <a th:text="${postDto.title}" class="text-dark" th:href="@{|/blog/${userId}/view?id=${postDto.id}|}">제목 입니다.</a>
                 </h3>
                 <p th:text="${postDto.createdDate}" class="card-text mb-auto">2021-01-01</p>
                 <a th:href="@{|/blog/${userId}/view?id=${postDto.id}|}">더보기</a>
               </div>
-              <img class="card-img-right flex-auto d-none d-md-block" data-src="holder.js/200x250?theme=thumb" alt="사진" style="width: 200px; height: 250px;" src="/example/articleEx.png" data-holder-rendered="true">
+              <img th:onclick="|location.href='/blog/${userId}/view?id=${postDto.id}'|" class="card-img-right flex-auto d-none d-md-block" data-src="holder.js/200x250?theme=thumb" alt="사진" style="width: 200px; height: 250px;" src="/example/articleEx.png" data-holder-rendered="true">
             </div>
           </div>          
         </div>

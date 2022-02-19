@@ -13,6 +13,7 @@
   <body>
     <!-- [header] -->
     <header th:replace="fragment/blogHeader :: blogHeaderFragment"></header>
+    <input id="userId" type="hidden" value="${userId}">
     <!-- [게시글 컨텐츠] 시작 -->
     <section class="section_blog-content">
       <div class="contact-us">
@@ -20,15 +21,15 @@
           <div class="row">
             <div class="col-lg-10">
               <div class="section-heading">
-                <h1 style="margin-bottom: 40px;">블로그 제목 쓰는법</h1>
-                <img id="img_profile" src="/example/profileEX.jpg" />수야 <span style="margin-left: 10px;">2022. 1. 25. 20:00</span>
+                <h1 th:text="${blogPostDto.title}" style="margin-bottom: 40px;">블로그 제목</h1>
+                <img th:src="|${blogInfoDto.writerPicture }|" id="img_profile" class="mr-2" />[[${blogInfoDto.writerName}]] <span th:text="${blogPostDto.createdDate }" style="margin-left: 10px;">2022. 1. 25. 20:00</span>
               </div>
-              <div class="div_article-text"> 이곳은 게시글을 작성하는 곳입니다. </div>
+              <div th:utext="${blogPostDto.content}" class="div_article-text mb-4"> 블로그 게시글 </div>
               <!-- [댓글 & 버튼] start -->
-              <div class="container" style="margin-bottom: 100px;">
+              <div style="margin-bottom: 100px;">
                 <div class="row">
                   <div class="col-12">
-                    <button type="button" class="btn btn-outline-secondary active" style="margin-right: 10px;">댓글 0개</button>
+                    <button type="button" class="btn btn-outline-secondary active" style="margin-right: 10px;" data-toggle="collapse" data-target="#div_reply-list">댓글 0개</button>
                     <button type="button" class="btn btn-outline-secondary">
                       <img src="/blogs/good.png" width="25" />&nbsp;12 </button>
                     <!-- [좋아요 active] -->
@@ -37,7 +38,7 @@
                     <!-- [좋아요 active] -->
                   </div>
                   <!-- [댓글 리스트] start -->
-                  <div class="col-12 mt-4">
+                  <div id="div_reply-list" class="col-12 mt-4 collapse">
                     <table class="table">
                       <tbody>
                         <tr class="table-secondary">
@@ -54,6 +55,17 @@
                             </div>
                           </td>
                         </tr>
+                        <tr th:if="${user != null}" class="table-secondary">
+                          <td colspan="3">
+                            <div style="margin-left: 15px; margin-right: 15px;">
+                              <p class="p_reply-user">
+                                <img class="img_profile-reply" style="margin-right: 10px;" src="/example/profileEX.jpg" />수야
+                              </p>
+							  <textarea id="reply_content" class="form-control mb-2" rows="5"></textarea>
+                              	<p id="btn_reply">작성</p>
+                            </div>
+                          </td>
+                        </tr>                        
                       </tbody>
                     </table>
                   </div>
@@ -116,7 +128,7 @@
             <div class="col-lg-2">
               <!-- [pop] start -->
               <div class="div_right-pop">
-                <h2 style="margin-bottom: 15px;">추천 강의</h2>
+                <h2 style="margin-bottom: 15px;">추천 게시글</h2>
                 <img class="card-img-right flex-auto d-none d-md-block img_right-pop" data-src="holder.js/200x250?theme=thumb" alt="사진" style="" src="/example/articleEx.png" data-holder-rendered="true">
                 <p class="p_right-pop-title">123456</p>
                 <p class="p_right-pop-text">조회수 10K</p>

@@ -1,8 +1,6 @@
 package com.legacy.user.domain;
 
 import java.util.ArrayList;
-
-
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -17,8 +15,9 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
+import com.legacy.blog.good.domain.BlogGood;
 import com.legacy.blog.info.domain.BlogInfo;
-import com.legacy.domain.BaseTimeEntity;
+import com.legacy.blog.reply.domain.BlogReply;
 import com.legacy.notify.domain.Notify;
 
 import lombok.Builder;
@@ -66,9 +65,18 @@ public class User{
 	@OneToOne(mappedBy="user", fetch = FetchType.LAZY)
 	private BlogInfo blogInfo;
 	
+	// [blogGood]
+	@OneToMany(mappedBy="user", fetch = FetchType.LAZY)
+	private List<BlogGood> blogGoodList = new ArrayList<>();
+	
+	// [blogReply]
+	@OneToMany(mappedBy="user", fetch = FetchType.LAZY)
+	private List<BlogReply> blogReplyList = new ArrayList<>();
+	
 	@Builder
 	public User(Long id, String name, String email, String picture, Role role, int age, String location, String job,
-			int prohibit, List<Notify> notifyList, BlogInfo blogInfo) {
+			int prohibit, List<Notify> notifyList, BlogInfo blogInfo, List<BlogGood> blogGoodList,
+			List<BlogReply> blogReplyList) {
 		this.id = id;
 		this.name = name;
 		this.email = email;
@@ -80,6 +88,8 @@ public class User{
 		this.prohibit = prohibit;
 		this.notifyList = notifyList;
 		this.blogInfo = blogInfo;
+		this.blogGoodList = blogGoodList;
+		this.blogReplyList = blogReplyList;
 	}
 	
 	public User update(String name, String picture) {

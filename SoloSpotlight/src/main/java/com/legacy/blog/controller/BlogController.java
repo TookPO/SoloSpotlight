@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.legacy.blog.info.vo.BlogInfoDto;
@@ -44,7 +45,8 @@ public class BlogController {
 			model.addAttribute("postDtoList", map.get("postDtoList"));
 		}catch (Exception e) {
 			e.printStackTrace();
-			return "blog/blogHomeNull";
+			model.addAttribute("userId", userId);
+			return "blog/blogNull";
 		}
 	
 		return "blog/blogHome";
@@ -52,7 +54,14 @@ public class BlogController {
 	
 	// [블로그 생성 입력] 
 	@GetMapping("/add")
-	public String blogAdd() {
+	public String blogAdd(@LoginUser SessionUser user) {
+		if(user == null) {
+			return "blog/blogNull";
+		}
+		Long userId = blogService.selectInfoCheck(user.getId());
+		if(userId > 0L) {
+			return "blog/blogCheck";
+		}
 		
 		return "blog/blogAdd";
 	}
@@ -103,12 +112,9 @@ public class BlogController {
 		return Long.toString(user.getId());
 	}
 	
-	// [블로그 리스트]
+	// [블로그 리스트] * 보류 *
 	@GetMapping("/{userId}/list")
-	public String blogList(@PathVariable Long userId, Model model) {
-	
-		return "blog/blogList";
-	}
+	public String blogList(@PathVariable Long userId, Model model) { return "blog/blogList"; }
 	
 	// [블로그 글쓰기]
 	@GetMapping("/{userId}/add")
@@ -134,10 +140,26 @@ public class BlogController {
 	
 	// [블로그 글보기]
 	@GetMapping("/{userId}/view")
-	public String blogView(@PathVariable Long userId, Model model) {
+	public String blogView(@RequestParam("id") Long postId, 
+			@PathVariable Long userId, Model model) {
+		logger.debug("[블로그 글 조회]");
+		Map<String, Object> map = blogService.selectPostView(postId, userId);
+		logger.debug("[결과] ->"+map.toString());
 		
-		model.addAttribute("blogName", "지수의 일상 이야기");
+		model.addAttribute("userId", userId);
+		model.addAttribute("blogInfoDto", map.get("blogInfoDto"));
+		model.addAttribute("blogPostDto", map.get("blogPostDto"));
+		model.addAttribute("recommendList", map.get("recommendList"));
 		return "blog/blogView";
+	}
+	
+	// [블로그 댓글 등록]
+	@PostMapping("{userId}/reply/add")
+	@ResponseBody
+	public String blogReplyAdd(@RequestBody Map<String, Object> data, @LoginUser SessionUser user) {	
+		logger.debug("[댓글 쓰기] ->"+data.toString()+"/ userWriter->"+user.getId());
+		
+		return Long.toString(blogService.insertReply(data, user.getId()));
 	}
 	
 	// [블로그 관리]

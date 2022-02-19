@@ -6,6 +6,13 @@
     <th:block th:replace="fragment/css :: cssFragment"></th:block>
 </head>
 <body>
+  <th:block th:if="${user == null or user.id != userId}">
+    <script>
+    	alert('블로그가 없습니다.');
+    	window.history.back();
+    </script>
+  </th:block>
+  <th:block th:unless="${user == null or user.id != userId}">
     <script>
     	var ask = confirm('블로그가 없습니다. 블로그를 생성 하시겠습니까?');
     	if(ask){
@@ -14,5 +21,6 @@
     		window.history.back();
     	}
     </script>
+  </th:block>    
 </body>
 </html>

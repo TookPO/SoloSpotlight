@@ -1,5 +1,8 @@
 package com.legacy.blog.post.domain;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -8,10 +11,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 import com.legacy.blog.category.domain.BlogCategory;
+import com.legacy.blog.good.domain.BlogGood;
 import com.legacy.blog.info.domain.BlogInfo;
+import com.legacy.blog.reply.domain.BlogReply;
 import com.legacy.domain.BaseTimeEntity;
 
 import lombok.Builder;
@@ -39,8 +45,8 @@ public class BlogPost extends BaseTimeEntity {
 	@Column(nullable = false)
 	private Long viewCount;
 	
-	@Column(nullable = false)
-	private Integer good;
+	@Column
+	private Integer good; // 최종적으로 사용안하면 삭제
 	
 	@Column
 	private Boolean isPublic;
@@ -51,18 +57,28 @@ public class BlogPost extends BaseTimeEntity {
 	@Column
 	private Boolean isRecommend;
 	
+	// blogInfo
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "BLOG_INFO_ID")
 	private BlogInfo blogInfo;
 	
+	// blogCategory
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "BLOG_CATEGORY_ID")
 	private BlogCategory blogCategory;
+	
+	// blogGood
+	@OneToMany(mappedBy = "blogPost", fetch = FetchType.LAZY)
+	private List<BlogGood> blogGoodList  = new ArrayList<>();
+	
+	// blogReply
+	@OneToMany(mappedBy = "blogPost", fetch = FetchType.LAZY)
+	private List<BlogReply> blogReplyList = new ArrayList<>();
 
-	@Builder	
+	@Builder
 	public BlogPost(Long id, String title, String content, String thumbnail, Long viewCount, Integer good,
-			Boolean isPublic, Boolean isDelete, Boolean isRecommend, BlogInfo blogInfo, BlogCategory blogCategory) {
-		super();
+			Boolean isPublic, Boolean isDelete, Boolean isRecommend, BlogInfo blogInfo, BlogCategory blogCategory,
+			List<BlogGood> blogGoodList, List<BlogReply> blogReplyList) {
 		this.id = id;
 		this.title = title;
 		this.content = content;
@@ -74,5 +90,7 @@ public class BlogPost extends BaseTimeEntity {
 		this.isRecommend = isRecommend;
 		this.blogInfo = blogInfo;
 		this.blogCategory = blogCategory;
+		this.blogGoodList = blogGoodList;
+		this.blogReplyList = blogReplyList;
 	}
 }

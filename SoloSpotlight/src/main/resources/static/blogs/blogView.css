@@ -40,6 +40,16 @@ h1{
 	display: none;
 }
 
+#btn_reply{
+    text-align: right;
+    font-size: 15px;
+    border-radius: 5px;
+    margin: 5px;
+    padding: 6px 18px;
+    background-color: white;
+    float: right!important;
+}
+
 .div_category-select{
 	margin-top: 80px;
     padding-bottom: 10px;
@@ -52,7 +62,7 @@ h1{
 .div_article-text{
 	min-height: 300px;
 	margin-bottom: 15px;
-	border-bottom: 1px solid #eee;
+	overflow: auto;
 }
 
 .div_right-pop{
@@ -117,6 +127,12 @@ h1{
 	#btn_textList-min{
 		display: block;
 	}
+}
+
+@media (max-width: 768px) {
+	.a_share-hover{
+		display: none;
+	}	
 }
 
 /* [unset] */

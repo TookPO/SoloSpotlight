@@ -38,6 +38,8 @@ import com.legacy.blog.info.domain.BlogInfo;
 import com.legacy.blog.info.vo.BlogInfoDto;
 import com.legacy.blog.post.dao.BlogPostRepository;
 import com.legacy.blog.post.domain.BlogPost;
+import com.legacy.blog.reply.domain.BlogReply;
+import com.legacy.blog.reply.repository.BlogReplyRepository;
 import com.legacy.user.dao.UserRepository;
 import com.legacy.user.domain.Role;
 import com.legacy.user.domain.User;
@@ -59,7 +61,10 @@ public class BlogControllerTest {
 	BlogInfoRepository blogInfoRepository;
 	
 	@Autowired
-	BlogPostRepository blogPostRepository;	
+	BlogPostRepository blogPostRepository;
+	
+	@Autowired
+	BlogReplyRepository blogReplyRepository;
 	
 	@LocalServerPort
 	private int port;
@@ -92,6 +97,7 @@ public class BlogControllerTest {
 	
 	@After // Junit에서 단위 테스트가 끝날 때마다 수행
 	public void cleanup() {
+		blogReplyRepository.deleteAll();
 		blogPostRepository.deleteAll();
 		blogCategoryRepository.deleteAll();
 		blogInfoRepository.deleteAll();
@@ -300,5 +306,60 @@ public class BlogControllerTest {
 		System.out.println("[카테고리 assert]->"+blogPost.getBlogCategory().getTitle());
 		assertThat(blogPost.getBlogCategory().getTitle()).isEqualTo(category);
 		assertThat(blogPost.getBlogInfo().getName()).isEqualTo(name);
+	}
+	
+	@Test
+	@WithMockUser(roles ="USER")
+	@Transactional
+	public void 댓글_등록된다() throws Exception {
+		// given
+		String name = "name";
+		String intro = "intro";
+		String headerColor = "hdColor";
+		String category = "category";
+		String title = "title";
+		String thumbnail = "thumbnail";
+		String content = "content";
+		
+		User user = userRepository.findById(userId).get();
+		System.out.println("[조회할 아이디]->"+userId);
+		BlogInfo blogInfo = BlogInfo.builder()
+				.name(name)
+				.intro(intro)
+				.headerColor(headerColor)
+				.revenue(0L)
+				.user(user)
+				.build();
+		blogInfoRepository.save(blogInfo);
+		BlogCategory blogCategory = blogCategoryRepository.save(BlogCategory.builder()
+				.title(category)
+				.blogInfo(blogInfo)
+				.build());
+		Long postId = blogPostRepository.save(BlogPost.builder()
+				.title(title)
+				.content(content)
+				.thumbnail(thumbnail)
+				.viewCount(0L)
+				.isPublic(true)
+				.isRecommend(true)
+				.blogInfo(blogInfo)
+				.blogCategory(blogCategory)
+				.build()).getId();
+		Map<String, Object> data = new HashMap<>();
+		data.put("postId", postId);
+		data.put("content", content);
+
+		String url ="http://localhost:"+port+"/blog/"+userId+"/reply/add";
+		
+		// when
+		mvc.perform(post(url)
+				.session(session)
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(new ObjectMapper().writeValueAsString(data)))
+				.andExpect(status().isOk());
+		
+		// then
+		List<BlogReply> blogReply = blogReplyRepository.findAll();
+		assertThat(blogReply.get(0).getContent()).isEqualTo(content);		
 	}
 }
