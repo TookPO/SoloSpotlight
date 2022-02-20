@@ -1,6 +1,7 @@
 package com.legacy.blog.service;
 
 import java.util.ArrayList;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,6 +19,8 @@ import org.springframework.stereotype.Service;
 import com.legacy.blog.category.dao.BlogCategoryRepository;
 import com.legacy.blog.category.domain.BlogCategory;
 import com.legacy.blog.category.vo.BlogCategoryDto;
+import com.legacy.blog.good.dao.BlogGoodRepository;
+import com.legacy.blog.good.domain.BlogGood;
 import com.legacy.blog.info.dao.BlogInfoRepository;
 import com.legacy.blog.info.domain.BlogInfo;
 import com.legacy.blog.info.vo.BlogInfoDto;
@@ -27,6 +30,7 @@ import com.legacy.blog.post.vo.BlogPostDto;
 import com.legacy.blog.post.vo.BlogPostDtoImpl;
 import com.legacy.blog.reply.domain.BlogReply;
 import com.legacy.blog.reply.repository.BlogReplyRepository;
+import com.legacy.blog.reply.vo.BlogReplyDto;
 import com.legacy.user.dao.UserRepository;
 import com.legacy.user.domain.User;
 
@@ -41,6 +45,7 @@ public class BlogService {
 	private final UserRepository userRepository;
 	private final BlogCategoryRepository blogCategoryRepository;
 	private final BlogPostRepository blogPostRepository;
+	private final BlogGoodRepository blogGoodRepository;
 	private final BlogReplyRepository blogReplyRepository;
 
 	// BLOG_INFO 찾기
@@ -48,9 +53,10 @@ public class BlogService {
 		Map<String, Object> map = new HashMap<>();
 		BlogInfo blogInfo = blogInfoRepository.findByUserId(userId)
 				 .orElseThrow(() -> new IllegalArgumentException("블로그가 없습니다."));
-		List<BlogPostDtoImpl> recommendList = blogPostRepository.findByIsRecommendTrueImpl(blogInfo.getId());
-		Pageable paging = PageRequest.of(0, 7, Sort.Direction.DESC, "createdDate");
-		List<Map<String, Object>> postDtoList = blogPostRepository.findAllRecent(blogInfo.getId(), paging);
+		Pageable recommendPaging = PageRequest.of(0, 4);
+		List<BlogPostDtoImpl> recommendList = blogPostRepository.findByIsRecommendTrueImpl(blogInfo.getId(), recommendPaging);
+		Pageable postPaging = PageRequest.of(0, 7, Sort.Direction.DESC, "createdDate");
+		List<Map<String, Object>> postDtoList = blogPostRepository.findAllRecent(blogInfo.getId(), postPaging);
 		
 		
 		map.put("blogInfoDto", new BlogInfoDto(blogInfo));		
@@ -181,27 +187,72 @@ public class BlogService {
 
 	public Map<String, Object> selectPostView(Long postId, Long userId) {
 		Map<String, Object> map = new HashMap<>();
-		// 1. blog_info && user(작성자)
 		Map<String, Object> blogInfoDto = blogInfoRepository.findByUserIdJoinUser(userId)
-				 .orElseThrow(() -> new IllegalArgumentException("블로그가 없습니다."));		
-		// 2. blog_post(해당 게시글 + 추천 게시글 랜덤 3개)
-		Map<String, Object> blogPostDto = blogPostRepository.findByIdJoinCategoryMap(postId)
+				 .orElseThrow(() -> new IllegalArgumentException("블로그가 없습니다."));
+		BlogPost blogPost = blogPostRepository.findById(postId)
 				.orElseThrow(() -> new IllegalArgumentException("게시물이 없습니다."));
-		Pageable paging = PageRequest.of(0, 2, Sort.Direction.DESC, "createdDate");
-		List<Map<String, Object>> recommendList = blogPostRepository.findAllRecent((Long)blogInfoDto.get("id"), paging);		
-		// 3. blog_reply
+		Pageable recommendPaging = PageRequest.of(0, 2);
+		List<BlogPostDtoImpl> recommendList = blogPostRepository.findByIsRecommendTrueNotThisPostIdImpl((Long)blogInfoDto.get("id"), postId, recommendPaging);		
+		Pageable postCategoryPaging = PageRequest.of(0, 4, Sort.Direction.DESC, "createdDate");
+		List<BlogPost> postCategoryDomainList = blogPostRepository.findByInfoIdAndCategoryOne((Long)blogPost.getBlogCategory().getId() , 
+				postCategoryPaging); // 다른 사람과 자신의 카테고리를 공유하지 않으니까
 		
-		// 4. blog_spot
-		
-		map.put("blogInfoDto", blogInfoDto);
-		map.put("blogPostDto", blogPostDto);
-		if(!recommendList.isEmpty()) {
-			map.put("recommendList", recommendList);
+		// 블로그 정보 & 블로그 게시물
+		map.put("blogInfoDto", blogInfoDto); 
+		map.put("blogPostDto", new BlogPostDto(blogPost, 
+				  blogPost.getBlogCategory().getTitle()));
+		// 추천 리스트
+		if(recommendList.isEmpty()) { 
+			map.put("recommendList", blogPostRepository.findByIsRecommendFalseNotThisPostIdImpl((Long)blogInfoDto.get("id"), postId, recommendPaging));
+		}else {
+			map.put("recommendList", recommendList); 
 		}
-		
+		// 게시글 좋아요
+		if(blogPost.getBlogGoodList().isEmpty()) {
+			map.put("blogGoodMax", 0);
+		}else {
+			logger.debug("[받은 리스트 좋아요]->"+blogPost.getBlogGoodList().get(0).getId());
+			map.put("blogGoodMax", blogPost.getBlogGoodList().size());			
+		}
+		// 댓글 리스트
+		if(!blogPost.getBlogReplyList().isEmpty()) {
+			logger.debug("[받은 리스트 댓글]->"+blogPost.getBlogReplyList().get(0).getContent());
+			List<BlogReplyDto> blogReplyDtoList = new ArrayList<>();
+			blogPost.getBlogReplyList().forEach((entity) -> {
+				blogReplyDtoList.add(new BlogReplyDto(entity, entity.getUser()));
+			});
+			logger.debug("[담은 REPLY] ->"+blogReplyDtoList.get(0).getWriterName());
+			logger.debug("[댓글 사이즈] ->"+blogReplyDtoList.size());
+			map.put("blogReplyDtoList", blogReplyDtoList);
+		}
+		// 해당 카테고리의 게시글
+		List<BlogPostDto> postCategoryList = new ArrayList<>();
+		postCategoryDomainList.forEach((entity)->{
+			postCategoryList.add(new BlogPostDto(entity, entity.getBlogReplyList()));
+		});
+		map.put("postCategoryList", postCategoryList);
+		// 해당 블로거의 스폿
 		
 		return map;
 	}
+	
+	public Long insertGood(Long postId, Long userId) {
+		// 이전 좋아요 확인
+		BlogGood blogGood = blogGoodRepository.findByUserIdAndPostId(userId, postId);
+		logger.debug("[좋아요 확인]"+blogGood);
+		if(blogGood == null) {
+			User user = userRepository.findById(userId)
+				.orElseThrow(() -> new IllegalArgumentException("사용자가 없습니다."));
+			BlogPost blogPost = blogPostRepository.findById(postId)
+				.orElseThrow(() -> new IllegalArgumentException("게시글이 없습니다."));
+
+			return 	blogGoodRepository.save(BlogGood.builder()
+					.user(user)
+					.blogPost(blogPost)
+					.build()).getId();
+		}
+		return 0L;
+	}	
 	
 	public Long insertReply(Map<String, Object> data, Long writerId) {
 		logger.debug("[WRITER ID]->"+writerId);

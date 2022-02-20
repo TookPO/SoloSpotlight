@@ -39,7 +39,7 @@ public class BlogPost extends BaseTimeEntity {
 	@Column(nullable = false)
 	private String content;
 	
-	@Column
+	@Column(nullable = true)
 	private String thumbnail;
 	
 	@Column(nullable = false)
@@ -63,7 +63,7 @@ public class BlogPost extends BaseTimeEntity {
 	private BlogInfo blogInfo;
 	
 	// blogCategory
-	@OneToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "BLOG_CATEGORY_ID")
 	private BlogCategory blogCategory;
 	

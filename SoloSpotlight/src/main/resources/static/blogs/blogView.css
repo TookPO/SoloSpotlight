@@ -27,6 +27,25 @@ h1{
 	font-weight: 800;
 }
 
+a:link{
+	text-decoration: none;
+	color: #343a40;
+}
+
+a:active{
+	text-decoration: none;
+	color: #343a40;	
+}
+a:visited{
+	text-decoration: none;
+	color: #343a40;		
+}
+
+a:hover{
+	text-decoration: none;
+	color: #6c757d;	
+}
+
 .p_reply-user{
 	margin-block-start: unset;
 	font-weight: 500;
@@ -56,7 +75,7 @@ h1{
 }
 
 .section_blog-content{
-	margin-top: 150px;
+/* 	margin-top: 150px; */
 }
 
 .div_article-text{

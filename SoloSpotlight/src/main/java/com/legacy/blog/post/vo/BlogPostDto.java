@@ -1,12 +1,11 @@
 package com.legacy.blog.post.vo;
 
-import java.sql.Date;
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.util.List;
 
 import com.legacy.blog.post.domain.BlogPost;
+import com.legacy.blog.reply.domain.BlogReply;
 
-import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
 
@@ -22,21 +21,8 @@ public class BlogPostDto {
 	private Boolean isPublic;
 	private LocalDateTime createdDate;
 	private String categoryTitle;
+	private int replyMax;
 	
-	// repository에서 받기 위해
-	public BlogPostDto(Long id, String title, String content, String thumbnail, Long viewCount, Integer good,
-			Boolean isPublic, LocalDateTime createdDate) {
-		this.id = id;
-		this.title = title;
-		this.content = content;
-		this.thumbnail = thumbnail;
-		this.viewCount = viewCount;
-		this.good = good;
-		this.isPublic = isPublic;
-		this.createdDate = createdDate;
-	}
-	
-	@Builder
 	public BlogPostDto(BlogPost blogPost, String categoryTitle) {
 		this.id = blogPost.getId();
 		this.title = blogPost.getTitle();
@@ -46,5 +32,30 @@ public class BlogPostDto {
 		this.good = blogPost.getGood();
 		this.isPublic = blogPost.getIsPublic();
 		this.categoryTitle = categoryTitle;
+	}
+	
+	public BlogPostDto(BlogPost blogPost, List<BlogReply> replyList) {
+		this.id = blogPost.getId();
+		this.title = blogPost.getTitle();
+		this.content = blogPost.getContent();
+		this.thumbnail = blogPost.getThumbnail();
+		this.viewCount = blogPost.getViewCount();
+		this.isPublic = blogPost.getIsPublic();
+		if(replyList.isEmpty()) {
+			this.replyMax = 0;
+		}else {
+			this.replyMax = replyList.size();
+		}		
+	}	
+
+	public BlogPostDto(Long id, String title, String content, String thumbnail, Long viewCount, 
+			Boolean isPublic, LocalDateTime createdDate) {
+		this.id = id;
+		this.title = title;
+		this.content = content;
+		this.thumbnail = thumbnail;
+		this.viewCount = viewCount;
+		this.isPublic = isPublic;
+		this.createdDate = createdDate;
 	}	
 }

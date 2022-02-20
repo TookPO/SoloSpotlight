@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.legacy.blog.info.vo.BlogInfoDto;
+import com.legacy.blog.reply.vo.BlogReplyDto;
 import com.legacy.blog.service.BlogService;
 import com.legacy.user.config.LoginUser;
 import com.legacy.user.vo.SessionUser;
@@ -145,20 +145,31 @@ public class BlogController {
 		logger.debug("[블로그 글 조회]");
 		Map<String, Object> map = blogService.selectPostView(postId, userId);
 		logger.debug("[결과] ->"+map.toString());
-		
 		model.addAttribute("userId", userId);
 		model.addAttribute("blogInfoDto", map.get("blogInfoDto"));
 		model.addAttribute("blogPostDto", map.get("blogPostDto"));
 		model.addAttribute("recommendList", map.get("recommendList"));
+		model.addAttribute("blogGoodMax", map.get("blogGoodMax"));
+		model.addAttribute("blogReplyDtoList", map.get("blogReplyDtoList"));
+		model.addAttribute("postCategoryList", map.get("postCategoryList"));
 		return "blog/blogView";
+	}
+	
+	// [블로그 좋아요 등록]
+	@PostMapping("/{userId}/good/add")
+	@ResponseBody
+	public String goodAdd(@RequestBody Map<String, Object> data,
+			@LoginUser SessionUser user) {
+		Long goodId = blogService.insertGood(Long.valueOf(String.valueOf(data.get("postId"))), 
+				user.getId());
+		return Long.toString(goodId);
 	}
 	
 	// [블로그 댓글 등록]
 	@PostMapping("{userId}/reply/add")
 	@ResponseBody
 	public String blogReplyAdd(@RequestBody Map<String, Object> data, @LoginUser SessionUser user) {	
-		logger.debug("[댓글 쓰기] ->"+data.toString()+"/ userWriter->"+user.getId());
-		
+		logger.debug("[댓글 쓰기] ->"+data.toString()+"/ userWriter->"+user.getId());	
 		return Long.toString(blogService.insertReply(data, user.getId()));
 	}
 	

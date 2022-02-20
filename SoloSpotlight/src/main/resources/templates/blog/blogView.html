@@ -19,7 +19,7 @@
       <div class="contact-us">
         <div class="container">
           <div class="row">
-            <div class="col-lg-10">
+            <div class="col-lg-9">
               <div class="section-heading">
                 <h1 th:text="${blogPostDto.title}" style="margin-bottom: 40px;">블로그 제목</h1>
                 <img th:src="|${blogInfoDto.writerPicture }|" id="img_profile" class="mr-2" />[[${blogInfoDto.writerName}]] <span th:text="${blogPostDto.createdDate }" style="margin-left: 10px;">2022. 1. 25. 20:00</span>
@@ -29,37 +29,50 @@
               <div style="margin-bottom: 100px;">
                 <div class="row">
                   <div class="col-12">
-                    <button type="button" class="btn btn-outline-secondary active" style="margin-right: 10px;" data-toggle="collapse" data-target="#div_reply-list">댓글 0개</button>
-                    <button type="button" class="btn btn-outline-secondary">
-                      <img src="/blogs/good.png" width="25" />&nbsp;12 </button>
+                  	<button th:if="${blogReplyDtoList == null}" type="button" class="btn btn-outline-secondary active" style="margin-right: 10px;" data-toggle="collapse" data-target="#div_reply-list">댓글 0개</button>
+                    <button th:unless="${blogReplyDtoList == null}" type="button" class="btn btn-outline-secondary active" style="margin-right: 10px;" data-toggle="collapse" data-target="#div_reply-list">댓글 [[${#lists.size(blogReplyDtoList)}]]개</button>
+                    <button th:if="${user == null}" type="button" class="btn btn-outline-secondary" onClick="alert('로그인 후 좋아요를 눌러주세요!!');">
+                      <img src="/blogs/good.png" width="25" />&nbsp;[[${blogGoodMax }]] </button>
+                    <button th:unless="${user == null}" id="btn_good" type="button" class="btn btn-outline-secondary active">
+                      <img src="/blogs/good.png" width="25" />&nbsp;[[${blogGoodMax }]] </button>
+                      
                     <!-- [좋아요 active] -->
-                    <button style="display: none" type="button" class="btn btn-outline-secondary active">
-                      <img src="/blogs/good_active.png" width="25" />&nbsp;12 </button>
+<!--                     <button style="display: none" type="button" class="btn btn-outline-secondary active">
+                      <img src="/blogs/good_active.png" width="25" />&nbsp;12 </button> -->
                     <!-- [좋아요 active] -->
                   </div>
                   <!-- [댓글 리스트] start -->
                   <div id="div_reply-list" class="col-12 mt-4 collapse">
                     <table class="table">
                       <tbody>
-                        <tr class="table-secondary">
+                        <tr th:unless="${blogReplyDtoList == null}" th:each="blogReply : ${blogReplyDtoList }" class="table-secondary">
                           <td colspan="3">
                             <div style="margin-left: 15px;">
                               <p class="p_reply-user">
-                                <img class="img_profile-reply" style="margin-right: 10px;" src="/example/profileEX.jpg" />수야 <span style="margin-left: 10px;">2022. 1. 25. 20:00</span>
+                                <img class="img_profile-reply" style="margin-right: 10px;" th:src="|${blogReply.writerPicture }|" />[[${blogReply.writerName}]] <span th:text="${blogReply.createdDate }" style="margin-left: 10px;">2022. 1. 25. 20:00</span>
                                 <a class="a_report-link">신고</a>
                               </p>
-                              <p>댓글을 남깁니다!</p>
+                              <p th:text="${blogReply.content }">댓글 내용</p>
                               <button type="button" class="btn btn-outline-secondary" style="margin-right: 10px;">답글</button>
-                              <button type="button" class="btn btn-outline-secondary active">
-                                <img src="/blogs/good_active.png" width="20" />&nbsp;12 </button>
+<!--                          <button type="button" class="btn btn-outline-secondary active">
+                                <img src="/blogs/good_active.png" width="20" />&nbsp;12 </button> -->
                             </div>
                           </td>
                         </tr>
-                        <tr th:if="${user != null}" class="table-secondary">
+                        <tr th:if="${user == null}" class="table-secondary">
                           <td colspan="3">
                             <div style="margin-left: 15px; margin-right: 15px;">
                               <p class="p_reply-user">
-                                <img class="img_profile-reply" style="margin-right: 10px;" src="/example/profileEX.jpg" />수야
+                                소셜계정으로 간편하게 로그인하여 의견을 남겨보세요!
+                              </p>
+                            </div>
+                          </td>
+                        </tr>                        
+                        <tr th:unless="${user == null}" class="table-secondary">
+                          <td colspan="3">
+                            <div style="margin-left: 15px; margin-right: 15px;">
+                              <p class="p_reply-user">
+                                <img class="img_profile-reply" style="margin-right: 10px;" th:src="|${user.picture }|" />[[${user.name}]]
                               </p>
 							  <textarea id="reply_content" class="form-control mb-2" rows="5"></textarea>
                               	<p id="btn_reply">작성</p>
@@ -73,28 +86,21 @@
                   <!-- [게시글 리스트 하단] start -->
                   <div class="col-12 mt-2">
                     <table class="table">
-                      <thead class="table-dark">
+                      <thead class="table table-borderless">
                         <tr>
-                          <th>현재 카테고리 목록</th>
+                          <th>[[${blogPostDto.categoryTitle }]]</th>
                           <th></th>
                           <th></th>
                         </tr>
                       </thead>
                       <tbody>
-                        <tr>
-                          <td>John</td>
-                          <td>Doe</td>
-                          <td>john@example.com</td>
-                        </tr>
-                        <tr>
-                          <td>Mary</td>
-                          <td>Moe</td>
-                          <td>mary@example.com</td>
-                        </tr>
-                        <tr>
-                          <td>July</td>
-                          <td>Dooley</td>
-                          <td>july@example.com</td>
+                        <tr th:each="postCategory : ${postCategoryList }" >
+                          <td>
+                            <a th:if="${#strings.equals(postCategory.id, blogPostDto.id)}" th:href="|/blog/${userId}/view?id=${postCategory.id}|" class="font-weight-bold">[[${postCategory.title}]] ([[${postCategory.replyMax }]])</a>
+                          	<a th:unless="${#strings.equals(postCategory.id, blogPostDto.id)}" th:href="|/blog/${userId}/view?id=${postCategory.id}|" >[[${postCategory.title}]] ([[${postCategory.replyMax }]])</a>
+                          </td>
+                          <td></td>
+                          <td th:text="${postCategory.createdDate }">2021-01-01</td>
                         </tr>
                         <tr>
                           <td>
@@ -125,28 +131,21 @@
               </div>
               <!-- [댓글 & 버튼] end -->
             </div>
-            <div class="col-lg-2">
+            <div class="col-lg-3">
               <!-- [pop] start -->
-              <div class="div_right-pop">
-                <h2 style="margin-bottom: 15px;">추천 게시글</h2>
-                <img class="card-img-right flex-auto d-none d-md-block img_right-pop" data-src="holder.js/200x250?theme=thumb" alt="사진" style="" src="/example/articleEx.png" data-holder-rendered="true">
-                <p class="p_right-pop-title">123456</p>
-                <p class="p_right-pop-text">조회수 10K</p>
+             <h2 style="margin-bottom: 15px; font-size: 20px;">추천 게시글</h2>
+             <th:block th:if="${recommendList != null}" th:each="recommend, i : ${recommendList }">
+              <div th:onclick="|location.href='/blog/${userId}/view?id=${recommend.id}'|" class="div_right-pop">
+                <img th:if="${recommend.thumbnail == null || #strings.equals(recommend.thumbnail, '')}" src="/blogs/nullThumbnail.jpg" class="card-img-right flex-auto d-none d-md-block img_right-pop" data-src="holder.js/200x250?theme=thumb" alt="사진" data-holder-rendered="true">
+                <img th:unless="${recommend.thumbnail == null || #strings.equals(recommend.thumbnail, '')}" th:src="|${recommend.thumbnail }|" class="card-img-right flex-auto d-none d-md-block img_right-pop" data-src="holder.js/200x250?theme=thumb" alt="사진" data-holder-rendered="true"> 
+                <p th:text="${recommend.title }" class="p_right-pop-title">제목</p>
+                <p class="p_right-pop-text">조회수 [[${recommend.viewCount }]]</p>
               </div>
-              <div class="div_right-pop">
-                <img class="card-img-right flex-auto d-none d-md-block img_right-pop" data-src="holder.js/200x250?theme=thumb" alt="사진" style="" src="/example/articleEx.png" data-holder-rendered="true">
-                <p class="p_right-pop-title">123456</p>
-                <p class="p_right-pop-text">조회수 10K</p>
-              </div>
-              <div style="margin-bottom: 30px;">
-                <img class="card-img-right flex-auto d-none d-md-block img_right-pop" data-src="holder.js/200x250?theme=thumb" alt="사진" style="" src="/example/articleEx.png" data-holder-rendered="true">
-                <p class="p_right-pop-title">123456</p>
-                <p class="p_right-pop-text">조회수 10K</p>
-              </div>
+             </th:block>
               <!-- [pop] end -->
               <!-- [spot] start -->
               <div class="div_right-spot">
-                <h2 style="margin-bottom: 15px;">스폿</h2>
+                <h2 style="margin-bottom: 15px; font-size: 20px;">스폿</h2>
                 <img id="img_profile" class="img_right-spot" src="/example/profileEX.jpg" />수야
               </div>
               <div class="div_right-spot">
