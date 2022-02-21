@@ -71,12 +71,45 @@ public interface BlogPostRepository extends JpaRepository<BlogPost, Long> {
 			+ "WHERE p.id = :postId ")	
 	Optional<Map<String, Object>> findByIdJoinCategoryMap(@Param("postId")Long postId);
 	
-	@Query("SELECT "
-			+ "p "
-			+ "FROM BlogPost p INNER JOIN p.blogCategory c "
-			+ "WHERE c.id = :categoryId "
-			+ "ORDER BY p.createdDate DESC")
-	List<BlogPost> findByInfoIdAndCategoryOne(@Param("categoryId")Long categoryId, Pageable postCategoryPaging);
+//	@Query("SELECT "
+//			+ "p "
+//			+ "FROM BlogPost p INNER JOIN p.blogCategory c "
+//			+ "WHERE c.id = :categoryId "
+//			+ "ORDER BY p.createdDate DESC")
+	@Query(value =  
+			"SELECT "
+			+ "p.* "
+			+ "FROM blog_post p "
+			+ "WHERE p.blog_category_id IN (:categoryId) "
+			+ "ORDER BY p.id DESC "
+			+ "LIMIT 5 "
+			+ "OFFSET ((SELECT "
+			+ "			(MAX(rownum)-1) "
+			+ "			FROM blog_post) "
+			+ "		   - "
+			+ "		   (SELECT "
+			+ "			(MAX(rownum)-1) "
+			+ "			FROM BLOG_POST "
+			+ "			WHERE id <= :postId))", nativeQuery = true)
+	List<BlogPost> findByInfoIdAndCategoryOne(@Param("categoryId")Long categoryId, @Param("postId") Long postId);
 
-	
+	@Query(value =  
+			"SELECT "
+			+ "p.* "
+			+ "FROM blog_post p "
+			+ "WHERE p.blog_category_id IN (:categoryId) "
+			+ "AND p.id < (:postId+6) "
+			+ "ORDER BY p.id DESC "
+			+ "LIMIT 5 ", nativeQuery = true)	
+	List<BlogPost> findByInfoIdAndCategoryOnePrev(@Param("categoryId")Long categoryId, @Param("postId") Long postId);
+
+	@Query(value =  
+			"SELECT "
+			+ "p.* "
+			+ "FROM blog_post p "
+			+ "WHERE p.blog_category_id IN (:categoryId) "
+			+ "AND p.id < :postId "
+			+ "ORDER BY p.id DESC "
+			+ "LIMIT 5 ", nativeQuery = true)	
+	List<BlogPost> findByInfoIdAndCategoryOneNext(@Param("categoryId")Long categoryId, @Param("postId") Long postId);
 }

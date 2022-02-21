@@ -1,7 +1,6 @@
 package com.legacy.blog.service;
 
 import java.util.ArrayList;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,8 +30,11 @@ import com.legacy.blog.post.vo.BlogPostDtoImpl;
 import com.legacy.blog.reply.domain.BlogReply;
 import com.legacy.blog.reply.repository.BlogReplyRepository;
 import com.legacy.blog.reply.vo.BlogReplyDto;
+import com.legacy.blog.spot.dao.BlogSpotRepository;
+import com.legacy.blog.spot.domain.BlogSpot;
 import com.legacy.user.dao.UserRepository;
 import com.legacy.user.domain.User;
+import com.legacy.user.vo.UserDto;
 
 import lombok.RequiredArgsConstructor;
 
@@ -47,6 +49,7 @@ public class BlogService {
 	private final BlogPostRepository blogPostRepository;
 	private final BlogGoodRepository blogGoodRepository;
 	private final BlogReplyRepository blogReplyRepository;
+	private final BlogSpotRepository blogSpotRepository;
 
 	// BLOG_INFO 찾기
 	public Map<String, Object> selectHome(Long userId) {
@@ -55,9 +58,8 @@ public class BlogService {
 				 .orElseThrow(() -> new IllegalArgumentException("블로그가 없습니다."));
 		Pageable recommendPaging = PageRequest.of(0, 4);
 		List<BlogPostDtoImpl> recommendList = blogPostRepository.findByIsRecommendTrueImpl(blogInfo.getId(), recommendPaging);
-		Pageable postPaging = PageRequest.of(0, 7, Sort.Direction.DESC, "createdDate");
+		Pageable postPaging = PageRequest.of(0, 8, Sort.Direction.DESC, "createdDate");
 		List<Map<String, Object>> postDtoList = blogPostRepository.findAllRecent(blogInfo.getId(), postPaging);
-		
 		
 		map.put("blogInfoDto", new BlogInfoDto(blogInfo));		
 		if(!recommendList.isEmpty()) {
@@ -193,9 +195,10 @@ public class BlogService {
 				.orElseThrow(() -> new IllegalArgumentException("게시물이 없습니다."));
 		Pageable recommendPaging = PageRequest.of(0, 2);
 		List<BlogPostDtoImpl> recommendList = blogPostRepository.findByIsRecommendTrueNotThisPostIdImpl((Long)blogInfoDto.get("id"), postId, recommendPaging);		
-		Pageable postCategoryPaging = PageRequest.of(0, 4, Sort.Direction.DESC, "createdDate");
-		List<BlogPost> postCategoryDomainList = blogPostRepository.findByInfoIdAndCategoryOne((Long)blogPost.getBlogCategory().getId() , 
-				postCategoryPaging); // 다른 사람과 자신의 카테고리를 공유하지 않으니까
+		List<BlogPost> postCategoryDomainList = blogPostRepository.findByInfoIdAndCategoryOne((Long)blogPost.getBlogCategory().getId(),
+				blogPost.getId()); // 다른 사람과 자신의 카테고리를 공유하지 않으니까
+		Pageable spotPaging = PageRequest.of(0, 2);
+		List<BlogSpot> blogSpotList = blogSpotRepository.findByFollowerIdRandom(userId, spotPaging); // 블로거의 아이디
 		
 		// 블로그 정보 & 블로그 게시물
 		map.put("blogInfoDto", blogInfoDto); 
@@ -232,7 +235,13 @@ public class BlogService {
 		});
 		map.put("postCategoryList", postCategoryList);
 		// 해당 블로거의 스폿
-		
+		if(!blogSpotList.isEmpty()) {
+			List<UserDto> followeeList = new ArrayList<>();
+			blogSpotList.forEach((entity) -> {
+				followeeList.add(new UserDto(entity.getFolloweeUser()));
+			});
+			map.put("followeeList", followeeList);
+		}
 		return map;
 	}
 	
@@ -270,5 +279,100 @@ public class BlogService {
 			return 0L;
 		}
 		return blogReply.getId();
+	}
+
+	public Map<String, Object> selectCategoryListPrev(Long postId) {
+		Map<String, Object> map = new HashMap<>();
+		BlogPost blogPost = blogPostRepository.findById(postId)
+				.orElseThrow(() -> new IllegalArgumentException("게시글이 없습니다."));
+		List<BlogPost> postCategoryDomainList = blogPostRepository.findByInfoIdAndCategoryOnePrev((Long)blogPost.getBlogCategory().getId(),
+				postId);
+		if(postCategoryDomainList.isEmpty()) {
+			logger.debug("[값이 없음]");
+			map.put("ret", "0"); 
+		}else {
+			logger.debug("[값이 있음]");
+			int i =0; // i를 통해서 고유의 key를 만듬
+			for(BlogPost entity : postCategoryDomainList){
+				map.put("postId"+i, entity.getId());
+				map.put("postTitle"+i, entity.getTitle());
+				map.put("postDate"+i, entity.getCreatedDate());
+				if(entity.getBlogReplyList().isEmpty()) {
+					map.put("postMaxReply"+i, "0");
+				}else {
+					map.put("postMaxReply"+i, entity.getBlogReplyList().size());
+				}
+				i++;
+			}
+			map.put("ret", "1");
+		}
+		logger.debug("[이전 페이지 최종 결과]->"+map.toString());
+		return map;
+	}
+
+	public Map<String, Object> selectCategoryListNext(Long postId) {
+		Map<String, Object> map = new HashMap<>();
+		BlogPost blogPost = blogPostRepository.findById(postId)
+				.orElseThrow(() -> new IllegalArgumentException("게시글이 없습니다."));
+		List<BlogPost> postCategoryDomainList = blogPostRepository.findByInfoIdAndCategoryOneNext((Long)blogPost.getBlogCategory().getId(),
+				postId);
+		if(postCategoryDomainList.isEmpty()) {
+			logger.debug("[값이 없음]");
+			map.put("ret", "0"); 
+		}else {
+			logger.debug("[값이 있음]");
+			int i =0; // i를 통해서 고유의 key를 만듬
+			for(BlogPost entity : postCategoryDomainList){
+				map.put("postId"+i, entity.getId());
+				map.put("postTitle"+i, entity.getTitle());
+				map.put("postDate"+i, entity.getCreatedDate());
+				if(entity.getBlogReplyList().isEmpty()) {
+					map.put("postMaxReply"+i, "0");
+				}else {
+					map.put("postMaxReply"+i, entity.getBlogReplyList().size());
+				}
+				i++;
+			}
+			map.put("ret", "1");
+		}
+		logger.debug("[이전 페이지 최종 결과]->"+map.toString());
+		return map;
+	}
+
+	public String insertSpot(Long followerId, Long followeeId) {
+		if(followerId.equals(followeeId)) {
+			return "same";
+		}
+		Optional<BlogSpot> blogSpot = blogSpotRepository.findByFolloweeAndFollowerId(followerId, followeeId);
+		if(blogSpot.isPresent()) { // 만약 null일 경우
+			blogSpotRepository.save(BlogSpot.builder()
+					.followerUser(userRepository.findById(followerId).get())
+					.followeeUser(userRepository.findById(followeeId).get())
+					.build());
+			return "true";  
+		}
+		
+		return "false";
+	}
+
+	public Map<String, Object> selectSpotList(Long sessionId) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		Optional<BlogInfoDto> blogInfoDto = blogInfoRepository.findByUserIdDto(sessionId);
+		Pageable spotPage = PageRequest.of(0, 9);
+		List<BlogSpot> blogSpotList = blogSpotRepository.findByFollowerId(sessionId, spotPage);
+		
+		// 블로그 정보
+		if(blogInfoDto.isPresent()) { // null일 경우
+			map.put("blogInfo", BlogInfoDto.builder()
+					.name("내 스폿")
+					.headerColor("#FFF9B0")
+					.build());
+		}else {
+			map.put("blogInfoDto", blogInfoDto);
+		}
+		
+		// 스폿한 사람의 게시물???
+		
+		return null;
 	}
 }

@@ -98,7 +98,7 @@
                 <p class="card-text mb-auto">자신의 이야기를 소개하세요!</p>
                 <a href="#">더보기</a>
               </div>
-              <img class="card-img-right flex-auto d-none d-md-block" data-src="holder.js/200x250?theme=thumb" alt="사진" style="width: 200px; height: 250px;" src="/example/articleEx.png" data-holder-rendered="true">
+              <img class="card-img-right flex-auto d-none d-md-block" data-src="holder.js/200x250?theme=thumb" alt="게시글 없을 때 사진" style="width: 200px; height: 250px;" src="/blogs/nullThumbnail.jpg" data-holder-rendered="true">
             </div>
           </div>
           <div th:unless="${postDtoList == null}" th:each="postDto : ${postDtoList}" class="col-md-6">
@@ -111,7 +111,8 @@
                 <p th:text="${postDto.createdDate}" class="card-text mb-auto">2021-01-01</p>
                 <a th:href="@{|/blog/${userId}/view?id=${postDto.id}|}">더보기</a>
               </div>
-              <img th:onclick="|location.href='/blog/${userId}/view?id=${postDto.id}'|" class="card-img-right flex-auto d-none d-md-block" data-src="holder.js/200x250?theme=thumb" alt="사진" style="width: 200px; height: 250px;" src="/example/articleEx.png" data-holder-rendered="true">
+              <img th:if="${postDto.thumbnail == null || #strings.equals(postDto.thumbnail, '')}" th:onclick="|location.href='/blog/${userId}/view?id=${postDto.id}'|" class="card-img-right flex-auto d-none d-md-block" data-src="holder.js/200x250?theme=thumb" alt="썸네일이 없을 때 사진" style="width: 200px; height: 250px;" src="/blogs/nullThumbnail.jpg" data-holder-rendered="true">
+              <img th:unless="${postDto.thumbnail == null || #strings.equals(postDto.thumbnail, '')}" th:onclick="|location.href='/blog/${userId}/view?id=${postDto.id}'|" th:src="|${postDto.thumbnail }|" class="card-img-right flex-auto d-none d-md-block" data-src="holder.js/200x250?theme=thumb" th:alt="|${postDto.title }게시글 썸네일 사진|" style="width: 200px; height: 250px;" data-holder-rendered="true">
             </div>
           </div>          
         </div>

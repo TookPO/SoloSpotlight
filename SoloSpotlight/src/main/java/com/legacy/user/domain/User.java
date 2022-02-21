@@ -18,6 +18,7 @@ import javax.persistence.OneToOne;
 import com.legacy.blog.good.domain.BlogGood;
 import com.legacy.blog.info.domain.BlogInfo;
 import com.legacy.blog.reply.domain.BlogReply;
+import com.legacy.blog.spot.domain.BlogSpot;
 import com.legacy.notify.domain.Notify;
 
 import lombok.Builder;
@@ -72,6 +73,14 @@ public class User{
 	// [blogReply]
 	@OneToMany(mappedBy="user", fetch = FetchType.LAZY)
 	private List<BlogReply> blogReplyList = new ArrayList<>();
+	
+	// [blogSpot] follower
+	@OneToMany(mappedBy="followerUser", fetch = FetchType.LAZY)
+	private List<BlogSpot> followerList = new ArrayList<>();
+	
+	// [blogSpot] followee
+	@OneToMany(mappedBy="followeeUser", fetch = FetchType.LAZY)
+	private List<BlogSpot> followeeList = new ArrayList<>();
 	
 	@Builder
 	public User(Long id, String name, String email, String picture, Role role, int age, String location, String job,

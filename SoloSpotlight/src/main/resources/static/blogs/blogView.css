@@ -27,21 +27,21 @@ h1{
 	font-weight: 800;
 }
 
-a:link{
+#tbody_category-page-list tr td a:link{
 	text-decoration: none;
 	color: #343a40;
 }
 
-a:active{
+#tbody_category-page-list tr td a:active{
 	text-decoration: none;
 	color: #343a40;	
 }
-a:visited{
+#tbody_category-page-list tr td a:visited{
 	text-decoration: none;
 	color: #343a40;		
 }
 
-a:hover{
+#tbody_category-page-list tr td a:hover{
 	text-decoration: none;
 	color: #6c757d;	
 }
@@ -137,6 +137,25 @@ a:hover{
 .a_share-hover img{
 	display: block;
 	margin-bottom: 10px;
+}
+
+.a_reply-at-writed:link{
+	text-decoration: none;
+	color: #343a40;
+}
+
+.a_reply-at-writed:active{
+	text-decoration: none;
+	color: #343a40;	
+}
+.a_reply-at-writed:visited{
+	text-decoration: none;
+	color: #343a40;		
+}
+
+.a_reply-at-writed:hover{
+	text-decoration: none;
+	color: #6c757d;	
 }
 
 @media (max-width: 1200px) {

@@ -3,6 +3,7 @@ package com.legacy.blog.info.vo;
 import com.legacy.blog.info.domain.BlogInfo;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
 
@@ -22,5 +23,13 @@ public class BlogInfoDto {
 		this.intro = blogInfo.getIntro();
 		this.headerColor = blogInfo.getHeaderColor();
 		this.revenue = blogInfo.getRevenue();
+	}
+	
+	@Builder
+	public BlogInfoDto(Long id, String name, String intro, String headerColor) {
+		this.id = id;
+		this.name = name;
+		this.intro = intro;
+		this.headerColor = headerColor;
 	}
 }

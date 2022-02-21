@@ -13,7 +13,7 @@
   <body>
     <!-- [header] -->
     <header th:replace="fragment/blogHeader :: blogHeaderFragment"></header>
-    <input id="userId" type="hidden" value="${userId}">
+    <input id="userId" type="hidden" th:value="${userId}">
     <!-- [게시글 컨텐츠] 시작 -->
     <section class="section_blog-content">
       <div class="contact-us">
@@ -52,8 +52,8 @@
                                 <img class="img_profile-reply" style="margin-right: 10px;" th:src="|${blogReply.writerPicture }|" />[[${blogReply.writerName}]] <span th:text="${blogReply.createdDate }" style="margin-left: 10px;">2022. 1. 25. 20:00</span>
                                 <a class="a_report-link">신고</a>
                               </p>
-                              <p th:text="${blogReply.content }">댓글 내용</p>
-                              <button type="button" class="btn btn-outline-secondary" style="margin-right: 10px;">답글</button>
+                              <p th:utext="${blogReply.content }">댓글 내용</p>
+                              <button th:attr="onclick=|replyAtAdd('${blogReply.writerId }', '${blogReply.writerName }')|"  type="button" class="btn btn-outline-secondary" style="margin-right: 10px;">답글</button>
 <!--                          <button type="button" class="btn btn-outline-secondary active">
                                 <img src="/blogs/good_active.png" width="20" />&nbsp;12 </button> -->
                             </div>
@@ -70,7 +70,7 @@
                         </tr>                        
                         <tr th:unless="${user == null}" class="table-secondary">
                           <td colspan="3">
-                            <div style="margin-left: 15px; margin-right: 15px;">
+                            <div id="div_reply-write" style="margin-left: 15px; margin-right: 15px; ">
                               <p class="p_reply-user">
                                 <img class="img_profile-reply" style="margin-right: 10px;" th:src="|${user.picture }|" />[[${user.name}]]
                               </p>
@@ -88,43 +88,32 @@
                     <table class="table">
                       <thead class="table table-borderless">
                         <tr>
-                          <th>[[${blogPostDto.categoryTitle }]]</th>
-                          <th></th>
-                          <th></th>
+                          <th colspan="3">[[${blogPostDto.categoryTitle }]]</th>
                         </tr>
                       </thead>
-                      <tbody>
+                      <tbody id="tbody_category-page-list">
                         <tr th:each="postCategory : ${postCategoryList }" >
-                          <td>
-                            <a th:if="${#strings.equals(postCategory.id, blogPostDto.id)}" th:href="|/blog/${userId}/view?id=${postCategory.id}|" class="font-weight-bold">[[${postCategory.title}]] ([[${postCategory.replyMax }]])</a>
-                          	<a th:unless="${#strings.equals(postCategory.id, blogPostDto.id)}" th:href="|/blog/${userId}/view?id=${postCategory.id}|" >[[${postCategory.title}]] ([[${postCategory.replyMax }]])</a>
+                          <td colspan="2">
+                            <a th:if="${#strings.equals(postCategory.id, blogPostDto.id)}" th:href="|/blog/${userId}/view?id=${postCategory.id}|" style="font-size: 13px;" class="font-weight-bold">[[${postCategory.title}]] ([[${postCategory.replyMax }]])</a>
+                          	<a th:unless="${#strings.equals(postCategory.id, blogPostDto.id)}" th:href="|/blog/${userId}/view?id=${postCategory.id}|" style="font-size: 13px;">[[${postCategory.title}]] ([[${postCategory.replyMax }]])</a>
                           </td>
-                          <td></td>
                           <td th:text="${postCategory.createdDate }">2021-01-01</td>
                         </tr>
-                        <tr>
-                          <td>
-                            <ul class="pagination">
+                      </tbody>
+                      <tr>
+                      	  <td colspan="3">
+                      		<ul class="pagination justify-content-center">
                               <li class="page-item">
-                                <a class="page-link" href="#">Previous</a>
+                                <a id="btn_list-prev" class="page-link" style="color: #343a40;">이전</a>
                               </li>
                               <li class="page-item">
-                                <a class="page-link" href="#">1</a>
-                              </li>
-                              <li class="page-item">
-                                <a class="page-link" href="#">2</a>
-                              </li>
-                              <li class="page-item">
-                                <a class="page-link" href="#">3</a>
-                              </li>
-                              <li class="page-item">
-                                <a class="page-link" href="#">Next</a>
+                                <a id="btn_list-next" class="page-link" style="color: #343a40;">다음</a>
                               </li>
                             </ul>
-                          </td>
-                        </tr>
-                      </tbody>
+                      	  </td>
+                      </tr>
                     </table>
+                    
                   </div>
                   <!-- [게시글 리스트 하단] end -->
                 </div>
@@ -144,18 +133,16 @@
              </th:block>
               <!-- [pop] end -->
               <!-- [spot] start -->
-              <div class="div_right-spot">
-                <h2 style="margin-bottom: 15px; font-size: 20px;">스폿</h2>
-                <img id="img_profile" class="img_right-spot" src="/example/profileEX.jpg" />수야
+              <h2 style="margin-bottom: 15px; font-size: 20px;">스폿</h2>
+              <div th:if="${followeeList == null}" th:onclick="|location.href='/blog/${userId}'|" class="div_right-spot">
+                <img th:src="|${blogInfoDto.writerPicture }|" id="img_profile" class="img_right-spot"/>[[${blogInfoDto.writerName}]]
               </div>
-              <div class="div_right-spot">
-                <img id="img_profile" class="img_right-spot" src="/example/profileEX.jpg" />수야
-              </div>
-              <div class="div_right-spot" style="border-bottom: unset;">
-                <img id="img_profile" class="img_right-spot" src="/example/profileEX.jpg" />수야
+              <div th:unless="${followeeList == null}" th:each="followee : ${followeeList }" th:onclick="|location.href='/blog/${followee.id }'|" class="div_right-spot">
+                <img th:src="|${followee.picture }|" id="img_profile" class="img_right-spot" />[[${followee.name }]]
               </div>
               <div class="div_right-spot" style="border-bottom: unset;">
-                <button type="button" class="btn btn-outline-dark">스폿 하기</button>
+                <button th:if="${user == null}" class="btn btn-outline-dark" type="button" onClick="alert('로그인 후 이용해주세요!!');">스폿 하기</button>
+              	<button th:unless="${user == null}" id="btn_spot-add" class="btn btn-outline-dark" type="button">스폿 하기</button>
               </div>
               <!-- [pop] end -->
             </div>
@@ -166,10 +153,10 @@
     <!-- [게시글 컨텐츠] 종료 -->
     <!-- [공유 버튼] 시작 -->
     <div class="a_share-hover">
-      <img src="/blogs/share_kakao.png" title="카카오톡 공유하기" style="width: 35px;" alt="카카오톡 공유 버튼">
-      <img src="/blogs/share_instargram.png" title="인스타 공유하기" style="width: 35px;" alt="인스타 공유 버튼">
-      <img src="/blogs/share_facebook.png" title="페이스북 공유하기" style="width: 35px;" alt="페이스북 공유 버튼">
-      <img src="/blogs/share_naver-blog.png" title="네이버 공유하기" style="width: 35px;" alt="네이버 공유 버튼">
+      <img src="/blogs/share_kakao.png" title="카카오톡 공유하기" style="width: 35px;" onClick="shareKakao()" alt="카카오톡 공유 버튼">
+      <img src="/blogs/share_instargram.png" title="인스타 공유하기" style="width: 35px;" onClick="shareInstar()" alt="인스타 공유 버튼">
+      <img src="/blogs/share_facebook.png" title="페이스북 공유하기" style="width: 35px;" onClick="shareFaceBook()" alt="페이스북 공유 버튼">
+      <img src="/blogs/share_naver-blog.png" title="네이버 공유하기" style="width: 35px;" onClick="shareNaver()" alt="네이버 공유 버튼">
     </div>
     <!-- [공유 버튼] 종료 -->
     <!-- footer -->

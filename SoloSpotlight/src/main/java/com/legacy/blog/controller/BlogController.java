@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.legacy.blog.info.vo.BlogInfoDto;
 import com.legacy.blog.reply.vo.BlogReplyDto;
 import com.legacy.blog.service.BlogService;
 import com.legacy.user.config.LoginUser;
@@ -152,6 +153,7 @@ public class BlogController {
 		model.addAttribute("blogGoodMax", map.get("blogGoodMax"));
 		model.addAttribute("blogReplyDtoList", map.get("blogReplyDtoList"));
 		model.addAttribute("postCategoryList", map.get("postCategoryList"));
+		model.addAttribute("followeeList", map.get("followeeList"));
 		return "blog/blogView";
 	}
 	
@@ -173,6 +175,20 @@ public class BlogController {
 		return Long.toString(blogService.insertReply(data, user.getId()));
 	}
 	
+	// [이전 페이지] (최근 게시글 쪽으로)
+	@PostMapping("/{userId}/category/list/prev")
+	@ResponseBody
+	public Map<String, Object> blogCategoryListPrev(@RequestBody Map<String, Object> data) {
+		return blogService.selectCategoryListPrev(Long.valueOf(String.valueOf(data.get("postId"))));
+	}
+	 
+	// [다음 페이지] (오래전 게시글 쪽으로)
+	@PostMapping("/{userId}/category/list/next")
+	@ResponseBody
+	public Map<String, Object> blogCategoryListNext(@RequestBody Map<String, Object> data){
+		return blogService.selectCategoryListNext(Long.valueOf(String.valueOf(data.get("postId"))));
+	}
+	
 	// [블로그 관리]
 	@GetMapping("/admin")
 	public String blogAdmin(Model model) {
@@ -181,9 +197,28 @@ public class BlogController {
 		return "blog/blogAdmin";
 	}
 	
+	@PostMapping("/spot/add")
+	@ResponseBody
+	public String spotAdd(@RequestBody Map<String, Object> data,
+			@LoginUser SessionUser user) {
+		return blogService.insertSpot(user.getId(),
+				Long.valueOf(String.valueOf(data.get("followeeId"))));
+	}
+	
 	// [스폿 리스트]
 	@GetMapping("/spot/list")
-	public String spotList() {
+	public String spotList(Model model, @LoginUser SessionUser user) {
+		if(user == null) {
+			return "nullLogin";
+		}
+		Map<String, Object> map = blogService.selectSpotList(user.getId());
+		
+		BlogInfoDto blogInfo = BlogInfoDto.builder()
+				.headerColor("white")
+				.name("김지수")
+				.build();
+		model.addAttribute("blogInfoDto", blogInfo);
+		model.addAttribute("userId", "2");
 		
 		return "blog/spotList";
 	}
