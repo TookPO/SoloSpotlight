@@ -17,6 +17,11 @@ import com.legacy.blog.post.vo.BlogPostDtoImpl;
 public interface BlogPostRepository extends JpaRepository<BlogPost, Long> {
 	
 	@Query("SELECT "
+			+ "new com.legacy.blog.post.vo.BlogPostDto(p.id AS id, p.title AS title, p.content AS content, p.thumbnail AS thumbnail, p.viewCount AS viewCount, p.isPublic AS isPublic, p.createdDate AS createdDate ) "
+			+ "FROM BlogPost p ")
+	List<BlogPostDto> findByPopPost(Pageable popPaging);
+	
+	@Query("SELECT "
 			+ "p "
 			+ "FROM BlogPost p INNER JOIN p.blogInfo i "
 			+ "WHERE i.id = :infoId")
@@ -112,4 +117,25 @@ public interface BlogPostRepository extends JpaRepository<BlogPost, Long> {
 			+ "ORDER BY p.id DESC "
 			+ "LIMIT 5 ", nativeQuery = true)	
 	List<BlogPost> findByInfoIdAndCategoryOneNext(@Param("categoryId")Long categoryId, @Param("postId") Long postId);
+	
+	@Query(value =
+			"SELECT "
+			+ "p.id AS id, p.title AS title, p.content AS content, p.view_count AS viewCount, p.created_date AS createdDate, u.id AS writerId, u.name AS writerName, u.picture AS writerPicture "
+			+ "from BLOG_SPOT s "
+			+ "inner JOIN \"USER\" u ON s.followee_user_id = u.id "
+			+ "inner JOIN BLOG_INFO i ON u.id = i.user_id "
+			+ "inner JOIN BLOG_POST p ON i.id = p.blog_info_id "
+			+ "where s.follower_user_id = :followerId "
+			+ "ORDER BY p.created_date DESC ", nativeQuery = true)
+	List<Map<String, Object>> findByFollowerIdJoinInfoAndPost(@Param("followerId")Long followerId, Pageable spotPage);
+	
+	@Query(value=
+			"SELECT "
+			+ "p.id AS id, p.title AS title, p.content AS content, p.thumbnail AS thumbnail, p.view_count AS viewCount, p.is_public AS isPublic, p.created_date AS createdDate "
+			+ "FROM blog_post p "
+			+ "INNER JOIN blog_info i ON p.blog_info_id = i.id "
+			+ "INNER JOIN \"USER\" u ON i.user_id = u.id "
+			+ "WHERE u.id NOT IN (:userId) "
+			+ "ORDER BY rand(), p.created_date ", nativeQuery = true)
+	List<Map<String, Object>> findAllRandomNotUserId(@Param("userId")Long userId);
 }

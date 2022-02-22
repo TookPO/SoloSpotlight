@@ -1,6 +1,7 @@
 package com.legacy.blog.service;
 
 import java.util.ArrayList;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -340,39 +341,61 @@ public class BlogService {
 	}
 
 	public String insertSpot(Long followerId, Long followeeId) {
+		logger.debug("[아이디]->"+followerId+"/"+followeeId);
 		if(followerId.equals(followeeId)) {
 			return "same";
 		}
 		Optional<BlogSpot> blogSpot = blogSpotRepository.findByFolloweeAndFollowerId(followerId, followeeId);
-		if(blogSpot.isPresent()) { // 만약 null일 경우
-			blogSpotRepository.save(BlogSpot.builder()
-					.followerUser(userRepository.findById(followerId).get())
-					.followeeUser(userRepository.findById(followeeId).get())
-					.build());
-			return "true";  
+		if(blogSpot.isPresent()) { // 만약 null이 아닐경우
+			return "false";
 		}
+		blogSpotRepository.save(BlogSpot.builder()
+				.followerUser(userRepository.findById(followerId).get())
+				.followeeUser(userRepository.findById(followeeId).get())
+				.build());
 		
-		return "false";
+		return "true";  
 	}
 
 	public Map<String, Object> selectSpotList(Long sessionId) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		Optional<BlogInfoDto> blogInfoDto = blogInfoRepository.findByUserIdDto(sessionId);
-		Pageable spotPage = PageRequest.of(0, 9);
-		List<BlogSpot> blogSpotList = blogSpotRepository.findByFollowerId(sessionId, spotPage);
+		Pageable postPaging = PageRequest.of(0, 9);
+		List<Map<String, Object>> blogPostList = blogPostRepository.findByFollowerIdJoinInfoAndPost(sessionId, postPaging); 
+		if(blogPostList.isEmpty()) { // null일경우, 전체의 게시글중에 랜덤으로 조회 
+			blogPostList = blogPostRepository.findAllRandomNotUserId(sessionId);
+		}
 		
 		// 블로그 정보
-		if(blogInfoDto.isPresent()) { // null일 경우
-			map.put("blogInfo", BlogInfoDto.builder()
+		if(blogInfoDto.isPresent()) { // 값이 있을경우
+			map.put("blogInfoDto", blogInfoDto.get());
+		}else {
+			map.put("blogInfoDto", BlogInfoDto.builder()
 					.name("내 스폿")
 					.headerColor("#FFF9B0")
 					.build());
-		}else {
-			map.put("blogInfoDto", blogInfoDto);
 		}
+		// 스폿한 사람의 게시물 + 댓글
+		logger.debug("게시글 리스트 결과]->"+blogPostList.get(0).get("id"));
+		List<Map<String, Object>> postAndReplyList = new ArrayList<>();
+		Pageable replyPaging = PageRequest.of(0, 2, Sort.Direction.DESC, "createdDate");
 		
-		// 스폿한 사람의 게시물???
+		blogPostList.forEach((post) -> {
+			Map<String, Object> postAndReply = new HashMap<>();
+			// for문으로 빼낸 post
+			postAndReply.put("blogPostDto", post); 
+			// 좋아요 갯수
+			List<Long> blogGoodMax = blogGoodRepository.findByPostIdLong(Long.valueOf(String.valueOf(post.get("id"))));
+			postAndReply.put("blogGoodMax", blogGoodMax.size());
+			// 댓글 3개
+			List<BlogReplyDto> replyList = blogReplyRepository.findByPostId(Long.valueOf(String.valueOf(post.get("id")))
+						, replyPaging);
+			postAndReply.put("blogReplyDtoList", replyList);
+			postAndReplyList.add(postAndReply);
+		});
+		// map -> postAndReplyList -> postAndReply -> post, goodMax, reply
+		map.put("postAndReplyList", postAndReplyList);
 		
-		return null;
+		return map;
 	}
 }

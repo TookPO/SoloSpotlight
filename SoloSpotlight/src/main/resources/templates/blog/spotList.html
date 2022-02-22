@@ -17,59 +17,53 @@
     <section class="section_blog-content">
       <div class="contact-us">
         <div class="container">
-          <div class="row div_article-row mb-4">
-            <div class="col-lg-8 mt-4 ml-4">
+          <!-- root start -->
+          <div th:each="p : ${postAndReplyList }" class="row div_article-row mb-4">
+            <div class="col-lg-7 mt-4 ml-4">
               <div class="section-heading mb-4 mt-4">
-                <h1 class="mb-4 mt-4">블로그 제목 쓰는법</h1>
-				<h5 style="border-bottom: 1px solid #eee;"><img id="img_profile" class="mr-2 mb-3" src="/example/profileEX.jpg"/>수야</h5>
+                <h1 th:text="${p.blogPostDto.title }" class="mb-4 mt-4">게시글 제목</h1>
+				<h5 style="border-bottom: 1px solid #eee;">
+					<img th:src="|${p.blogPostDto.writerPicture }|" th:alt="|${p.blogPostDto.writerName }의 프로필|" id="img_profile" class="mr-2 mb-3"/>
+					[[${p.blogPostDto.writerName }]]
+				</h5>
               </div>
-              <div class="div_article-text"> 
-              이곳은 게시글을 작성하는 곳입니다. 
-              <span>더보기...</span>
+              <div th:utext="${p.blogPostDto.content }" class="div_article-text"> 
+              	게시글 
+              	<span>더보기...</span>
               </div>
-              <!-- [댓글 & 버튼] start -->
+              <!-- [좋아요 버튼] start -->
               <div class="container" style="margin-bottom: 100px;">
                 <div class="row">
                   <div class="col-12">
-                    <button type="button" class="btn btn-outline-secondary" style="margin-right: 10px;">공유</button>
-                    <button type="button" class="btn btn-outline-secondary">
-                      <img src="/blogs/good.png" width="25">&nbsp;12 </button>
-                    <!-- [좋아요 active] -->
-                    <button style="display: none" type="button" class="btn btn-outline-secondary active">
-                      <img src="/blogs/good_active.png" width="25">&nbsp;12 </button>
-                    <!-- [좋아요 active] -->
+                  	<button th:onclick="|location.href='/blog/${p.blogPostDto.writerId }/view?id=${p.blogPostDto.id }'|" type="button" class="btn btn-outline-secondary active">바로가기</button>
+                    <button type="button" class="btn btn-outline-secondary active" th:attr="onclick=|addGood('${p.blogPostDto.id }', '${p.blogPostDto.writerId }')|" >
+                      <img src="/blogs/good.png" width="25">&nbsp; [[${p.blogGoodMax }]]
+                    </button>                                           
                   </div>
                 </div>
               </div>
-              <!-- [댓글 & 버튼] end -->
+              <!-- [좋아요 버튼] end -->
             </div>
-            <div class="col-lg-2 mt-4">
-              <!-- [pop] start -->
-              <h2 class="mb-4 mt-4">답글</h2>
+            <!-- [댓글] start -->
+            <div th:if="${#lists.size(p.blogReplyDtoList) == 0}" class="col-lg-3 mt-4">
+              <h2 class="mb-4 mt-4">댓글</h2>
               <div style="margin-bottom: 30px;">
+                <p>작성된 글이 없습니다.</p>
+              </div>
+            </div>
+            <div th:unless="${#lists.size(p.blogReplyDtoList) == 0}" class="col-lg-4 mt-4">
+			  <h2 class="mb-4 mt-4">댓글</h2>
+              <div th:each="blogReply : ${p.blogReplyDtoList }" style="margin-bottom: 30px;">
                 <div class="div_right-spot mt-2" style="border-bottom: unset;">
-                	<h5><img class="img_right-spot img_profile-reply" src="/example/profileEX.jpg" />수야</h5>
+                	<h5><img th:src="|${blogReply.writerPicture }|" th:alt="|${blogReply.writerName }의 프로필|" class="img_right-spot img_profile-reply"/>[[${blogReply.writerName }]]</h5>
               	</div>
-                <p>123456</p>
-                <span class="mr-2" style="font-weight: 300;">21-01-03</span><span style="font-weight: 1000;">답글 달기</span>
+                <p th:utext="${blogReply.content }">댓글 내용</p>
+                <span th:text="${blogReply.createdDate }" class="mr-2" style="font-weight: 300;">21-01-03</span><span th:onclick="|location.href='/blog/${p.blogPostDto.writerId }/view?id=${p.blogPostDto.id }'|" style="font-weight: 1000;">답글 달기</span>
               </div>
-              <div style="margin-bottom: 30px;">
-                <div class="div_right-spot" style="border-bottom: unset;">
-                	<h5><img class="img_right-spot img_profile-reply" src="/example/profileEX.jpg" />수야</h5>
-              	</div>
-                <p>123456</p>
-                <span class="mr-2" style="font-weight: 300;">21-01-03</span><span style="font-weight: 1000;">답글 달기</span>
-              </div>
-              <div style="margin-bottom: 30px;">
-                <div class="div_right-spot" style="border-bottom: unset;">
-                	<h5><img class="img_right-spot img_profile-reply" src="/example/profileEX.jpg" />수야</h5>
-              	</div>
-                <p>123456</p>
-                <span class="mr-2" style="font-weight: 300;">21-01-03</span><span style="font-weight: 1000;">답글 달기</span>
-              </div>
-              <!-- [pop] end -->
-            </div>
+            </div>            
+            <!-- [댓글] end -->
           </div>
+		  <!-- root end -->          
         </div>
       </div>
     </section>
@@ -77,6 +71,6 @@
     <!-- [footer] -->
     <footer th:replace="fragment/allFooter :: allFooterFragment"></footer>
     <th:block th:replace="fragment/script :: scriptFragment"></th:block>
-    <script src="/blogs/blogView.js"></script>
+    <script src="/blogs/spotList.js"></script>
   </body>
 </html>

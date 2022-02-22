@@ -213,12 +213,9 @@ public class BlogController {
 		}
 		Map<String, Object> map = blogService.selectSpotList(user.getId());
 		
-		BlogInfoDto blogInfo = BlogInfoDto.builder()
-				.headerColor("white")
-				.name("김지수")
-				.build();
-		model.addAttribute("blogInfoDto", blogInfo);
-		model.addAttribute("userId", "2");
+		model.addAttribute("blogInfoDto", map.get("blogInfoDto"));
+		model.addAttribute("postAndReplyList", map.get("postAndReplyList"));
+		model.addAttribute("userId", user.getId());
 		
 		return "blog/spotList";
 	}

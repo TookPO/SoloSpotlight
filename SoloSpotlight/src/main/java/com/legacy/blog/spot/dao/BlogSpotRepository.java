@@ -1,14 +1,15 @@
 package com.legacy.blog.spot.dao;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import com.legacy.blog.post.domain.BlogPost;
 import com.legacy.blog.spot.domain.BlogSpot;
 
 public interface BlogSpotRepository extends JpaRepository<BlogSpot, Long> {
@@ -35,5 +36,6 @@ public interface BlogSpotRepository extends JpaRepository<BlogSpot, Long> {
 			+ "FROM blog_spot s "
 			+ "WHERE s.follower_user_id = :followerId ", nativeQuery = true)	
 	List<BlogSpot> findByFollowerId(@Param("followerId")Long followerId, Pageable spotPaging);
+	
 
 }
