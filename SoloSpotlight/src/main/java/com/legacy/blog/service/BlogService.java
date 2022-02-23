@@ -1,7 +1,6 @@
 package com.legacy.blog.service;
 
 import java.util.ArrayList;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,8 +32,10 @@ import com.legacy.blog.reply.repository.BlogReplyRepository;
 import com.legacy.blog.reply.vo.BlogReplyDto;
 import com.legacy.blog.spot.dao.BlogSpotRepository;
 import com.legacy.blog.spot.domain.BlogSpot;
+import com.legacy.user.config.LoginUser;
 import com.legacy.user.dao.UserRepository;
 import com.legacy.user.domain.User;
+import com.legacy.user.vo.SessionUser;
 import com.legacy.user.vo.UserDto;
 
 import lombok.RequiredArgsConstructor;
@@ -187,7 +188,8 @@ public class BlogService {
 					.blogCategory(blogCategory)
 					.build()).getId();
 	}
-
+	
+	@Transactional
 	public Map<String, Object> selectPostView(Long postId, Long userId) {
 		Map<String, Object> map = new HashMap<>();
 		Map<String, Object> blogInfoDto = blogInfoRepository.findByUserIdJoinUser(userId)
@@ -200,6 +202,10 @@ public class BlogService {
 				blogPost.getId()); // 다른 사람과 자신의 카테고리를 공유하지 않으니까
 		Pageable spotPaging = PageRequest.of(0, 2);
 		List<BlogSpot> blogSpotList = blogSpotRepository.findByFollowerIdRandom(userId, spotPaging); // 블로거의 아이디
+		// 조회수 증가
+		logger.debug("조회수 전 ->"+blogPost.getViewCount());
+		blogPost.updateCount();
+		logger.debug("조회수 후 ->"+blogPost.getViewCount());
 		
 		// 블로그 정보 & 블로그 게시물
 		map.put("blogInfoDto", blogInfoDto); 

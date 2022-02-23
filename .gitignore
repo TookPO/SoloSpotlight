@@ -117,4 +117,8 @@ gradle-app.setting
 # oauth2
 application-oauth.properties
 
+### my ignore ###
+application-email.properties
+
 # End of https://www.toptal.com/developers/gitignore/api/eclipse,java,gradle
+/SoloSpotlight/

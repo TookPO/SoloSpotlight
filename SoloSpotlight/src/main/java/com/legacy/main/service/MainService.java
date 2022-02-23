@@ -1,5 +1,6 @@
 package com.legacy.main.service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -26,14 +27,18 @@ public class MainService {
 	private final UserRepository userRepository;
 	
 	public Map<String, Object> selectMain() {
+		Map<String, Object> map = new HashMap<>();
 		// 인기있는 게시글 5개
-		Pageable popPostPaging = PageRequest.of(0, 4, Sort.Direction.DESC, "viewCount");
-		List<BlogPostDto> popPostList = blogPostRepository.findByPopPost(popPostPaging);
+		Pageable popPostPaging = PageRequest.of(0, 6, Sort.Direction.DESC, "viewCount");
+		List<Map<String, Object>> popPostList = blogPostRepository.findByPopPost(popPostPaging);
 		// 인기있는 블로거 6명
 		Pageable popUserPaging = PageRequest.of(0, 5);
-		List<UserDto> popUserList = userRepository.findByPopUser(popUserPaging);
+		List<Map<String, Object>> popUserList = userRepository.findByPopUser(popUserPaging);
 		
-		return null;
+		map.put("popPostList", popPostList);
+		map.put("popUserList", popUserList);
+		
+		return map;
 	}
 	
 	

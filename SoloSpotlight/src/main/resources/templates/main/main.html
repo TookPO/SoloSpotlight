@@ -5,112 +5,55 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Spotlight</title>
     <th:block th:replace="fragment/css :: cssFragment"></th:block>
+    <link rel="stylesheet" href="/main/main.css">
   </head>
   <body>
   	<!-- [header] -->
     <header th:replace="fragment/publicHeader :: publicHeaderFragment"></header>
-    <!-- [관리자 블로그] = 시작 -->
+    <!-- [인기 있는 게시글] = 시작 -->
     <section class="section">
       <div class="main-banner" id="top">
         <div class="container-fluid">
           <div class="row">
-            <div class="col-lg-6">
+            <div th:if="${popPostList != null }" class="col-lg-6">
               <div class="left-content">
                 <div class="thumb">
                   <div class="inner-content">
-                    <h4>제목 입니다.</h4>
-                    <span>내용은 이러쿵 저러쿵</span>
+                    <h4 th:text="${popPostList[0].title }">제목 입니다.</h4>
+                    <span th:text="|조회수 ${popPostList[0].viewCount }|">조회수 0</span>
                     <div class="main-border-button">
-                      <a href="#">바로가기!</a>
+                      <a th:href="|/blog/${popPostList[0].writerId }/view?id=${popPostList[0].id }|">바로가기!</a>
                     </div>
                   </div>
-                  <img src="assets/images/left-banner-image.jpg" alt="배너 이미지">
+                  <img th:if="${popPostList[0].thumbnail == null || #strings.equals(popPostList[0].thumbnail, '')}" src="/main/img_pop-post-one.jpg" alt="게시글 1등 사진">
                 </div>
               </div>
             </div>
-            <div class="col-lg-6">
+            <div th:if="${popPostList != null || #lists.size(popPostList) > 5 }" class="col-lg-6">
               <div class="right-content">
                 <div class="row">
-                  <div class="col-lg-6">
+                  <!-- root start -->
+                  <div th:each="i : ${#numbers.sequence(2, 5)}" class="col-lg-6">
                     <div class="right-first-image">
                       <div class="thumb">
                         <div class="inner-content">
-                          <h4>제목입니다.</h4>
-                          <span>내용은 이러쿵 저러쿵2</span>
+                          <h4 th:text="${popPostList[i].title }">제목</h4>
+                          <span th:text="|조회수 ${popPostList[i].viewCount }|">조회수 0</span>
                         </div>
                         <div class="hover-content">
                           <div class="inner">
-                            <h4>제목..</h4>
-                            <p>내용은 이러쿵 저러쿵</p>
+                            <h4 th:text="${popPostList[i].title }">제목</h4>
+                            <p th:text="${popPostList[i].createdDate }">2021-01-01</p>
                             <div class="main-border-button">
-                              <a href="#">바로가기!</a>
+                              <a th:href="|/blog/${popPostList[i].writerId }/view?id=${popPostList[i].id }|">바로가기!</a>
                             </div>
                           </div>
                         </div>
-                        <img src="assets/images/baner-right-image-01.jpg">
+                        <img src="/main/img_pop-post-root.jpg">
                       </div>
                     </div>
                   </div>
-                  <div class="col-lg-6">
-                    <div class="right-first-image">
-                      <div class="thumb">
-                        <div class="inner-content">
-                          <h4>Men</h4>
-                          <span>Best Clothes For Men</span>
-                        </div>
-                        <div class="hover-content">
-                          <div class="inner">
-                            <h4>Men</h4>
-                            <p>Lorem ipsum dolor sit amet, conservisii ctetur adipiscing elit incid.</p>
-                            <div class="main-border-button">
-                              <a href="#">Discover More</a>
-                            </div>
-                          </div>
-                        </div>
-                        <img src="assets/images/baner-right-image-02.jpg">
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-lg-6">
-                    <div class="right-first-image">
-                      <div class="thumb">
-                        <div class="inner-content">
-                          <h4>Kids</h4>
-                          <span>Best Clothes For Kids</span>
-                        </div>
-                        <div class="hover-content">
-                          <div class="inner">
-                            <h4>Kids</h4>
-                            <p>Lorem ipsum dolor sit amet, conservisii ctetur adipiscing elit incid.</p>
-                            <div class="main-border-button">
-                              <a href="#">Discover More</a>
-                            </div>
-                          </div>
-                        </div>
-                        <img src="assets/images/baner-right-image-03.jpg">
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-lg-6">
-                    <div class="right-first-image">
-                      <div class="thumb">
-                        <div class="inner-content">
-                          <h4>Accessories</h4>
-                          <span>Best Trend Accessories</span>
-                        </div>
-                        <div class="hover-content">
-                          <div class="inner">
-                            <h4>Accessories</h4>
-                            <p>Lorem ipsum dolor sit amet, conservisii ctetur adipiscing elit incid.</p>
-                            <div class="main-border-button">
-                              <a href="#">Discover More</a>
-                            </div>
-                          </div>
-                        </div>
-                        <img src="assets/images/baner-right-image-04.jpg">
-                      </div>
-                    </div>
-                  </div>
+				  <!-- root end -->
                 </div>
               </div>
             </div>
@@ -118,7 +61,7 @@
         </div>
       </div>
     </section>
-	<!-- [관리자 블로그] = 끝 -->
+	<!-- [인기 있는 게시글] = 끝 -->
 	
 	<!-- [High Spot] = 시작 -->
 	<section class="section" id="social">
@@ -134,72 +77,19 @@
         </div>
         <div class="container">
             <div class="row images">
-                <div class="col-2">
+            	<!--  -->
+                <div th:if="${popUserList != null }" th:each="popUser : ${popUserList }" class="col-2">
                     <div class="thumb">
                         <div class="icon">
-                            <a href="http://instagram.com">
-                                <h6>김지수</h6>
+                            <a th:href="|/user/info?id=${popUser.id }|">
+                                <h6 th:text="${popUser.name }">닉네임</h6>
                                 <i class="fa fa-instagram"></i>
                             </a>
                         </div>
-                        <img src="example/profileEX.jpg" alt="김지수의 프로필" width="100" height="100">
+                        <img th:src="|${popUser.picture }|" th:alt="|${popUser.name}의 프로필|" width="100" height="100">
                     </div>
                 </div>
-                <div class="col-2">
-                    <div class="thumb">
-                        <div class="icon">
-                            <a href="http://instagram.com">
-                                <h6>공유</h6>
-                                <i class="fa fa-instagram"></i>
-                            </a>
-                        </div>
-                        <img src="assets/images/instagram-02.jpg" alt="">
-                    </div>
-                </div>
-                <div class="col-2">
-                    <div class="thumb">
-                        <div class="icon">
-                            <a href="http://instagram.com">
-                                <h6>조나단</h6>
-                                <i class="fa fa-instagram"></i>
-                            </a>
-                        </div>
-                        <img src="assets/images/instagram-03.jpg" alt="">
-                    </div>
-                </div>
-                <div class="col-2">
-                    <div class="thumb">
-                        <div class="icon">
-                            <a href="http://instagram.com">
-                                <h6>Makeup</h6>
-                                <i class="fa fa-instagram"></i>
-                            </a>
-                        </div>
-                        <img src="assets/images/instagram-04.jpg" alt="">
-                    </div>
-                </div>
-                <div class="col-2">
-                    <div class="thumb">
-                        <div class="icon">
-                            <a href="http://instagram.com">
-                                <h6>Leather</h6>
-                                <i class="fa fa-instagram"></i>
-                            </a>
-                        </div>
-                        <img src="assets/images/instagram-05.jpg" alt="">
-                    </div>
-                </div>
-                <div class="col-2">
-                    <div class="thumb">
-                        <div class="icon">
-                            <a href="http://instagram.com">
-                                <h6>Bag</h6>
-                                <i class="fa fa-instagram"></i>
-                            </a>
-                        </div>
-                        <img src="assets/images/instagram-06.jpg" alt="">
-                    </div>
-                </div>
+				<!--  -->
             </div>
         </div>		
 	</section>
@@ -218,9 +108,9 @@
                         </div>
 						<textarea class="form-control" rows="5" id="qnaText" name="qnaText" placeholder="보내실 의견을 입력해주세요."></textarea><br>
                         <label for="qnaEmail" class="form-label">답변 받을 이메일:</label>
-    					<input type="email" class="form-control" id="qnaEmail" name="qnaEmail" placeholder="123@roby.com(공백 입력으로 생략 가능합니다.)">
+    					<input type="email" class="form-control" id="qnaEmail" name="qnaEmail" placeholder="123@roby.com(생략 가능합니다.)">
                         <div class="main-border-button">
-                            <a href="products.html">의견 보내기</a>
+                            <a id="btn_inquiry">의견 보내기</a>
                         </div>
                     </div>
                 </div>
@@ -263,5 +153,6 @@
 	<!-- [Footer] -->
 	<footer th:replace="fragment/allFooter :: allFooterFragment"></footer>
     <th:block th:replace="fragment/script :: scriptFragment"></th:block>
+    <script src="/main/main.js"> </script>
   </body>
 </html>

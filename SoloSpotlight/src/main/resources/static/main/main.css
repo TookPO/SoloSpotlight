@@ -1,21 +1,15 @@
 @charset "UTF-8";
 
-body{
-	background-color: #F8E2CF; 
-}
-
-/* 관리자 블로그 */
+/* 인기 있는 게시글 */
 /* #section_blog-random{
 	background: url(mainBg2.jpg) fixed;
 	height: 1000px;
 	opacity: 1.0;
 } */
 
-img{
-	border-radius: 5%;
-}
 
-/* 관리자 블로그 */
+
+/* 인기 있는 게시글 */
 #section_blog-manager{
 	padding-top: 90px;
     padding-bottom: 90px;

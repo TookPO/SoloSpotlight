@@ -1,10 +1,15 @@
 package com.legacy.user.controller;
 
+import java.util.List;
+import java.util.Map;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.legacy.user.config.LoginUser;
 import com.legacy.user.service.UserService;
@@ -22,7 +27,10 @@ public class UserController {
 	
 	// [유저 정보]
 	@GetMapping("/info")
-	public String userInfo() {
+	public String userInfo(@RequestParam("id") Long userId, Model model) {
+		Map<String, Object> map = userService.selectInfo(userId);
+		model.addAttribute("userDto", map.get("userDto"));
+		model.addAttribute("replyDtoList", map.get("replyDtoList"));
 		return "user/userInfo";
 	}
 	

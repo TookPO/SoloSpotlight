@@ -32,6 +32,7 @@ public class BlogPostDto {
 		this.good = blogPost.getGood();
 		this.isPublic = blogPost.getIsPublic();
 		this.categoryTitle = categoryTitle;
+		this.createdDate = blogPost.getCreatedDate();
 	}
 	
 	public BlogPostDto(BlogPost blogPost, List<BlogReply> replyList) {
@@ -41,6 +42,7 @@ public class BlogPostDto {
 		this.thumbnail = blogPost.getThumbnail();
 		this.viewCount = blogPost.getViewCount();
 		this.isPublic = blogPost.getIsPublic();
+		this.createdDate = blogPost.getCreatedDate();
 		if(replyList.isEmpty()) {
 			this.replyMax = 0;
 		}else {

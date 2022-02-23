@@ -17,9 +17,9 @@ import com.legacy.blog.post.vo.BlogPostDtoImpl;
 public interface BlogPostRepository extends JpaRepository<BlogPost, Long> {
 	
 	@Query("SELECT "
-			+ "new com.legacy.blog.post.vo.BlogPostDto(p.id AS id, p.title AS title, p.content AS content, p.thumbnail AS thumbnail, p.viewCount AS viewCount, p.isPublic AS isPublic, p.createdDate AS createdDate ) "
-			+ "FROM BlogPost p ")
-	List<BlogPostDto> findByPopPost(Pageable popPaging);
+			+ "new Map(p.id AS id, p.title AS title, p.content AS content, p.thumbnail AS thumbnail, p.viewCount AS viewCount, p.isPublic AS isPublic, p.createdDate AS createdDate, u.id AS writerId ) "
+			+ "FROM BlogPost p INNER JOIN p.blogInfo i INNER JOIN i.user u ")
+	List<Map<String, Object>> findByPopPost(Pageable popPaging);
 	
 	@Query("SELECT "
 			+ "p "

@@ -24,9 +24,11 @@ import com.legacy.notify.domain.Notify;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Getter
 @NoArgsConstructor
+@ToString(exclude = {"followeeList", "followerList"})
 @Entity
 public class User{	
 	@Id

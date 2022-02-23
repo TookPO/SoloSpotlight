@@ -93,4 +93,8 @@ public class BlogPost extends BaseTimeEntity {
 		this.blogGoodList = blogGoodList;
 		this.blogReplyList = blogReplyList;
 	}
+
+	public void updateCount() {
+		this.viewCount++;
+	}
 }

@@ -72,8 +72,8 @@
           </div>
           <div th:unless="${#lists.size(recommendList) == 1}" th:each="recommend : ${recommendList}" th:onclick="|location.href='/blog/${userId}/view?id=${recommend.id}'|" class="col-2">          
             <div class="thumb text-center">
-              <img th:if="${recommend.thumbnail == null || #strings.equals(recommend.thumbnail, '')}" src="/blogs/nullThumbnail.jpg" th:alt="${recommend.title}">
-              <img th:unless="${recommend.thumbnail == null || #strings.equals(recommend.thumbnail, '')}" th:src="|${recommend.thumbnail}|" th:alt="${recommend.title}">
+              <img th:if="${recommend.thumbnail == null || #strings.equals(recommend.thumbnail, '')}" src="/blogs/nullThumbnail.jpg" alt="썸네일 공백 사진">
+              <img th:unless="${recommend.thumbnail == null || #strings.equals(recommend.thumbnail, '')}" th:src="|${recommend.thumbnail}|" th:alt="|${recommend.title}게시글 썸네일 사진|">
               <div class="div_intro-font">
                 <h3 th:text="${recommend.title }">제목</h3>
                 <p th:text="${recommend.createdDate }">작성일</p>

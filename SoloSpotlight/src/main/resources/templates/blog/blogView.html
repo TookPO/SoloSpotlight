@@ -21,10 +21,10 @@
           <div class="row">
             <div class="col-lg-9">
               <div class="section-heading">
-                <h1 th:text="${blogPostDto.title}" style="margin-bottom: 40px;">블로그 제목</h1>
+                <h1 th:text="${blogPostDto.title}" style="margin-bottom: 40px;">게시글 제목</h1>
                 <img th:src="|${blogInfoDto.writerPicture }|" id="img_profile" class="mr-2" />[[${blogInfoDto.writerName}]] <span th:text="${blogPostDto.createdDate }" style="margin-left: 10px;">2022. 1. 25. 20:00</span>
               </div>
-              <div th:utext="${blogPostDto.content}" class="div_article-text mb-4"> 블로그 게시글 </div>
+              <div th:utext="${blogPostDto.content}" class="div_article-text mb-4">게시글 내용</div>
               <!-- [댓글 & 버튼] start -->
               <div style="margin-bottom: 100px;">
                 <div class="row">
@@ -50,7 +50,7 @@
                             <div style="margin-left: 15px;">
                               <p class="p_reply-user">
                                 <img class="img_profile-reply" style="margin-right: 10px;" th:src="|${blogReply.writerPicture }|" />[[${blogReply.writerName}]] <span th:text="${blogReply.createdDate }" style="margin-left: 10px;">2022. 1. 25. 20:00</span>
-                                <a class="a_report-link">신고</a>
+                                <a style="display: none;" class="a_report-link">신고</a>
                               </p>
                               <p th:utext="${blogReply.content }">댓글 내용</p>
                               <button th:attr="onclick=|replyAtAdd('${blogReply.writerId }', '${blogReply.writerName }')|"  type="button" class="btn btn-outline-secondary" style="margin-right: 10px;">답글</button>

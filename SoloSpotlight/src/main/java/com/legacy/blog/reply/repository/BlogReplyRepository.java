@@ -17,4 +17,10 @@ public interface BlogReplyRepository extends JpaRepository<BlogReply, Long> {
 			+ "FROM BlogReply r INNER JOIN r.blogPost p INNER JOIN r.user u "
 			+ "WHERE p.id = :postId ")
 	List<BlogReplyDto> findByPostId(@Param("postId")Long postId, Pageable replyPaging);
+	
+	@Query("SELECT "
+			+ "r "
+			+ "FROM BlogReply r INNER JOIN r.user u "
+			+ "WHERE u.id = :userId ")
+	List<BlogReply> findByUserId(@Param("userId")Long userId, Pageable page);
 }

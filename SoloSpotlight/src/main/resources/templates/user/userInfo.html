@@ -16,11 +16,11 @@
         <div class="row div_layout-border">
           <div class="col-10 ml-4 mb-4 text-left">
             <div class="ml-4">
-              <img class="img_profile-info mr-3" src="/example/profileEX.jpg" />
+              <img th:src="|${userDto.picture }|" th:alt="|${userDto.name}의 프로필사진|" class="img_profile-info mr-3"/>
             </div>
             <div class="mt-4">
-              <h2>블링크</h2>
-              	<p class="p_info-spec mt-1">&nbsp;조회수 10만</p>              
+              <h2 th:text="${userDto.name }">블링크</h2>
+              	<p th:text="| 팔로워 ${userDto.followeeSize }|" class="p_info-spec mt-1"> 팔로워 10</p>              
             </div>
           </div>
           
@@ -43,38 +43,37 @@
         	<div class="col-3 div_user-box">
         		<div class="mb-4">
 					<h4>나이:</h4>
-        			<input type="number" class="form-control" id="usr">
+					<input th:if="${userDto.age > 0}" th:value="${userDto.age }" type="number" class="form-control" id="usr">
+        			<input th:unless="${userDto.age > 0}" type="number" class="form-control" id="usr">
 				</div>
 				<div class="mb-4">
 					<h4>지역:</h4>
-        			<input type="text" class="form-control" id="usr">
+        			<input th:value="${userDto.location }" type="text" class="form-control" id="usr">
 				</div>
 				<div class="mb-4">
 					<h4>직업:</h4>
-        			<input type="text" class="form-control" id="usr">
+        			<input th:value="${userDto.job }" type="text" class="form-control" id="usr">
 				</div>
 				<div class="mb-4 text-center div_fix-btn">
-					<button type="button" class="btn btn-secondary btn_info-fix">수정하기</button>
+					<button type="button" class="btn btn-secondary btn_info-fix" onClick="alert('구현되지 않은 기능입니다.');">수정하기</button>
 				</div>
         	</div>
         	<!-- [상세 정보] end -->
         	<div class="col-8 ml-4 div_history-box">
-        		<div class="mb-4 div_info-history-box">
-        			<p class="p_info-history-log">>답글을 남겼습니다.</p>
-        			<h4 class="h4_info-history-title">
-        				<img class="img_info-history mr-2" alt="사진" src="/example/articleEx.png">
-        				풍경이 좋아 123[0개]
-        			</h4>
-        			<span>작성자:&nbsp;수야 123</span>
-        		</div>
-        		<div class="mb-4 div_info-history-box">
-        			<p class="p_info-history-log">>답글을 남겼습니다.</p>
-        			<h4 class="h4_info-history-title">
-        				<img class="img_info-history mr-2" alt="사진" src="/example/articleEx.png">
-        				풍경이 좋아 123[0개]
-        			</h4>
-        			<span>작성자:&nbsp;수야 123</span>
+        		<!-- root start -->
+        		<div th:if="${replyDtoList == null}" class="mb-2 div_info-history-box">
+        			<h4 class="h4_info-history-title">작성한 댓글이 없습니다.</h4>
         		</div>        		
+        		<div th:unless="${replyDtoList == null}" th:each="replyDto : ${replyDtoList }" th:onclick="|location.href='/blog/${replyDto.userId }/view?id=${replyDto.postId}'|" class="mb-4 div_info-history-box">
+        			<h5 class="p_info-history-log mb-2">댓글을 남겼습니다.</h5>
+        			<h4 class="h4_info-history-title">
+        				<img th:if="${replyDto.thumbnail == null || #strings.equals(replyDto.thumbnail, '')}" src="/blogs/nullThumbnail.jpg" alt="썸네일 공백 사진" class="img_info-history mr-2">
+        				<img th:unless="${replyDto.thumbnail == null || #strings.equals(replyDto.thumbnail, '')}" th:src="|${replyDto.thumbnail }|" th:alt="|${replyDto.title }의 썸네일|" class="img_info-history mr-2">
+        				[[${replyDto.title }]]
+        			</h4>
+        			<span style="font-size: 10px;">작성자 :[[${replyDto.writerName }]]</span>
+        		</div>
+       			<!-- root end -->
         	</div>        	
         </div>
         <!-- [정보] end -->
