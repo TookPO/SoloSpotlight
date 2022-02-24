@@ -7,6 +7,7 @@ import com.legacy.blog.post.domain.BlogPost;
 import com.legacy.blog.reply.domain.BlogReply;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @Getter
@@ -19,6 +20,8 @@ public class BlogPostDto {
 	private Long viewCount;
 	private Integer good;
 	private Boolean isPublic;
+	private Boolean isDelete;
+	private Boolean isRecommend;	
 	private LocalDateTime createdDate;
 	private String categoryTitle;
 	private int replyMax;
@@ -29,10 +32,11 @@ public class BlogPostDto {
 		this.content = blogPost.getContent();
 		this.thumbnail = blogPost.getThumbnail();
 		this.viewCount = blogPost.getViewCount();
-		this.good = blogPost.getGood();
 		this.isPublic = blogPost.getIsPublic();
+		this.isDelete = blogPost.getIsDelete();
+		this.isRecommend = blogPost.getIsRecommend();
+		this.createdDate = blogPost.getCreatedDate();	
 		this.categoryTitle = categoryTitle;
-		this.createdDate = blogPost.getCreatedDate();
 	}
 	
 	public BlogPostDto(BlogPost blogPost, List<BlogReply> replyList) {
@@ -59,5 +63,17 @@ public class BlogPostDto {
 		this.viewCount = viewCount;
 		this.isPublic = isPublic;
 		this.createdDate = createdDate;
+	}
+
+	public BlogPostDto(BlogPost blogPost) {
+		this.id = blogPost.getId();
+		this.title = blogPost.getTitle();
+		this.content = blogPost.getContent();
+		this.thumbnail = blogPost.getThumbnail();
+		this.viewCount = blogPost.getViewCount();
+		this.isPublic = blogPost.getIsPublic();
+		this.isDelete = blogPost.getIsDelete();
+		this.isRecommend = blogPost.getIsRecommend();
+		this.createdDate = blogPost.getCreatedDate();	
 	}	
 }

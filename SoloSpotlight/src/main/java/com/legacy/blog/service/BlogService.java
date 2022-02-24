@@ -32,10 +32,10 @@ import com.legacy.blog.reply.repository.BlogReplyRepository;
 import com.legacy.blog.reply.vo.BlogReplyDto;
 import com.legacy.blog.spot.dao.BlogSpotRepository;
 import com.legacy.blog.spot.domain.BlogSpot;
-import com.legacy.user.config.LoginUser;
+import com.legacy.notify.dao.NotifyRepository;
+import com.legacy.notify.domain.Notify;
 import com.legacy.user.dao.UserRepository;
 import com.legacy.user.domain.User;
-import com.legacy.user.vo.SessionUser;
 import com.legacy.user.vo.UserDto;
 
 import lombok.RequiredArgsConstructor;
@@ -52,6 +52,7 @@ public class BlogService {
 	private final BlogGoodRepository blogGoodRepository;
 	private final BlogReplyRepository blogReplyRepository;
 	private final BlogSpotRepository blogSpotRepository;
+	private final NotifyRepository notifyRepository;
 
 	// BLOG_INFO 찾기
 	public Map<String, Object> selectHome(Long userId) {
@@ -131,8 +132,7 @@ public class BlogService {
 		
 		// 카테고리 등록
 		List<BlogCategory> entityList = blogCategoryRepository.findByBlogInfoId(blogInfo.getId());
-		logger.debug("[카테고리 리스트] ->"+entityList.get(0).getTitle());
-		logger.debug("[카테고리 리스트] ->"+entityList.get(1).getTitle());		
+		logger.debug("[카테고리 리스트] ->"+entityList.get(0).getTitle());	
 		logger.debug("[카테고리 사이즈] ->"+entityList.size()+"/ 수정 할 사이즈 ->"+categoryList.size());
 		int i = 0;
 		for(String category: categoryList) {
@@ -200,6 +200,10 @@ public class BlogService {
 		List<BlogPostDtoImpl> recommendList = blogPostRepository.findByIsRecommendTrueNotThisPostIdImpl((Long)blogInfoDto.get("id"), postId, recommendPaging);		
 		List<BlogPost> postCategoryDomainList = blogPostRepository.findByInfoIdAndCategoryOne((Long)blogPost.getBlogCategory().getId(),
 				blogPost.getId()); // 다른 사람과 자신의 카테고리를 공유하지 않으니까
+		if(postCategoryDomainList.isEmpty()) {
+			postCategoryDomainList = blogPostRepository.findByInfoIdAndCategoryOneReverse((Long)blogPost.getBlogCategory().getId(),
+					blogPost.getId());
+		}
 		Pageable spotPaging = PageRequest.of(0, 2);
 		List<BlogSpot> blogSpotList = blogSpotRepository.findByFollowerIdRandom(userId, spotPaging); // 블로거의 아이디
 		// 조회수 증가
@@ -252,6 +256,41 @@ public class BlogService {
 		return map;
 	}
 	
+	public Map<String, Object> selectOnePost(Long postId) {
+		Map<String, Object> map = new HashMap<>();
+		Optional<BlogPost> blogPost = blogPostRepository.findById(postId);
+		if(blogPost.isPresent()) { // 값이 있으면
+			map.put("blogPostDto", new BlogPostDto(blogPost.get(), 
+					blogPost.get().getBlogCategory().getTitle()));
+			map.put("blogInfoDto", new BlogInfoDto(blogPost.get()
+					.getBlogInfo()));
+			List<BlogCategoryDto> categoryList = new ArrayList<>();
+			blogPost.get().getBlogInfo()
+			.getBlogCategoryList().forEach((blogCategory) -> {
+				categoryList.add(new BlogCategoryDto(blogCategory));
+			});
+			map.put("categoryList", categoryList);
+		}
+		
+		return map;
+	}
+	
+	@Transactional
+	public String updateOnePost(Map<String, Object> data) {
+		BlogPost blogPost = blogPostRepository.findById(Long.valueOf(String.valueOf(data.get("postId"))))
+				.orElseThrow(() -> new IllegalArgumentException("게시글이 없습니다."));
+		blogPost.update(data,
+				blogCategoryRepository.findById(Long.valueOf(String.valueOf(data.get("categoryId")))).get());
+		return String.valueOf(blogPost.getId());
+	}
+	
+	public void deleteOnePost(Long postId) {
+		BlogPost blogPost = blogPostRepository.findById(postId)
+				.orElseThrow(() -> new IllegalArgumentException("게시글이 없습니다."));
+		
+		blogPostRepository.delete(blogPost);
+	}	
+	
 	public Long insertGood(Long postId, Long userId) {
 		// 이전 좋아요 확인
 		BlogGood blogGood = blogGoodRepository.findByUserIdAndPostId(userId, postId);
@@ -281,6 +320,14 @@ public class BlogService {
 					.blogPost(blogPost)
 					.user(user)
 					.build());
+		if(!data.get("replyAtId").equals("")) {
+			notifyRepository.save(Notify.builder()
+					.division("replyAt")
+					.information(String.valueOf(data.get("replyAtInfo")))
+					.message(blogReply.getUser().getName()+"님이 답글을 남겼습니다.")
+					.user(userRepository.findById(Long.valueOf(String.valueOf( data.get("replyAtId") ))).get())
+					.build());
+		}		
 		logger.debug("[저장한 REPLY]"+blogReply.getContent());
 		if(blogPost == null) {
 			return 0L;

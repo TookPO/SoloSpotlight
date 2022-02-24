@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,8 +18,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.legacy.blog.info.vo.BlogInfoDto;
-import com.legacy.blog.reply.vo.BlogReplyDto;
 import com.legacy.blog.service.BlogService;
 import com.legacy.user.config.LoginUser;
 import com.legacy.user.vo.SessionUser;
@@ -91,7 +90,7 @@ public class BlogController {
 		Map<String, Object> map = blogService.selectInfoUpdate(user.getId());
 		model.addAttribute("userId", user.getId());
 		model.addAttribute("blogInfoDto", map.get("blogInfoDto"));
-		
+		model.addAttribute("categoryList", map.get("categoryList"));
 		return "blog/blogUpdate";
 	}
 	
@@ -155,6 +154,50 @@ public class BlogController {
 		model.addAttribute("postCategoryList", map.get("postCategoryList"));
 		model.addAttribute("followeeList", map.get("followeeList"));
 		return "blog/blogView";
+	}
+	
+	// [게시글 수정 입력]
+	@GetMapping("/{userId}/update")
+	public String blogPostUpdate(@PathVariable Long userId, 
+			@LoginUser SessionUser user, @RequestParam("id")Long postId, Model model) {
+		if(user == null) {
+			return "nullLogin";
+		}else if(!user.getId().equals(userId)) {
+			return "nullLogin";
+		}
+		Map<String, Object> map = blogService.selectOnePost(postId);
+		if(map.containsKey("blogPostDto") == false) {
+			return "blog/blogPostNull";
+		}
+		model.addAttribute("blogInfoDto", map.get("blogInfoDto"));
+		model.addAttribute("blogPostDto", map.get("blogPostDto"));
+		model.addAttribute("categoryList", map.get("categoryList"));
+		return "blog/blogPostUpdate";
+	}
+	
+	// [게시글 수정 완료]
+	@PutMapping("/{userId}/update")
+	@ResponseBody
+	public String blogPostUpdateDone(@RequestBody Map<String, Object> data) {
+		logger.debug("카테고리 아이디]->"+data.get("categoryId"));
+		return blogService.updateOnePost(data);
+	}
+	
+	// [게시글 삭제]
+	@DeleteMapping("/{userId}/delete")
+	@ResponseBody
+	public String blogPostDelete(@RequestBody Map<String, Object> data, 
+			@PathVariable Long userId, @LoginUser SessionUser user) {
+		if(user == null) {
+			return "0";
+		}
+		
+		if(user.getId().equals(userId)) {
+			blogService.deleteOnePost(Long.valueOf(String.valueOf(data.get("postId"))));
+			return "1";
+		}
+		
+		return "0";
 	}
 	
 	// [블로그 좋아요 등록]

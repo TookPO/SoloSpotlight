@@ -35,9 +35,19 @@
             <div id="category-list" class="row">
               <div class="col-md-3 mb-3">
                 <label>카테고리</label>
-                <input type="text" id="firstCategory" class="form-control category" name="category" size="8" maxlength="10" placeholder="" required>
-                <div class="invalid-feedback"> 카테고리는 1개 이상입니다. </div>
+                <input th:if="${categoryList == null}" type="text" id="firstCategory" class="form-control category" name="category" size="8" maxlength="10" placeholder="" required>
+                <input th:unless="${categoryList == null}" th:value="${categoryList[0] }" type="text" id="firstCategory" class="form-control category" name="category" size="8" maxlength="10" placeholder="" required>
+               	
+               	<div class="invalid-feedback"> 카테고리는 1개 이상입니다. </div>
               </div>
+             <th:block th:unless="${categoryList == null}" th:each="category, i : ${categoryList}">
+              <div th:if="${i.index > 0}" class="col-md-3 mb-3 plus_category_2">
+              	<input th:value="${category }" type="text" class="form-control div_plus-category-input category" name="category" maxlength="10" placeholder="" required="">
+              	<div class="invalid-feedback"> 
+              		카테고리를 입력하세요. 
+              	</div>
+              </div>
+             </th:block>
               <div id="div_plus-category-btn" class="col-md-3 mb-3">
                 <button id="btn_category-plus" type="button" class="btn btn-secondary">+</button>
                 <button id="btn_category-minus" type="button" class="btn btn-secondary">-</button>
@@ -47,7 +57,7 @@
             <div class="d-block my-3">
 
               <div class="custom-control custom-radio">
-                <input id="credit" name="headerColor" type="radio" class="custom-control-input" th:value="${blogInfoDto.headerColor}" checked="" required=""  checked>
+                <input id="credit" name="headerColor" type="radio" class="custom-control-input" th:value="${blogInfoDto.headerColor}" checked>
                 <label class="custom-control-label" for="credit" >기존 색상</label>
               </div>            
               <div class="custom-control custom-radio">
@@ -70,6 +80,9 @@
       </div>
     </section>
     <!-- [입력 양식] 끝 -->
+    <!-- [modal] -->
+	<th:div th:if="${user == null}" th:replace="fragment/loginModal :: loginModalFragment"></th:div>
+        
     <!-- [footer] -->
     <footer th:replace="fragment/allFooter :: allFooterFragment"></footer>
     <th:block th:replace="fragment/script :: scriptFragment"></th:block>

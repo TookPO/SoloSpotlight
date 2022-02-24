@@ -57,6 +57,9 @@
 		</div>
 		<!-- [정보] end -->
 	</section>
+    <!-- [modal] -->
+	<th:div th:if="${user == null}" th:replace="fragment/loginModal :: loginModalFragment"></th:div>
+    	
 	<!-- [Footer] -->
 	<th:block th:replace="fragment/script :: scriptFragment"></th:block>
 	<footer th:replace="fragment/allFooter :: allFooterFragment"></footer>

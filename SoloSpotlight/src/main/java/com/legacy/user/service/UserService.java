@@ -69,6 +69,18 @@ public class UserService {
 		map.put("replyDtoList", replyDtoList);
 		return map;
 	}
+
+	public List<Map<String, Object>> selectNotifyList(Long userId, String filter) {
+		List<Map<String, Object>> notifyList;
+		Pageable page = PageRequest.of(0, 10, Sort.Direction.DESC, "createdDate");
+		if(filter.equals("all")) {
+			notifyList = notifyRepository.findByUserId(userId, page);
+		}else {
+			notifyList = notifyRepository.findByUserIdFilter(userId, filter, page);
+		}
+		
+		return notifyList;
+	}
 	
 	
 }

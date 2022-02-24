@@ -13,9 +13,17 @@ import com.legacy.notify.domain.Notify;
 
 public interface NotifyRepository extends JpaRepository<Notify, Long> {
 	 @Query("SELECT "
-	  		  + "new Map(n.message AS message) " 
+	  		  + "new Map(n.division AS division, n.message AS message, n.information AS information) " 
 			  + "FROM Notify n INNER JOIN n.user u " 
-			  + "WHERE u.id = :user_id " 
+			  + "WHERE u.id = :userId " 
 			  + "ORDER BY n.createdDate DESC") 
-	  List<Map<String, Object>> findByUserId(@Param("user_id") Long id, Pageable paging); 
+	  List<Map<String, Object>> findByUserId(@Param("userId") Long id, Pageable paging);
+
+	 @Query("SELECT "
+	  		  + "new Map(n.division AS division, n.message AS message, n.information AS information) "
+			  + "FROM Notify n INNER JOIN n.user u " 
+			  + "WHERE u.id = :userId "
+			  + "AND filter = :filter " 
+			  + "ORDER BY n.createdDate DESC ") 	 
+	List<Map<String, Object>> findByUserIdFilter(@Param("userId")Long userId,@Param("filter")String filter, Pageable page); 
 }

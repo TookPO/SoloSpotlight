@@ -97,7 +97,25 @@ public interface BlogPostRepository extends JpaRepository<BlogPost, Long> {
 			+ "			FROM BLOG_POST "
 			+ "			WHERE id <= :postId))", nativeQuery = true)
 	List<BlogPost> findByInfoIdAndCategoryOne(@Param("categoryId")Long categoryId, @Param("postId") Long postId);
+	
+	@Query(value =  
+			"SELECT "
+			+ "p.* "
+			+ "FROM blog_post p "
+			+ "WHERE p.blog_category_id IN (:categoryId) "
+			+ "ORDER BY p.id DESC "
+			+ "LIMIT 5 "
+			+ "OFFSET ((SELECT "
+			+ "			(MAX(rownum)-1) "
+			+ "			FROM blog_post) "
+			+ "		   - "
+			+ "		   (SELECT "
+			+ "			(MAX(rownum)-1) "
+			+ "			FROM BLOG_POST "
+			+ "			WHERE id >= :postId))", nativeQuery = true)
+	List<BlogPost> findByInfoIdAndCategoryOneReverse(@Param("categoryId")Long categoryId, @Param("postId") Long postId);
 
+	
 	@Query(value =  
 			"SELECT "
 			+ "p.* "

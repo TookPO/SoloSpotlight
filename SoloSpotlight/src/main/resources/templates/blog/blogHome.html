@@ -119,7 +119,9 @@
       </div>
     </section>
     <!-- [게시글 목록] 끝 -->
-    
+    <!-- [modal] -->
+	<th:div th:if="${user == null}" th:replace="fragment/loginModal :: loginModalFragment"></th:div>
+        
     <!-- [footer] -->
     <footer th:replace="fragment/allFooter :: allFooterFragment"></footer>
     <th:block th:replace="fragment/script :: scriptFragment"></th:block>

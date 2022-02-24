@@ -15,7 +15,12 @@
             <!-- ***** Menu Start ***** -->
             <ul id="ul_blog-nav" class="nav">
               <li class="scroll-to-section">
-                <a th:href="@{|/blog/${userId}|}">블로그 홈</a>
+              	<a th:if="${user == null}" data-toggle="modal" data-target="#login_modal">내 블로그</a>
+              	<a th:unless="${user == null}" class="dropdown-toggle" data-toggle="dropdown">내 블로그</a>
+        		<div th:unless="${user == null}" class="dropdown-menu">
+    				<a class="dropdown-item" th:href="@{|/blog/${user.id}|}">블로그 홈</a>
+    				<a class="dropdown-item" th:href="@{|/blog/update|}" href="#">블로그 수정</a>
+  				</div>        	
               </li>
               <li class="scroll-to-section">
                 <a href="/blog/spot/list">내 스폿</a>
@@ -46,12 +51,12 @@
                      <th:block th:if="${notifyList == null}">
                      	<a class="dropdown-item" href="#">정보가 없습니다!</a>
                      </th:block>
-                     <th:block th:unless="${notifyList == null}" th:each="map : ${notifyList}">
-                       <th:block th:each="notify : ${map}" >
-                      	<a th:text="${notify.value}" class="dropdown-item" href="#"></a>
+                     <th:block th:unless="${notifyList == null || #lists.size(notifyList) < 1 }" th:each="notify : ${notifyList}">
+                       <th:block >
+                      	<a th:text="${notify.message }" style="text-overflow: hidden;" class="dropdown-item" href="#"></a>
                        </th:block>
-                     </th:block>                     
-                        <a class="dropdown-item" href="#">더보기</a>
+                     </th:block>                    
+                        <a class="dropdown-item" href="/user/notify">더보기</a>
                   </div>
                 </div>
                </li>

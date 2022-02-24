@@ -1,8 +1,11 @@
 package com.legacy.blog.post.domain;
 
 import java.util.ArrayList;
-import java.util.List;
 
+import java.util.List;
+import java.util.Map;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -68,11 +71,13 @@ public class BlogPost extends BaseTimeEntity {
 	private BlogCategory blogCategory;
 	
 	// blogGood
-	@OneToMany(mappedBy = "blogPost", fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "blogPost", fetch = FetchType.LAZY, 
+			cascade = { CascadeType.REMOVE })
 	private List<BlogGood> blogGoodList  = new ArrayList<>();
 	
 	// blogReply
-	@OneToMany(mappedBy = "blogPost", fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "blogPost", fetch = FetchType.LAZY,
+			cascade = { CascadeType.REMOVE })
 	private List<BlogReply> blogReplyList = new ArrayList<>();
 
 	@Builder
@@ -96,5 +101,14 @@ public class BlogPost extends BaseTimeEntity {
 
 	public void updateCount() {
 		this.viewCount++;
+	}
+
+	public void update(Map<String, Object> data, BlogCategory blogCategory) {
+		this.title = String.valueOf(data.get("title"));
+		this.content = String.valueOf(data.get("content"));
+		this.thumbnail = String.valueOf(data.get("thumbnail"));
+		this.isPublic = Boolean.parseBoolean(String.valueOf(data.get("isPublic")));
+		this.isRecommend = Boolean.parseBoolean(String.valueOf(data.get("isRecommend")));
+		this.blogCategory = blogCategory;
 	}
 }

@@ -36,7 +36,13 @@ public class UserController {
 	
 	// [유저 알림]
 	@GetMapping("/notify")
-	public String userNotify(@LoginUser SessionUser user) {
+	public String userNotify(@RequestParam(value="filter", required = true, defaultValue="all")String filter, 
+			@LoginUser SessionUser user, Model model) {
+		if(user == null) {
+			return "nullLogin";
+		}
+		List<Map<String, Object>> notifyList = userService.selectNotifyList(user.getId(), filter);
+		model.addAttribute("notifyList", notifyList);
 		
 		return "user/userNotify";
 	}

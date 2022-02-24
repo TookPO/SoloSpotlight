@@ -44,12 +44,12 @@
                   <div class="dropdown">
                     <button type="button" id="btn_notify" class="btn btn-outline-secondary dropdown-toggle" data-toggle="dropdown"> 알림 </button>
                     <div class="dropdown-menu">
-                     <th:block th:if="${notifyList == null}">
+                     <th:block th:if="${notifyList == null || #lists.size(notifyList) < 1 }">
                      	<a class="dropdown-item" href="#">정보가 없습니다!</a>
                      </th:block>
-                     <th:block th:unless="${notifyList == null}" th:each="map : ${notifyList}">
-                       <th:block th:each="notify : ${map}" >
-                      	<a th:text="${notify.value}" class="dropdown-item" href="#"></a>
+                     <th:block th:unless="${notifyList == null || #lists.size(notifyList) < 1 }" th:each="notify : ${notifyList}">
+                       <th:block >
+                      	<a th:text="${notify.message }" style="text-overflow: hidden;" class="dropdown-item" href="#"></a>
                        </th:block>
                      </th:block>                     
                         <a class="dropdown-item" href="#">더보기</a>

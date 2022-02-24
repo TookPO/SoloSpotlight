@@ -21,7 +21,11 @@
           <div class="row">
             <div class="col-lg-9">
               <div class="section-heading">
-                <h1 th:text="${blogPostDto.title}" style="margin-bottom: 40px;">게시글 제목</h1>
+                <h1 style="margin-bottom: 40px;">[[${blogPostDto.title}]]
+                	<button th:if="${user != null && #strings.equals(user.id,userId) }" th:onclick="|location.href='/blog/${userId}/update?id=${blogPostDto.id}'|" type="button" class="btn btn-outline-secondary active" >수정</button>
+                	<button th:if="${user != null && #strings.equals(user.id,userId) }" onClick="postDelete()" type="button" class="btn btn-outline-secondary active">삭제</button>
+                </h1>
+                
                 <img th:src="|${blogInfoDto.writerPicture }|" id="img_profile" class="mr-2" />[[${blogInfoDto.writerName}]] <span th:text="${blogPostDto.createdDate }" style="margin-left: 10px;">2022. 1. 25. 20:00</span>
               </div>
               <div th:utext="${blogPostDto.content}" class="div_article-text mb-4">게시글 내용</div>
@@ -53,7 +57,7 @@
                                 <a style="display: none;" class="a_report-link">신고</a>
                               </p>
                               <p th:utext="${blogReply.content }">댓글 내용</p>
-                              <button th:attr="onclick=|replyAtAdd('${blogReply.writerId }', '${blogReply.writerName }')|"  type="button" class="btn btn-outline-secondary" style="margin-right: 10px;">답글</button>
+                              <button th:attr="onclick=|replyAtAdd('${blogReply.writerId }', '${blogReply.writerName }', '${blogReply.writerId }')|"  type="button" class="btn btn-outline-secondary" style="margin-right: 10px;">답글</button>
 <!--                          <button type="button" class="btn btn-outline-secondary active">
                                 <img src="/blogs/good_active.png" width="20" />&nbsp;12 </button> -->
                             </div>
@@ -159,6 +163,9 @@
       <img src="/blogs/share_naver-blog.png" title="네이버 공유하기" style="width: 35px;" onClick="shareNaver()" alt="네이버 공유 버튼">
     </div>
     <!-- [공유 버튼] 종료 -->
+    <!-- [modal] -->
+	<th:div th:if="${user == null}" th:replace="fragment/loginModal :: loginModalFragment"></th:div>
+        
     <!-- footer -->
     <footer th:replace="fragment/allFooter :: allFooterFragment"></footer>
     <th:block th:replace="fragment/script :: scriptFragment"></th:block>

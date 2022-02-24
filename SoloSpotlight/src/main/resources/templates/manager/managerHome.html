@@ -113,6 +113,9 @@
         <!-- [수익] end -->
       </div>
     </div>
+    <!-- [modal] -->
+	<th:div th:if="${user == null}" th:replace="fragment/loginModal :: loginModalFragment"></th:div>
+        
     <th:block th:replace="fragment/script :: scriptFragment"></th:block>
     <!-- chart js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
